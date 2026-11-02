@@ -173,6 +173,7 @@
       popBody.innerHTML = popHTML(v);
       lastHead = head;
       if (pop.showModal) pop.showModal(); else pop.setAttribute("open", "");
+      pop.focus(); // 對焦面板本身，不讓 × 掣一打開就出現對焦框（手機上會見到紅框）
     });
     function closePop() { if (pop.close) pop.close(); else pop.removeAttribute("open"); }
     pop.addEventListener("click", function (e) {
