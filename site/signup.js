@@ -38,7 +38,12 @@
       if (isGoogleForm(url)) {
         btn.href = url;
         btn.hidden = false;
-        note.textContent = "會在新分頁打開 Google 表格，需要登入 Google 帳戶。約 5 分鐘。";
+        if (window.OGD_CONFIG.isDemo) {
+          btn.textContent = "試用原型表格";
+          note.textContent = "示範版：這是原型表格，收款人資料是佔位字。只可以填假資料，請不要轉帳。";
+        } else {
+          note.textContent = "會在新分頁打開 Google 表格，需要登入 Google 帳戶。約 5 分鐘。";
+        }
       } else {
         note.textContent = "報名尚未開始。開始時，這裏會出現報名按鈕。";
       }
