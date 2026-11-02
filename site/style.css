@@ -1,4 +1,4 @@
-/* Ken 指定的提示／重點顏色：首頁「正式資訊」、計算機人數框提示及捲到的菜式 */
+/* Ken 指定的提示／重點顏色：首頁「正式資訊」及進度、計算機人數框提示及捲到的菜式 */
 :root { --nudge: #00918a; --active: var(--nudge); }
 
 /* 標題字型：粉圓（Huninn）圓體，SIL Open Font License 1.1（見 fonts/OFL.txt），只保留網站標題用到的字，放在 repo 內，不連外部網站。 */
@@ -23,7 +23,7 @@
   :root {
     --paper: #1f1c19; --surface: #292521; --ink: #efe8dd; --muted: #aaa196; --line: #3a342e; --stroke: #4e463e;
     --ai: #8fb0cb; --ai-soft: #243039; --shu: #e58563; --shu-fg: #2a1208; --shu-soft: #3c251c; --shu-deep: #c86a49;
-    --kin: #e2b85f; --kin-soft: #3a3020; --sage: #9fbca2; --sage-soft: #263026; --warn: #f0a878; --warn-soft: #3a2719; color-scheme: dark;
+    --kin: #e2b85f; --kin-soft: #3a3020; --sage: #9fbca2; --sage-soft: #263026; --warn: #f0a878; --warn-soft: #3a2719; --nudge: #3fb3aa; color-scheme: dark;
     --tape: repeating-linear-gradient(135deg, rgba(226, 184, 95, .45) 0 6px, rgba(226, 184, 95, .28) 6px 12px);
   }
 }
@@ -113,10 +113,10 @@ h1 .ch { display: inline-block; }
 .steps li::before { content: ""; width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--stroke); background: var(--surface); z-index: 1; }
 .steps li::after { content: ""; position: absolute; top: 6px; left: 50%; width: 100%; height: 2px; background: var(--line); }
 .steps li:last-child::after { display: none; }
-.steps li.done::before { background: var(--sage); border-color: var(--sage); }
-.steps li.done::after { background: var(--sage); }
+.steps li.done::before { background: var(--nudge); border-color: var(--nudge); }
+.steps li.done::after { background: var(--nudge); }
 .steps li.cur { color: var(--ink); font-weight: 700; }
-.steps li.cur::before { border-color: var(--shu); background: var(--shu); box-shadow: 0 0 0 4px var(--shu-soft); }
+.steps li.cur::before { border-color: var(--nudge); background: var(--nudge); box-shadow: 0 0 0 4px color-mix(in srgb, var(--nudge) 22%, var(--surface)); }
 
 /* ---- 全級進度：每粒點 = 一位畢業生 ---- */
 #prog-section { margin-top: 16px; }
