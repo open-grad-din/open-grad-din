@@ -20,7 +20,7 @@ window.OGD_VENUES = {
       menus: [{ name: "晚宴（款式待確認）", F: 537, quote: "每位 $488 另加一" }],
       chips: ["汽水、凍橙汁任飲 2 小時", "免費 LED 屏"], photos: [] },
     { type: "hotel", name: "唯港薈", grade: "5 星", gradeSrc: "https://www.expedia.com/Kowloon-Hotels-Hotel-ICON.h4247437.Hotel-Information", where: "尖東", url: "https://www.hotel-icon.com/zh-tw/",
-      menus: [{ name: "自助晚餐", F: 758, quote: "每位 $758，已含加一" }],
+      menus: [{ name: "自助餐", F: 758, quote: "每位 $758，已含加一" }],
       chips: ["橙汁 2 小時", "即影即有相攤", "標誌展示", "哈根達斯"], photos: [] },
     { type: "hotel", name: "美麗華酒店", grade: "5 星", gradeSrc: "https://www.expedia.com/Kowloon-Hotels-The-Mira-Hong-Kong-Hotel.h20879.Hotel-Information", where: "尖沙咀", url: "https://www.themirahotel.com/hong-kong/tc/",
       menus: [{ name: "中式", F: 600, quote: "每圍 $7,200 淨價（12 位，已含加一）" },
@@ -36,7 +36,7 @@ window.OGD_VENUES = {
       menus: [{ name: "自助餐", F: 825, quote: "每位 $750 另加一" }],
       chips: ["每人 2 杯凍橙汁或汽水"], photos: [] },
     { type: "hotel", name: "九龍海逸君綽酒店", grade: "5 星", gradeSrc: "https://www.expedia.com/Kowloon-Hotels-Harbour-Grand-Kowloon.h19502.Hotel-Information", where: "紅磡", url: "https://www.harbourgrand.com/kowloon/",
-      menus: [{ name: "西式自助晚餐", F: 669, quote: "每位 $608 起，另加服務費" }],
+      menus: [{ name: "自助餐", F: 669, quote: "每位 $608 起，另加服務費" }],
       chips: ["任飲 3 小時", "即影即有相攤 2 小時"], photos: [] },
 
     { type: "rest", name: "海月（煌府）", where: "中港城", seats: "可設 38–65 席", url: "https://palace-rest.com.hk/",
