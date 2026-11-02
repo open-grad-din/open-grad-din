@@ -96,7 +96,7 @@ h1 .ch { display: inline-block; }
 .deadline .timer b { font-family: var(--font-display); font-size: 34px; line-height: 1; color: var(--shu); min-width: 1.3em; text-align: center; }
 .deadline .timer small { font-size: 13px; color: var(--muted); margin: 0 8px 0 2px; }
 .deadline .timer small:last-child { margin-right: 0; }
-.deadline .dl-date { font-size: 14px; }
+.now .dl-date { margin: -12px 0 -14px; font-size: 13px; color: var(--muted); text-align: right; }
 .deadline .left { color: var(--shu); font-weight: 700; font-size: 22px; font-family: var(--font-display); }
 .btn { position: relative; display: flex; align-items: center; justify-content: center; gap: 10px; background: var(--shu); color: var(--shu-fg); font-weight: 700; font-size: 19px;
   min-height: 60px; padding: 14px 22px; border-radius: var(--wobble); border: 2px solid var(--shu-deep); text-decoration: none; overflow: hidden; letter-spacing: .04em;
@@ -116,7 +116,8 @@ h1 .ch { display: inline-block; }
 .steps li.done::before { background: var(--nudge); border-color: var(--nudge); }
 .steps li.done::after { background: var(--nudge); }
 .steps li.cur { color: var(--ink); font-weight: 700; }
-.steps li.cur::before { border-color: var(--nudge); background: var(--nudge); box-shadow: 0 0 0 4px color-mix(in srgb, var(--nudge) 22%, var(--surface)); }
+.steps li.cur::before { border-color: var(--nudge); background: var(--nudge); box-shadow: 0 0 0 4px color-mix(in srgb, var(--nudge) 22%, var(--surface)); animation: step-pulse 1.8s ease-out infinite; }
+@keyframes step-pulse { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--nudge) 55%, transparent); } 70%, 100% { box-shadow: 0 0 0 12px color-mix(in srgb, var(--nudge) 0%, transparent); } }
 
 /* ---- 全級進度：每粒點 = 一位畢業生 ---- */
 #prog-section { margin-top: 16px; }

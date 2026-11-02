@@ -156,8 +156,11 @@
         return b;
       });
       p.appendChild(timer);
-      p.appendChild(el("span", "截止：" + dl.label, "dl-date"));
       p.hidden = false;
+      // 截止日期放在行動卡右下角、進度虛線之上（Ken 2026-11-02）
+      var steps0 = document.getElementById("steps");
+      var old = steps0.parentElement.querySelector(".dl-date"); if (old) old.remove();
+      steps0.parentElement.insertBefore(el("p", "截止：" + dl.label, "dl-date"), steps0);
       var pad = function (n) { return (n < 10 ? "0" : "") + n; };
       var tick = function () {
         var left = Math.floor((dl.at - Date.now()) / 1000);
