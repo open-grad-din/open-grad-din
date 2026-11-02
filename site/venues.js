@@ -109,7 +109,6 @@
       el.querySelector("i").textContent = best ? "最省" : "";
       el.classList.toggle("best", best);
     });
-    document.getElementById("scroll-hint").hidden = !!t;
   }
 
   // 未捲動時不顯示銀碼。捲動後：黏頂那塊底線以下，第一個完整看得見的菜式就是 active（以菜式為單位）。
@@ -125,6 +124,8 @@
         if (start >= line) { found = r; break; }
       }
     }
+    // 「向上捲動」提示只在未捲動時出現；一開始捲動就收起，捲完列表也不再出現。
+    document.getElementById("scroll-hint").hidden = window.scrollY > 10;
     if (found === state.active) return;
     if (state.active) { state.active.classList.remove("active"); state.active.parentElement.classList.remove("on"); }
     state.active = found;
