@@ -2,10 +2,10 @@
 section { gap: 0; }
 /* 名單漏斗 */
 .funnel { display: flex; flex-direction: column; align-items: stretch; }
-.step { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 14px 16px; text-align: center; }
+.step { background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: 14px 16px; text-align: center; }
 .step b { display: block; font-family: var(--font-display); font-size: 34px; line-height: 1.2; font-variant-numeric: tabular-nums; }
 .step span { font-size: 15px; color: var(--muted); }
-.step.final { background: var(--ai); border-color: transparent; color: var(--paper); }
+.step.final { background: linear-gradient(130deg, var(--shu), var(--ai)); border-color: transparent; color: var(--paper); }
 .step.final span { color: var(--paper); opacity: .9; }
 .cut { display: flex; flex-direction: column; align-items: center; padding: 8px 0; color: var(--muted); font-size: 14px; }
 .cut .arrow { font-size: 22px; line-height: 1; color: var(--shu); }
@@ -14,8 +14,8 @@ section { gap: 0; }
 .history { background: var(--ai-soft); border-radius: 14px; padding: 12px 14px; font-size: 15px; margin: 14px 0 0; }
 .notes { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 16px; }
 .notes li { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px 12px 44px; position: relative; }
-.notes li::before { content: "一"; position: absolute; left: 14px; top: 11px; font-family: var(--font-display); font-weight: 800; color: var(--shu); }
-.notes li + li::before { content: "二"; }
+.notes li::before { content: "✿"; position: absolute; left: 14px; top: 11px; font-family: var(--font-display); font-weight: 800; color: var(--shu); }
+
 
 /* 分頁 */
 .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 0; position: sticky; top: env(safe-area-inset-top, 0px); padding: 8px 0; z-index: 2;
@@ -30,7 +30,7 @@ section { gap: 0; }
 
 /* 場地卡 */
 .cards { display: flex; flex-direction: column; gap: 16px; }
-.card { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 26px; box-shadow: var(--shadow); padding: 16px; display: flex; flex-direction: column; gap: 12px; }
 .cards.anim .card { animation: up .55s cubic-bezier(.2, .7, .2, 1) both; }
 .cards.anim .card:nth-child(2) { animation-delay: .06s; } .cards.anim .card:nth-child(3) { animation-delay: .12s; } .cards.anim .card:nth-child(4) { animation-delay: .18s; }
 .cards.anim .card:nth-child(n+5) { animation-delay: .24s; }
@@ -47,7 +47,7 @@ section { gap: 0; }
 .chips span { font-size: 13px; padding: 2px 10px; border-radius: 999px; background: var(--paper); border: 1px solid var(--line); }
 .gallery { display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: -16px; padding-inline: 16px; scroll-padding-inline: 16px; scrollbar-width: none; }
 .gallery::-webkit-scrollbar { display: none; }
-.shot { flex: 0 0 80%; margin: 0; position: relative; border-radius: 14px; overflow: hidden; scroll-snap-align: start; aspect-ratio: 4 / 3; max-width: 100%; background: var(--paper); }
+.shot { flex: 0 0 80%; margin: 0; position: relative; border-radius: 18px; overflow: hidden; scroll-snap-align: start; aspect-ratio: 4 / 3; max-width: 100%; background: var(--paper); }
 .shot svg, .shot img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .shot figcaption { position: absolute; left: 8px; bottom: 8px; font-size: 12px; padding: 1px 8px; border-radius: 999px; background: var(--surface); color: var(--muted); }
 .gal-wrap { position: relative; }

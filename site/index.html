@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="robots" content="noindex, nofollow">
-  <meta name="theme-color" content="#f5f0e6" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#121519" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fcf7f4" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1b161a" media="(prefers-color-scheme: dark)">
   <title>K3 畢業晚宴</title>
-  <link rel="preload" href="fonts/ogd-mincho.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/ogd-kai.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="style.css?v=__COMMIT_SHORT__">
   <script>
     // 開場動畫：每次打開瀏覽器只播一次；設定了「減少動態效果」就不播。
@@ -27,23 +27,22 @@
   <p id="demo-banner" class="draft" hidden>示範版：以下所有數字及日期都是假資料，不是真實資料。</p>
 
   <header class="hero">
-    <span class="tate" aria-hidden="true">二〇二七年七月二日</span>
-    <span class="tate l" aria-hidden="true">一期一會</span>
+    <div class="petals" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
     <span class="eyebrow">學之園凱帆校 · K3 四班</span>
 
     <div class="enso" role="img" id="enso" aria-label="距離晚宴的日數">
       <svg viewBox="0 0 210 210" aria-hidden="true">
         <defs>
-          <filter id="rough" x="-10%" y="-10%" width="120%" height="120%">
-            <feTurbulence type="fractalNoise" baseFrequency=".045" numOctaves="2" seed="7"/>
-            <feDisplacementMap in="SourceGraphic" scale="7"/>
-          </filter>
+          <radialGradient id="wash" cx="40%" cy="35%" r="65%">
+            <stop offset="0" style="stop-color:var(--surface);stop-opacity:.95"/>
+            <stop offset=".7" style="stop-color:var(--shu-soft);stop-opacity:.9"/>
+            <stop offset="1" style="stop-color:var(--fuji);stop-opacity:.6"/>
+          </radialGradient>
         </defs>
-        <g filter="url(#rough)">
-          <path class="brush" d="M149 29A88 88 0 1 0 172 48"/>
-          <path class="brush2" d="M163 53A78 78 0 0 0 29 121"/>
-        </g>
-        <circle class="sun" cx="164" cy="34" r="8"/>
+        <circle class="wash" cx="105" cy="105" r="86"/>
+        <path class="ring" d="M150 30A88 88 0 1 0 172 48"/>
+        <circle class="ring2" cx="105" cy="105" r="97"/>
+        <g class="flower" transform="translate(163 37)"><ellipse cx="0" cy="-8" rx="5.5" ry="8" transform="rotate(0)"/><ellipse cx="0" cy="-8" rx="5.5" ry="8" transform="rotate(72)"/><ellipse cx="0" cy="-8" rx="5.5" ry="8" transform="rotate(144)"/><ellipse cx="0" cy="-8" rx="5.5" ry="8" transform="rotate(216)"/><ellipse cx="0" cy="-8" rx="5.5" ry="8" transform="rotate(288)"/><circle r="3"/></g>
       </svg>
       <div class="count"><small>距離晚宴</small><b id="days">—</b><small>日</small></div>
     </div>
@@ -65,7 +64,7 @@
   <p id="error" class="draft" role="alert" hidden></p>
 
   <section aria-labelledby="prog-h" id="prog-section" class="reveal" hidden>
-    <h2 class="sec-h" id="prog-h"><span class="no">壹</span>全級進度</h2>
+    <h2 class="sec-h" id="prog-h"><span class="no">1</span>全級進度</h2>
     <div class="tally">
       <p class="big"><span id="verified">0</span><small id="verified-of"></small></p>
       <div class="seal" id="seal" aria-hidden="true">核<br>實</div>
@@ -80,13 +79,13 @@
   </section>
 
   <section aria-labelledby="pay-h" id="pay-section" class="reveal" hidden>
-    <h2 class="sec-h" id="pay-h"><span class="no">貳</span>收款人</h2>
+    <h2 class="sec-h" id="pay-h"><span class="no">2</span>收款人</h2>
     <ul class="payee" id="payees"></ul>
     <p class="rule" id="payee-rule">A 班及 B 班付 A 班財務，C 班及 D 班付 C 班財務，D 班財務負責核數。收款人的名字及 FPS 只在報名表格內顯示。其他人叫你轉帳都不要理會。</p>
   </section>
 
   <section aria-labelledby="route-h" class="reveal">
-    <h2 class="sec-h" id="route-h"><span class="no">參</span>這些數字從哪裏來</h2>
+    <h2 class="sec-h" id="route-h"><span class="no">3</span>這些數字從哪裏來</h2>
     <ol class="route">
       <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10 18.5h4"/></svg></span>
         <div><b>你填表及轉帳</b><span>Google 表格會把回覆副本寄到你的電郵，作為你自己的收據。</span></div></li>
@@ -101,7 +100,7 @@
   </section>
 
   <section aria-labelledby="idx-h" id="idx-section" class="reveal" hidden>
-    <h2 class="sec-h" id="idx-h"><span class="no">肆</span>正式資訊</h2>
+    <h2 class="sec-h" id="idx-h"><span class="no">4</span>正式資訊</h2>
     <ul class="index" id="index"></ul>
     <p class="official">正式資訊只在這一頁。WhatsApp 群組或任何人轉述的內容，如與這裏不同，以這裏為準。</p>
   </section>
