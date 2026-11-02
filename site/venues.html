@@ -2,99 +2,14 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
-  <meta name="theme-color" content="#f8f4ec" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1f1c19" media="(prefers-color-scheme: dark)">
-  <title>揀晚宴場地</title>
-  <link rel="preload" href="fonts/ogd-maru.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="style.css?v=__COMMIT_SHORT__">
-  <link rel="stylesheet" href="venues.css?v=__COMMIT_SHORT__">
+  <!-- 場地頁已與收費頁合併。舊連結（例如已在群組分享的）會轉到新頁的場地部分。版本 __COMMIT__ -->
+  <meta http-equiv="refresh" content="0; url=fees.html#venues">
+  <title>場地及收費</title>
+  <script>location.replace("fees.html#venues");</script>
 </head>
 <body>
-<div class="wrap">
-  <p id="draft-banner" class="draft" hidden>草稿：場地名單未經籌委會通過，報價僅供參考，未經場地書面確認。相片是示範圖片。</p>
-
-  <header class="page-head">
-    <span class="eyebrow">K3 畢業晚宴 · 場地</span>
-    <h1 class="page-h">揀晚宴場地</h1>
-    <p class="muted">2027 年 7 月 2 日（星期五）晚上。在報名表內投票，每位畢業生一票。</p>
-    <p class="by" id="version"></p>
-  </header>
-
-  <section aria-labelledby="h-list" class="reveal">
-    <h2 class="sec-h" id="h-list"><span class="no">1</span>候選名單怎樣來</h2>
-    <div class="funnel">
-      <div class="step"><b id="collected"></b><span>籌委會委員收集的酒店和酒樓</span></div>
-      <div class="cut"><span class="arrow" aria-hidden="true">↓</span>
-        <span>篩走以下這些</span>
-        <ul id="cut-reasons"></ul>
-        <span class="arrow" aria-hidden="true">↓</span></div>
-      <div class="step final"><b id="n-total"></b><span id="n-split"></span></div>
-    </div>
-    <p class="history" id="history"></p>
-  </section>
-
-  <section aria-labelledby="h-read" class="reveal">
-    <h2 class="sec-h" id="h-read"><span class="no">2</span>先知道兩件事</h2>
-    <ul class="notes">
-      <li>名單上每個場地，按籌委會估算，都不會令每位超過 $1,100。超出的已經篩走。</li>
-      <li>$1,100 是上限，不是定價。最後按實際成本收費。</li>
-    </ul>
-  </section>
-
-  <section aria-labelledby="h-cards">
-    <h2 class="sec-h" id="h-cards"><span class="no">3</span>候選場地</h2>
-    <div class="seg" role="tablist">
-      <button role="tab" id="tab-hotel" aria-selected="true">酒店 <small id="n-hotel"></small></button>
-      <button role="tab" id="tab-rest" aria-selected="false">中式酒樓 <small id="n-rest"></small></button>
-    </div>
-    <p class="shuffle-note">為公平起見，每次打開這一頁，先顯示哪個分頁及場地的先後次序都是隨機排列，排得前不代表推薦。</p>
-    <div class="cards" id="cards" aria-live="polite"></div>
-  </section>
-
-  <details class="reveal">
-    <summary>已篩走的場地及原因</summary>
-    <ul id="excluded"></ul>
-  </details>
-
-  <details class="reveal">
-    <summary>這些金額怎樣算</summary>
-    <ul class="fine">
-      <li>每位餐費已計入 10% 服務費。中式按每圍 12 位計。</li>
-      <li>有價錢範圍的場地（例如酒樓不同菜式、酒店預計加價），用範圍的中位數作「每位約」，並寫明範圍。</li>
-      <li>酒樓價錢是否已含加一，仍要向酒樓確認。</li>
-      <li>是否超出 $1,100，按一家 1 大 1 小在最貴分擔方案下計，假設老師和職員 35 位、雜費按 2025 年實際 $16,856（不計 LED wall）、出席畢業生 100 位。</li>
-      <li>以上價格及檔期僅供參考，實際情況需要向場地再確認。</li>
-    </ul>
-  </details>
-
-  <section class="signup reveal" aria-labelledby="signup-h">
-    <h2 class="sec-h" id="signup-h"><span class="no">✿</span>看完了？去報名</h2>
-    <a class="btn" id="signup-btn" target="_blank" rel="noopener" hidden>去報名及投票</a>
-    <p class="btn-note" id="signup-note">載入中…</p>
-  </section>
-
-  <footer>
-    <span><span class="ver">本頁版本 <a id="commit-link">__COMMIT_SHORT__</a></span> ·
-      <a href="https://github.com/open-grad-din/open-grad-din/blob/main/site/venues-params.js">本頁資料及來源</a> ·
-      <a href="https://github.com/open-grad-din/open-grad-din/commits/main/site/venues-params.js">資料改動紀錄</a></span>
-  </footer>
-</div>
-
-<div class="tabbar">
-  <nav aria-label="主要頁面">
-    <a href="./"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg>首頁</a>
-    <a href="fees.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15 9.2c-.6-1-1.7-1.5-3-1.5-1.7 0-3 .9-3 2.2 0 3 6 1.6 6 4.4 0 1.3-1.3 2.2-3 2.2-1.4 0-2.6-.6-3.1-1.6M12 6v1.7M12 16.5V18"/></svg>收費</a>
-    <a href="venues.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>場地</a>
-  </nav>
-</div>
-
-<script>window.OGD_COMMIT = "__COMMIT__";</script>
-<script src="ui.js?v=__COMMIT_SHORT__"></script>
-<script src="config.js?v=__COMMIT_SHORT__"></script>
-<script src="signup.js?v=__COMMIT_SHORT__"></script>
-<script src="venues-params.js?v=__COMMIT_SHORT__"></script>
-<script src="venues.js?v=__COMMIT_SHORT__"></script>
+  <p>場地頁已移到 <a href="fees.html#venues">場地及收費</a>。</p>
 </body>
 </html>
