@@ -261,7 +261,6 @@
 
   setFooter();
   renderCountdown(new Date());
-  if (config.isDemo) document.getElementById("demo-banner").hidden = false;
 
   var status = document.getElementById("status");
   Promise.all([load(config.infoCsvUrl), load(config.summaryCsvUrl)])
