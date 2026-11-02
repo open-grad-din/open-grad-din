@@ -78,7 +78,7 @@
     s.appendChild(t);
     box.appendChild(s);
     box.setAttribute("aria-label", "每位的錢大部分是自己的餐費，其餘是老師餐及雜費");
-    document.getElementById("teach-note").textContent = S + " 位老師和職員的餐費，由家長分擔";
+    document.getElementById("teach-note").textContent = S + " 位老師和職員的餐費";
   }
 
   function renderText() {
