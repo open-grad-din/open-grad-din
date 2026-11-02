@@ -33,6 +33,7 @@ button:focus-visible, summary:focus-visible { outline: 3px solid var(--accent); 
 .menu-price { font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
 .menu-price b { color: var(--fg); font-size: 18px; }
 .range-note { font-size: 14px; color: var(--muted); margin: 0; font-variant-numeric: tabular-nums; }
+.shuffle-note { margin: 0; font-size: 14px; color: var(--muted); }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .chips span { font-size: 13px; padding: 2px 9px; border-radius: 999px; background: var(--bg); border: 1px solid var(--line); }
 .gallery { display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: -14px; padding-inline: 14px; scroll-padding-inline: 14px; scrollbar-width: none; }
