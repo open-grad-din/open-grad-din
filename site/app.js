@@ -8,6 +8,8 @@
 
   // 流程的固定階段。資訊分頁的「現階段」必須是其中一項。
   var STAGES = ["籌委會公布規則", "報名、投票及交訂金", "公布投票結果", "收尾數", "晚宴"];
+  // 進度條上顯示的短名（最多 5 個字）；資訊分頁的「現階段」仍用上面的全名。
+  var STAGE_SHORT = ["公布規則", "報名交訂金", "公布結果", "收尾數", "晚宴"];
   var SUMMARY_COLUMNS = ["收款人", "已核實", "未核實", "最早未核實提交日期"];
 
   // 簡單 CSV 解析：支援引號內的逗號、換行及 "" 轉義。
@@ -74,7 +76,9 @@
     var hk = new Date(now.getTime() + 8 * 3600 * 1000);
     var today = Date.UTC(hk.getUTCFullYear(), hk.getUTCMonth(), hk.getUTCDate());
     var dayLeft = Math.round((Date.UTC(+m[1], +m[2] - 1, +m[3]) - today) / 86400000);
-    return { label: label, daysLeft: dayLeft };
+    // 截止一刻（香港時間）；沒有寫時間就當該日 23:59。
+    var at = Date.UTC(+m[1], +m[2] - 1, +m[3], (m[4] ? Number(m[4]) : 23) - 8, m[5] ? Number(m[5]) : 59);
+    return { label: label, daysLeft: dayLeft, at: at };
   }
 
   function readInfo(rows) {
@@ -106,8 +110,12 @@
   function renderHeader(info) {
     var parts = [];
     if (info["發出人"]) parts.push(info["發出人"] + " 發出");
-    if (info["最後更新"]) parts.push("最後更新 " + info["最後更新"]);
     document.getElementById("by").textContent = parts.join(" · ");
+    if (info["最後更新"]) {
+      var up = document.getElementById("updated");
+      up.textContent = "最後更新 " + info["最後更新"];
+      up.hidden = false;
+    }
   }
 
   var DINNER = Date.UTC(2027, 6, 2);
@@ -139,21 +147,38 @@
     var dl = info["截止時間"] ? formatDeadline(info["截止時間"], now) : null;
     if (dl) {
       var p = document.getElementById("deadline");
-      p.textContent = "截止：";
-      p.appendChild(el("b", dl.label));
-      p.appendChild(el("span",
-        dl.daysLeft > 0 ? "，還有 " + dl.daysLeft + " 日" : dl.daysLeft === 0 ? "，今日截止" : "，已截止", "left"));
+      p.textContent = "";
+      var timer = el("span", undefined, "timer");
+      var cells = ["日", "時", "分", "秒"].map(function (u) {
+        var b = el("b", "0");
+        timer.appendChild(b);
+        timer.appendChild(el("small", u));
+        return b;
+      });
+      p.appendChild(timer);
       p.hidden = false;
+      // 截止日期放在行動卡右下角、進度虛線之上（Ken 2026-11-02）
+      var steps0 = document.getElementById("steps");
+      var old = steps0.parentElement.querySelector(".dl-date"); if (old) old.remove();
+      steps0.parentElement.insertBefore(el("p", "截止：" + dl.label, "dl-date"), steps0);
+      var pad = function (n) { return (n < 10 ? "0" : "") + n; };
+      var tick = function () {
+        var left = Math.floor((dl.at - Date.now()) / 1000);
+        if (left <= 0) {
+          timer.textContent = "";
+          timer.appendChild(el("span", "已截止", "left"));
+          clearInterval(id);
+          return;
+        }
+        cells[0].textContent = String(Math.floor(left / 86400));
+        cells[1].textContent = pad(Math.floor(left / 3600) % 24);
+        cells[2].textContent = pad(Math.floor(left / 60) % 60);
+        cells[3].textContent = pad(left % 60);
+      };
+      var id = setInterval(tick, 1000);
+      tick();
     }
 
-    var href = safeUrl(info["行動連結"] || "");
-    if (href && info["行動掣文字"]) {
-      var a = document.getElementById("action");
-      a.href = href;
-      a.textContent = info["行動掣文字"];
-      a.hidden = false;
-      setTimeout(function () { a.classList.add("shine"); }, document.documentElement.className.indexOf("intro") !== -1 ? 1900 : 300);
-    }
     if (info["行動說明"]) {
       var note = document.getElementById("action-note");
       note.textContent = info["行動說明"];
@@ -162,7 +187,8 @@
 
     var steps = document.getElementById("steps");
     STAGES.forEach(function (s, i) {
-      var li = el("li", s, cur === -1 ? "" : i < cur ? "done" : i === cur ? "cur" : "");
+      var li = el("li", STAGE_SHORT[i], cur === -1 ? "" : i < cur ? "done" : i === cur ? "cur" : "");
+      li.title = s;
       if (i === cur) li.setAttribute("aria-current", "step");
       steps.appendChild(li);
     });
@@ -174,15 +200,14 @@
     var pending = payees.reduce(function (s, p) { return s + p.pending; }, 0);
     var grade = wholeNumber(info["全級人數"] || "");
     var num = document.getElementById("verified");
-    document.getElementById("verified-of").textContent =
-      "位畢業生已核實付款" + (grade ? "（全級約 " + grade + " 位）" : "");
+    document.getElementById("verified-of").textContent = grade ? "/" + grade + " 位畢業生" : " 位畢業生";
 
     var dots = document.getElementById("dots");
     if (grade) {
       var total = Math.max(grade, verified + pending);
       for (var i = 0; i < total; i++) {
         var d = el("i", undefined, i < verified ? "v" : i < verified + pending ? "p" : "");
-        if (i < verified + pending) d.style.animationDelay = (i * 18) + "ms";
+        if (i < verified + pending) { d.style.animationDelay = (i * 18) + "ms"; d.style.setProperty("--i", String(i)); }
         dots.appendChild(d);
       }
       dots.setAttribute("aria-label", "全級約 " + grade + " 位畢業生，已核實 " + verified + " 位，等候核實 " + pending + " 位");
@@ -196,6 +221,12 @@
     var seal = document.getElementById("seal");
     var go = function () {
       dots.classList.add("play");
+      // 逐粒彈出完畢後，換成持續的呼吸動畫。
+      setTimeout(function () {
+        Array.prototype.forEach.call(dots.children, function (d) { d.style.animationDelay = ""; });
+        dots.classList.remove("play");
+        dots.classList.add("live");
+      }, (verified + pending) * 18 + 500);
       if (!ui) { num.textContent = String(verified); return; }
       ui.countUp(num, verified, 1200, function () { if (verified > 0) seal.classList.add("stamp"); });
     };
@@ -203,63 +234,11 @@
     if (ui) ui.whenSeen(dots.hidden ? num : dots, go); else go();
   }
 
-  function renderPayees(payees, info, now) {
-    var limit = wholeNumber(info["未核實上限日數"] || "");
-    var list = document.getElementById("payees");
-    payees.forEach(function (p) {
-      var li = el("li");
-      li.appendChild(el("span", "收款人（" + p.name + "）", "who"));
-      var got = el("span", undefined, "got");
-      got.appendChild(el("b", String(p.verified)));
-      got.appendChild(document.createTextNode("筆已核實"));
-      li.appendChild(got);
-      var waitText = "未核實 " + p.pending + " 筆", slow = false;
-      if (p.pending > 0) {
-        var d = daysSince(p.oldest, now);
-        if (d !== null) {
-          waitText += " · 最長等了 " + d + " 日";
-          slow = limit !== null && d > limit;
-        }
-      } else {
-        waitText = "全部已核實，沒有人在等";
-      }
-      li.appendChild(el("span", waitText, "wait" + (p.pending > 0 ? " has" : "") + (slow ? " slow" : "")));
-      list.appendChild(li);
-    });
-    if (limit !== null) {
-      document.getElementById("payee-rule").appendChild(document.createTextNode(
-        "超過 " + limit + " 日未核實，可把 FPS 收據交統籌處理。"));
-    }
-    document.getElementById("pay-section").hidden = false;
-  }
-
-  function renderIndex(info) {
-    var items = [
-      ["正式通告", "通告連結", info["通告日期"] || ""],
-      ["規則（投票、訂金、截止）", "規則連結", info["規則凍結日期"] ? "已凍結 " + info["規則凍結日期"] : ""],
-      ["收費計法及場地", "詳細頁連結", info["詳細頁版本"] || ""]
-    ];
-    var ul = document.getElementById("index");
-    items.forEach(function (it) {
-      var href = safeUrl(info[it[1]] || "");
-      if (!href) return;
-      var a = el("a");
-      a.href = href;
-      a.appendChild(el("span", it[0]));
-      a.appendChild(el("span", it[2]));
-      var li = el("li");
-      li.appendChild(a);
-      ul.appendChild(li);
-    });
-    document.getElementById("idx-section").hidden = false;
-  }
-
   function setFooter() {
     [["src-summary", config.summaryCsvUrl], ["src-info", config.infoCsvUrl]].forEach(function (s) {
       var a = document.getElementById(s[0]);
       var abs = new URL(s[1] || "", location.href).href;
       a.href = abs; a.textContent = abs;
-      if (s[0] === "src-summary") document.getElementById("src-open").href = abs;
     });
     var commit = window.OGD_COMMIT || "";
     var link = document.getElementById("commit-link");
@@ -285,7 +264,7 @@
 
   setFooter();
   renderCountdown(new Date());
-  if (config.isDemo) document.getElementById("demo-banner").hidden = false;
+  // 2026-11-02 統籌決定首頁不顯示示範提示（Ken 轉達）。isDemo 仍控制報名 tab 的「原型表格」提示。
 
   var status = document.getElementById("status");
   Promise.all([load(config.infoCsvUrl), load(config.summaryCsvUrl)])
@@ -296,8 +275,7 @@
       renderHeader(info);
       renderNow(info, now);
       renderProgress(payees, info);
-      renderPayees(payees, info, now);
-      renderIndex(info);
+      document.getElementById("idx-section").hidden = false;
       status.textContent = "資料讀取時間：" + now.toLocaleString("zh-HK", { timeZone: "Asia/Hong_Kong" });
     })
     .catch(function (err) {
