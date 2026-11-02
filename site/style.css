@@ -1,3 +1,6 @@
+/* Ken 指定的提示／重點顏色：首頁「正式資訊」、計算機人數框提示及捲到的菜式 */
+:root { --nudge: #00918a; --active: var(--nudge); }
+
 /* 標題字型：粉圓（Huninn）圓體，SIL Open Font License 1.1（見 fonts/OFL.txt），只保留網站標題用到的字，放在 repo 內，不連外部網站。 */
 @font-face { font-family: "OGD Maru"; src: url("fonts/ogd-maru.woff2") format("woff2"); font-weight: 400; font-display: swap; }
 /* Open Grad Din 共用樣式：「大人かわいい × 手繪」。米白紙底、低彩度的灰藍／芥末黃／鼠尾草綠／磚紅，手繪線條及膠紙細節。
@@ -147,9 +150,9 @@ h1 .ch { display: inline-block; }
 
 
 /* ---- 正式資訊 ---- */
-.official { margin: 0; font-size: 15px; line-height: 1.7; display: flex; gap: 12px; align-items: flex-start; background: var(--shu-soft); border-radius: var(--wobble2); padding: 14px 16px; }
+.official { margin: 0; font-size: 15px; line-height: 1.7; display: flex; gap: 12px; align-items: flex-start; background: color-mix(in srgb, var(--nudge) 12%, var(--surface)); border-radius: var(--wobble2); padding: 14px 16px; }
 #idx-section { margin-top: -8px; }
-.official::before { content: "正"; flex: none; width: 32px; height: 32px; display: grid; place-items: center; border: 2px solid var(--shu); color: var(--shu); background: var(--shu-soft); border-radius: 48% 52% 50% 50% / 52% 48% 52% 48%; font-family: var(--font-display); font-weight: 700; font-size: 16px; transform: rotate(-8deg); margin-top: 2px; }
+.official::before { content: "正"; flex: none; width: 32px; height: 32px; display: grid; place-items: center; border: 2px solid var(--nudge); color: var(--nudge); background: color-mix(in srgb, var(--nudge) 12%, var(--surface)); border-radius: 48% 52% 50% 50% / 52% 48% 52% 48%; font-family: var(--font-display); font-weight: 700; font-size: 16px; transform: rotate(-8deg); margin-top: 2px; }
 
 /* ---- 頁底 ---- */
 footer { font-size: 13px; color: var(--muted); display: flex; flex-direction: column; gap: 4px; word-break: break-all; border-top: 2px dashed var(--line); padding-top: 16px; }
