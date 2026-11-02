@@ -145,13 +145,18 @@ details td { padding: 4px; vertical-align: top; }
 /* 計算機頁 第一層：三個方案的分別 */
 .strip { display: flex; flex-direction: column; gap: 10px; margin: 18px 0 20px; }
 .strip-lead { margin: 0; font-size: 15px; }
-.tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.tile { position: relative; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 12px 6px 10px; font: inherit; color: var(--ink); cursor: pointer;
+.strip-lead .key { white-space: nowrap; font-weight: 700; }
+.tiles { display: flex; flex-direction: column; gap: 8px; }
+.tile { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px; font: inherit; color: var(--ink); cursor: pointer; text-align: left;
   background: var(--surface); border: 2px solid var(--stroke); border-radius: var(--wobble2); box-shadow: 3px 3px 0 var(--line); transition: transform .12s ease, box-shadow .12s ease; }
 .tile:nth-child(2) { border-radius: var(--wobble); }
-.tile small { font-size: 13px; font-weight: 700; color: var(--muted); white-space: nowrap; }
+.tile-l { display: flex; flex-direction: column; flex: none; }
+.tile small { font-size: 14px; font-weight: 700; color: var(--muted); white-space: nowrap; }
 .tile b { font-family: var(--font-display); font-size: 24px; line-height: 1.15; font-variant-numeric: tabular-nums; }
 .tile i { font-style: normal; font-size: 12px; font-weight: 700; color: var(--ai); min-height: 1.2em; }
+.tile-fam { min-width: 0; display: flex; justify-content: flex-end; }
+.tile-fam .family { gap: 0; }
+.tile-fam .family svg { width: clamp(14px, calc(200px / var(--n, 3)), 30px); }
 .tile[aria-pressed="true"] { background: var(--shu-soft); border-color: var(--shu); box-shadow: 1px 1px 0 var(--shu-deep); transform: translate(2px, 2px); }
 .tile[aria-pressed="true"] small { color: var(--shu-deep); }
 .tile:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--line); }

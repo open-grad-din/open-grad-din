@@ -12,33 +12,10 @@
     "老師餐只由畢業生分擔，雜費按出席人數平分。",
     "老師餐和雜費都由畢業生分擔，陪同家人只付自己的餐費。"
   ];
-  // 2 大 1 小的圖解：每人身上有甚麼點點（t = 老師餐，m = 雜費）。最後一位是畢業生。
-  var PLAN_DOTS = [
-    [["t", "m"], ["t", "m"], ["t", "m"]],
-    [["m"], ["m"], ["t", "m"]],
-    [[], [], ["t", "m"]]
-  ];
   function svg(tag, attrs) {
     var e = document.createElementNS(SVGNS, tag);
     Object.keys(attrs).forEach(function (k) { e.setAttribute(k, attrs[k]); });
     return e;
-  }
-
-  // ---- 人形圖 ----
-  function person(isGrad, dots) {
-    var w = 48, h = 92;
-    var s = svg("svg", { viewBox: "0 0 " + w + " " + h, width: w, height: h, "aria-hidden": "true" });
-    var tall = !isGrad;
-    // 大人和畢業生的身體底部都在 y = 59，站在同一條線上。
-    var headY = tall ? 14 : 25, headR = tall ? 9 : 8;
-    var bodyTop = headY + headR + 2, bodyH = tall ? 34 : 24;
-    s.appendChild(svg("circle", { cx: 24, cy: headY, r: headR, "class": "fig" }));
-    s.appendChild(svg("rect", { x: tall ? 12 : 14, y: bodyTop, width: tall ? 24 : 20, height: bodyH, rx: 10, "class": "fig" }));
-    if (isGrad) s.appendChild(svg("polygon", { points: "12,17 24,11 36,17 24,23", "class": "cap" }));
-    dots.forEach(function (d, i) {
-      s.appendChild(svg("circle", { cx: dots.length === 2 ? 16 + i * 16 : 24, cy: 82, r: 6, "class": d === "t" ? "d-teach" : "d-misc" }));
-    });
-    return s;
   }
 
   function renderPlans() {
@@ -46,9 +23,7 @@
     PLANS.forEach(function (_, i) {
       var card = el("div", undefined, "plan");
       card.appendChild(el("h3", PLAN_NAMES[i]));
-      var fam = el("div", undefined, "family");
-      PLAN_DOTS[i].forEach(function (dots, k) { fam.appendChild(person(k === 2, dots)); });
-      card.appendChild(fam);
+      card.appendChild(C.family(i, 2, 1)); // 以一家 2 大 1 小為例
       card.appendChild(el("p", PLAN_TEXT[i]));
       box.appendChild(card);
     });

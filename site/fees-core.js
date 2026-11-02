@@ -60,6 +60,46 @@
     return Math.max(0, Math.floor(best / 100) * 100);
   }
 
+
+  // ---- 人形圖（收費頁及計算機頁共用）：每人身上的點點表示由誰分擔（t = 老師餐，m = 雜費）。 ----
+  var SVGNS = "http://www.w3.org/2000/svg";
+  function svgEl(tag, attrs) {
+    var e = document.createElementNS(SVGNS, tag);
+    Object.keys(attrs).forEach(function (k) { e.setAttribute(k, attrs[k]); });
+    return e;
+  }
+  function person(isGrad, dots) {
+    var w = 48, h = 92;
+    var sv = svgEl("svg", { viewBox: "0 0 " + w + " " + h, width: w, height: h, "aria-hidden": "true" });
+    var tall = !isGrad;
+    // 大人和畢業生的身體底部都在 y = 59，站在同一條線上。
+    var headY = tall ? 14 : 25, headR = tall ? 9 : 8;
+    var bodyTop = headY + headR + 2, bodyH = tall ? 34 : 24;
+    sv.appendChild(svgEl("circle", { cx: 24, cy: headY, r: headR, "class": "fig" }));
+    sv.appendChild(svgEl("rect", { x: tall ? 12 : 14, y: bodyTop, width: tall ? 24 : 20, height: bodyH, rx: 10, "class": "fig" }));
+    if (isGrad) sv.appendChild(svgEl("polygon", { points: "12,17 24,11 36,17 24,23", "class": "cap" }));
+    dots.forEach(function (d, i) {
+      sv.appendChild(svgEl("circle", { cx: dots.length === 2 ? 16 + i * 16 : 24, cy: 82, r: 6, "class": d === "t" ? "d-teach" : "d-misc" }));
+    });
+    return sv;
+  }
+  // 某方案下，一家 adults 大 kids 小（最後一位小朋友是畢業生）每人身上有甚麼點點。
+  function familyDots(plan, adults, kids) {
+    var out = [];
+    for (var i = 0; i < adults + kids; i++) {
+      var grad = i === adults + kids - 1;
+      out.push(plan === 0 ? ["t", "m"] : plan === 1 ? (grad ? ["t", "m"] : ["m"]) : (grad ? ["t", "m"] : []));
+    }
+    return out;
+  }
+  // 一家人的圖（adults 大 kids 小，按某方案標點點）。
+  function family(plan, adults, kids) {
+    var box = document.createElement("div");
+    box.className = "family";
+    familyDots(plan, adults, kids).forEach(function (dots, i) { box.appendChild(person(i >= adults, dots)); });
+    return box;
+  }
+
   function ver(o) { return o.version + (o.frozenDate ? " · " + o.frozenDate + " 凍結" : " · 未凍結"); }
   function banner(id) {
     // 未經籌委會通過時一定顯示一句提示；數字及名單通過後（isDemo、isDraft 改為 false）自動消失。
@@ -85,6 +125,7 @@
     P: P, VP: VP, PLANS: PLANS, PLAN_NAMES: ["① 按人頭", "② 雜費按人頭", "③ 按家庭"],
     S: S, M: M, G: G, N: N, CAP: CAP, MENUS: MENUS, FAVG: FAVG,
     round10: round10, money: money, esc: esc, el: el, mid: mid, top: top, totals: totals,
-    worstPerHead: worstPerHead, maxIncidentals: maxIncidentals, banner: banner, commitLink: commitLink
+    worstPerHead: worstPerHead, maxIncidentals: maxIncidentals, banner: banner, commitLink: commitLink,
+    person: person, familyDots: familyDots, family: family
   };
 })();
