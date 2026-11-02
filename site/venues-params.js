@@ -17,7 +17,7 @@ window.OGD_VENUES = {
 
   venues: [
     { type: "hotel", name: "康得思酒店", grade: "5 星", gradeSrc: "https://www.expedia.com/Kowloon-Hotels-Cordis.h990415.Hotel-Information", where: "旺角", url: "https://www.cordishotels.com/tc/hong-kong/",
-      menus: [{ name: "晚宴（款式待確認）", F: 537, quote: "每位 $488 另加一" }],
+      menus: [{ name: "自助餐", F: 537, quote: "每位 $488 另加一" }],
       chips: ["汽水、凍橙汁任飲 2 小時", "免費 LED 屏"], photos: [] },
     { type: "hotel", name: "唯港薈", grade: "5 星", gradeSrc: "https://www.expedia.com/Kowloon-Hotels-Hotel-ICON.h4247437.Hotel-Information", where: "尖東", url: "https://www.hotel-icon.com/zh-tw/",
       menus: [{ name: "自助餐", F: 758, quote: "每位 $758，已含加一" }],

@@ -62,8 +62,7 @@
   function rowHTML(v) {
     return '<article class="row">' +
       '<button type="button" class="row-head" aria-expanded="false">' +
-        '<span class="tag ' + v.type + '">' + TYPE[v.type] + '</span>' +
-        (v.grade ? '<span class="tag grade">' + esc(v.grade) + '</span>' : "") +
+        '<span class="tag ' + v.type + '">' + (v.grade ? esc(v.grade) : "") + TYPE[v.type] + '</span>' +
         '<span class="name">' + esc(v.name) + '</span>' +
         '<span class="chev" aria-hidden="true">▾</span></button>' +
       v.menus.map(menuRowHTML).join("") +
