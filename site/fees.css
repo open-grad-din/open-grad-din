@@ -74,3 +74,5 @@ details td { padding: 4px; vertical-align: top; }
 .sym { font-weight: 700; width: 2em; }
 .formula { background: var(--accent-soft); border-radius: 10px; padding: 8px 12px; }
 .formula p { margin: 4px 0; }
+.bar-row.best .bar-num small { color: var(--misc); font-weight: 700; }
+.bar-row .track { border-style: solid; }
