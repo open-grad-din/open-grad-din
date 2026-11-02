@@ -108,7 +108,6 @@
       var k = Number(t.getAttribute("data-k"));
       var fam = t.querySelector(".tile-fam");
       fam.innerHTML = ""; fam.appendChild(C.family(k, state.adults, state.kids));
-      fam.style.setProperty("--n", n);
       t.querySelector("b").textContent = money(shares[k]);
       t.querySelector("i").textContent = (!same && shares[k] === lo) ? "最省" : "";
       t.classList.toggle("best", !same && shares[k] === lo);
