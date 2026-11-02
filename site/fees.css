@@ -93,10 +93,10 @@
 
 /* 你家約付（按一下看三個方案） */
 .pay { margin-top: 8px; width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 10px; text-align: left; font: inherit; color: var(--ink); cursor: pointer;
-  background: var(--ai-soft); border: 2px solid var(--stroke); border-radius: var(--wobble2); padding: 8px 12px; min-height: 56px; }
-.pay-l { font-size: 14px; font-weight: 700; }
+  background: var(--ai-soft); border: 2px solid var(--stroke); border-radius: var(--wobble2); padding: 8px 10px; min-height: 56px; }
+.pay-l { font-size: 14px; font-weight: 700; white-space: nowrap; }
 .pay-r { text-align: right; display: flex; flex-direction: column; font-variant-numeric: tabular-nums; }
-.pay-r b { font-family: var(--font-display); font-size: 20px; line-height: 1.25; transition: color .3s ease; }
+.pay-r b { font-family: var(--font-display); font-size: 19px; white-space: nowrap; line-height: 1.25; transition: color .3s ease; }
 .pay-r small { font-size: 12px; color: var(--ai); font-weight: 700; }
 .pay[aria-expanded="true"] .pay-r small { color: var(--muted); }
 .pr-box { display: flex; flex-direction: column; gap: 6px; padding: 10px 4px 2px; }
@@ -158,3 +158,11 @@ details td { padding: 4px; vertical-align: top; }
 .cut ul { list-style: none; margin: 6px 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
 .cut li { color: var(--shu); border: 1.5px solid currentColor; border-radius: 999px; padding: 1px 10px; font-size: 14px; }
 .history { background: var(--sage-soft); border-radius: var(--wobble2); padding: 12px 14px; font-size: 15px; }
+
+/* 收費頁 → 計算機 */
+.to-calc { display: flex; align-items: center; justify-content: space-between; gap: 12px; text-decoration: none; color: var(--ink);
+  background: var(--ai-soft); border: 2px solid var(--stroke); border-radius: var(--wobble); box-shadow: 3px 3px 0 var(--line); padding: 14px 16px; }
+.to-calc b { display: block; font-family: var(--font-display); font-size: 20px; }
+.to-calc small { display: block; font-size: 14px; color: var(--muted); }
+.to-calc-go { flex: none; font-weight: 700; color: var(--shu-fg); background: var(--shu); border-radius: 999px; padding: 8px 14px; font-size: 15px; box-shadow: 2px 2px 0 var(--shu-deep); }
+.to-calc:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--line); }

@@ -2,14 +2,122 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="robots" content="noindex, nofollow">
-  <!-- 場地頁已與收費頁合併。舊連結（例如已在群組分享的）會轉到新頁的場地部分。版本 __COMMIT__ -->
-  <meta http-equiv="refresh" content="0; url=fees.html#venues">
-  <title>場地及收費</title>
-  <script>location.replace("fees.html#venues");</script>
+  <meta name="theme-color" content="#f8f4ec" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1f1c19" media="(prefers-color-scheme: dark)">
+  <title>你家要付多少</title>
+  <link rel="preload" href="fonts/ogd-maru.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="style.css?v=__COMMIT_SHORT__">
+  <link rel="stylesheet" href="fees.css?v=__COMMIT_SHORT__">
 </head>
 <body>
-  <p>場地頁已移到 <a href="fees.html#venues">場地及收費</a>。</p>
+<div class="wrap">
+  <p id="demo-banner" class="draft" hidden></p>
+
+  <header class="page-head">
+    <span class="eyebrow">K3 畢業晚宴 · 計算機</span>
+    <h1 class="page-h">你家要付多少</h1>
+    <p class="muted">填你家人數，每個候選場地都會即時計出三個分擔方案下你家的總數。三個方案是甚麼，見<a href="fees.html">收費</a>。</p>
+    <p class="by" id="version"></p>
+  </header>
+
+  <!-- 3. 場地卡 + 你家要付多少 -->
+  <section aria-labelledby="h-cards" id="venues">
+    <h2 class="sec-h" id="h-cards"><span class="no">1</span>候選場地</h2>
+    <p class="lead" id="funnel-line"></p>
+    <div class="dock">
+      <div class="fam" aria-label="你家出席人數">
+        <div class="stepper" data-key="adults">
+          <span class="lbl">大人</span>
+          <button type="button" data-d="-1" aria-label="大人減一">−</button>
+          <output id="adults-out">2</output>
+          <button type="button" data-d="1" aria-label="大人加一">＋</button>
+        </div>
+        <div class="stepper" data-key="kids">
+          <span class="lbl">小朋友</span>
+          <button type="button" data-d="-1" aria-label="小朋友減一">−</button>
+          <output id="kids-out">1</output>
+          <button type="button" data-d="1" aria-label="小朋友加一">＋</button>
+        </div>
+      </div>
+      <div class="seg" role="tablist">
+        <button role="tab" id="tab-hotel" aria-selected="true">酒店 <small id="n-hotel"></small></button>
+        <button role="tab" id="tab-rest" aria-selected="false">中式酒樓 <small id="n-rest"></small></button>
+      </div>
+    </div>
+    <p class="fam-note">小朋友包括畢業生。每張卡會按你家人數，即時計出三個方案下你家要付的<b>總數</b>（包括自己的餐費）。</p>
+    <p class="shuffle-note">為公平起見，每次打開這一頁，先顯示哪個分頁及場地的先後次序都是隨機排列，排得前不代表推薦。</p>
+    <div class="cards" id="cards" aria-live="polite"></div>
+    <div class="notice">
+      <b>注意事項</b>
+      <ul>
+        <li id="calc-note"></li>
+        <li>假設的例子，不是實數：用預計人數及預計雜費算出，實數要報名截止後才知道，屆時會公布。</li>
+        <li>報價僅供參考，實際價錢及檔期以場地書面確認為準。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section aria-labelledby="more-h" class="reveal more">
+    <h2 class="sec-h" id="more-h"><span class="no">2</span>想知多一點</h2>
+    <details>
+      <summary>候選名單怎樣來</summary>
+      <div class="funnel">
+        <div class="step"><b id="collected"></b><span>籌委會委員收集的酒店和酒樓</span></div>
+        <div class="cut"><span class="arrow" aria-hidden="true">↓</span>
+          <span>篩走以下這些</span>
+          <ul id="cut-reasons"></ul>
+          <span class="arrow" aria-hidden="true">↓</span></div>
+        <div class="step final"><b id="n-total"></b><span id="n-split"></span></div>
+      </div>
+      <p class="history" id="history"></p>
+    </details>
+    <details>
+      <summary>已篩走的場地及原因</summary>
+      <ul id="excluded"></ul>
+    </details>
+    <details>
+      <summary>場地卡的金額怎樣算</summary>
+      <ul>
+        <li>每位餐費已計入 10% 服務費。中式按每圍 12 位計。</li>
+        <li>有價錢範圍的場地（例如酒樓不同菜式、酒店預計加價），用範圍的中位數作「每位約」，並寫明範圍。</li>
+        <li>酒樓價錢是否已含加一，仍要向酒樓確認。</li>
+        <li id="assume-line"></li>
+        <li>老師餐按同一場地的每位餐費計。</li>
+      </ul>
+    </details>
+  </section>
+
+  <section class="signup reveal" aria-labelledby="signup-h">
+    <h2 class="sec-h" id="signup-h"><span class="no">✿</span>看完了？去報名</h2>
+    <a class="btn" id="signup-btn" target="_blank" rel="noopener" hidden>去報名及投票</a>
+    <p class="btn-note" id="signup-note">載入中…</p>
+  </section>
+
+  <footer>
+    <span><span class="ver">本頁版本 <a id="commit-link">__COMMIT_SHORT__</a></span> ·
+      <a href="https://github.com/open-grad-din/open-grad-din/blob/main/site/fees-params.js">收費數字及來源</a> ·
+      <a href="https://github.com/open-grad-din/open-grad-din/blob/main/site/venues-params.js">場地資料及來源</a> ·
+      <a href="https://github.com/open-grad-din/open-grad-din/commits/main/site">改動紀錄</a></span>
+  </footer>
+</div>
+
+<div class="tabbar">
+  <nav aria-label="主要頁面">
+    <a href="./"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg>首頁</a>
+    <a href="fees.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15 9.2c-.6-1-1.7-1.5-3-1.5-1.7 0-3 .9-3 2.2 0 3 6 1.6 6 4.4 0 1.3-1.3 2.2-3 2.2-1.4 0-2.6-.6-3.1-1.6M12 6v1.7M12 16.5V18"/></svg>收費</a>
+    <a href="venues.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M8 7h8"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01M8.5 14.5h.01M12 14.5h.01M15.5 14.5h.01M8.5 18h.01M12 18h7.01" stroke-width="2.4"/></svg>計算機</a>
+  </nav>
+</div>
+
+<script>window.OGD_COMMIT = "__COMMIT__";</script>
+<script src="ui.js?v=__COMMIT_SHORT__"></script>
+<script src="config.js?v=__COMMIT_SHORT__"></script>
+<script src="signup.js?v=__COMMIT_SHORT__"></script>
+<script src="fees-params.js?v=__COMMIT_SHORT__"></script>
+<script src="venues-params.js?v=__COMMIT_SHORT__"></script>
+<script src="fees-core.js?v=__COMMIT_SHORT__"></script>
+<script src="venues.js?v=__COMMIT_SHORT__"></script>
 </body>
 </html>
