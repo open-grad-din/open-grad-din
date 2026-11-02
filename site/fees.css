@@ -77,3 +77,5 @@ details td { padding: 4px; vertical-align: top; }
 .bar-row.best .bar-num small { color: var(--misc); font-weight: 700; }
 .bar-row .track { border-style: solid; }
 .hint .key { display: inline-block; margin-top: 4px; color: var(--fg); font-weight: 700; }
+.bars-head { margin: 4px 0 0; padding: 10px 12px; background: var(--accent-soft); border-radius: 10px; font-size: 16px; }
+.bars-head small { display: block; color: var(--muted); font-size: 14px; }
