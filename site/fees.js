@@ -29,11 +29,12 @@
     var w = 48, h = 92;
     var s = svg("svg", { viewBox: "0 0 " + w + " " + h, width: w, height: h, "aria-hidden": "true" });
     var tall = !isGrad;
-    var headY = tall ? 14 : 30, headR = tall ? 9 : 8;
+    // 大人和畢業生的身體底部都在 y = 59，站在同一條線上。
+    var headY = tall ? 14 : 25, headR = tall ? 9 : 8;
     var bodyTop = headY + headR + 2, bodyH = tall ? 34 : 24;
     s.appendChild(svg("circle", { cx: 24, cy: headY, r: headR, "class": "fig" }));
     s.appendChild(svg("rect", { x: tall ? 12 : 14, y: bodyTop, width: tall ? 24 : 20, height: bodyH, rx: 10, "class": "fig" }));
-    if (isGrad) s.appendChild(svg("polygon", { points: "12,22 24,16 36,22 24,28", "class": "cap" }));
+    if (isGrad) s.appendChild(svg("polygon", { points: "12,17 24,11 36,17 24,23", "class": "cap" }));
     dots.forEach(function (d, i) {
       s.appendChild(svg("circle", { cx: dots.length === 2 ? 16 + i * 16 : 24, cy: 82, r: 6, "class": d === "t" ? "d-teach" : "d-misc" }));
     });
