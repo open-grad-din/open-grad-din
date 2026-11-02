@@ -176,8 +176,7 @@
     var pending = payees.reduce(function (s, p) { return s + p.pending; }, 0);
     var grade = wholeNumber(info["全級人數"] || "");
     var num = document.getElementById("verified");
-    document.getElementById("verified-of").textContent =
-      "位畢業生已核實付款" + (grade ? "（全級約 " + grade + " 位）" : "");
+    document.getElementById("verified-of").textContent = grade ? "/" + grade + " 位畢業生" : " 位畢業生";
 
     var dots = document.getElementById("dots");
     if (grade) {

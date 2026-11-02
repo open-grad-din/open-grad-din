@@ -114,7 +114,7 @@ h1 .ch { display: inline-block; }
 /* ---- 全級進度：每粒點 = 一位畢業生 ---- */
 .tally { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .big { font-family: var(--font-display); font-size: 68px; font-weight: 700; color: var(--ai); line-height: 1; font-variant-numeric: tabular-nums; margin: 0; }
-.big small { display: block; font-family: var(--font-body); font-size: 15px; font-weight: 500; color: var(--muted); margin-top: 8px; }
+.big .of { font-family: var(--font-body); font-size: 18px; font-weight: 500; color: var(--muted); margin-left: 4px; white-space: nowrap; }
 .seal { flex: none; width: 78px; height: 78px; border: 3px solid var(--shu); color: var(--shu); border-radius: 48% 52% 50% 50% / 52% 48% 52% 48%; display: grid; place-items: center;
   font-family: var(--font-display); font-weight: 700; font-size: 24px; line-height: 1.05; text-align: center; transform: rotate(-10deg);
   background: var(--shu-soft); box-shadow: inset 0 0 0 3px var(--surface), inset 0 0 0 5px var(--shu-soft); }
@@ -132,7 +132,13 @@ h1 .ch { display: inline-block; }
 .key i.v { background: var(--ai); border-color: var(--ai); }
 .key i.p { border: 2px dashed var(--shu); }
 
-/* ---- 收款人 ---- */
+/* ---- 收款人（摺疊，一般家長不用看） ---- */
+.fold { padding: 0 16px; }
+.fold summary .sec-h { margin: 0; font-size: 20px; }
+.fold > :not(summary) { margin-top: 0; }
+.fold .fine { margin: 2px 0 12px; }
+.fold .payee { margin-bottom: 14px; }
+.fold .rule { margin-bottom: 14px; }
 .payee { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
 .payee li { background: var(--surface); border: 2px solid var(--stroke); border-radius: var(--wobble); box-shadow: 3px 3px 0 var(--line); padding: 14px 16px; display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: center; }
 .payee li:nth-child(2n) { border-radius: var(--wobble2); }

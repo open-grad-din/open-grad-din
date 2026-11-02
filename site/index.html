@@ -62,7 +62,7 @@
   <section aria-labelledby="prog-h" id="prog-section" class="reveal" hidden>
     <h2 class="sec-h" id="prog-h"><span class="no">1</span>全級進度</h2>
     <div class="tally">
-      <p class="big"><span id="verified">0</span><small id="verified-of"></small></p>
+      <p class="big"><span id="verified">0</span><span class="of" id="verified-of"></span></p>
       <div class="seal" id="seal" aria-hidden="true">核<br>實</div>
     </div>
     <div class="dots" id="dots" role="img"></div>
@@ -74,14 +74,8 @@
     <p class="fine">每粒點是一位畢業生，不分班別。只有收款人對照銀行紀錄核實後，才會填上顏色及計票。</p>
   </section>
 
-  <section aria-labelledby="pay-h" id="pay-section" class="reveal" hidden>
-    <h2 class="sec-h" id="pay-h"><span class="no">2</span>收款人</h2>
-    <ul class="payee" id="payees"></ul>
-    <p class="rule" id="payee-rule">A 班及 B 班付 A 班財務，C 班及 D 班付 C 班財務，D 班財務負責核數。收款人的名字及 FPS 只在報名表格內顯示。其他人叫你轉帳都不要理會。</p>
-  </section>
-
   <section aria-labelledby="route-h" class="reveal">
-    <h2 class="sec-h" id="route-h"><span class="no">3</span>這些數字從哪裏來</h2>
+    <h2 class="sec-h" id="route-h"><span class="no">2</span>這些數字從哪裏來</h2>
     <ol class="route">
       <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10 18.5h4"/></svg></span>
         <div><b>你填表及轉帳</b><span>Google 表格會把回覆副本寄到你的電郵，作為你自己的收據。</span></div></li>
@@ -93,6 +87,15 @@
         <div><b>這一頁只讀出總數</b><span>網頁沒有任何修改資料的功能。</span>
           <span class="lock"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>只讀</span></div></li>
     </ol>
+  </section>
+
+  <section id="pay-section" class="reveal" hidden>
+    <details class="fold">
+      <summary><h2 class="sec-h" id="pay-h"><span class="no">3</span>收款人核實情況</h2></summary>
+      <p class="fine">一般家長不用看。給籌委及想查核的家長：每位收款人有幾多筆未核實、等了幾耐。</p>
+      <ul class="payee" id="payees"></ul>
+      <p class="rule" id="payee-rule">A 班及 B 班付 A 班財務，C 班及 D 班付 C 班財務，D 班財務負責核數。收款人的名字及 FPS 只在報名表格內顯示。其他人叫你轉帳都不要理會。</p>
+    </details>
   </section>
 
   <section aria-labelledby="idx-h" id="idx-section" class="reveal" hidden>
