@@ -200,7 +200,7 @@
       var total = Math.max(grade, verified + pending);
       for (var i = 0; i < total; i++) {
         var d = el("i", undefined, i < verified ? "v" : i < verified + pending ? "p" : "");
-        if (i < verified + pending) d.style.animationDelay = (i * 18) + "ms";
+        if (i < verified + pending) { d.style.animationDelay = (i * 18) + "ms"; d.style.setProperty("--i", String(i)); }
         dots.appendChild(d);
       }
       dots.setAttribute("aria-label", "全級約 " + grade + " 位畢業生，已核實 " + verified + " 位，等候核實 " + pending + " 位");
@@ -214,6 +214,12 @@
     var seal = document.getElementById("seal");
     var go = function () {
       dots.classList.add("play");
+      // 逐粒彈出完畢後，換成持續的呼吸動畫。
+      setTimeout(function () {
+        Array.prototype.forEach.call(dots.children, function (d) { d.style.animationDelay = ""; });
+        dots.classList.remove("play");
+        dots.classList.add("live");
+      }, (verified + pending) * 18 + 500);
       if (!ui) { num.textContent = String(verified); return; }
       ui.countUp(num, verified, 1200, function () { if (verified > 0) seal.classList.add("stamp"); });
     };

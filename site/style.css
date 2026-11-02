@@ -123,7 +123,8 @@ h1 .ch { display: inline-block; }
 .seal { flex: none; width: 78px; height: 78px; border: 3px solid var(--shu); color: var(--shu); border-radius: 48% 52% 50% 50% / 52% 48% 52% 48%; display: grid; place-items: center;
   font-family: var(--font-display); font-weight: 700; font-size: 24px; line-height: 1.05; text-align: center; transform: rotate(-10deg);
   background: var(--shu-soft); box-shadow: inset 0 0 0 3px var(--surface), inset 0 0 0 5px var(--shu-soft); }
-.seal.stamp { animation: stamp .5s cubic-bezier(.2, 1.6, .4, 1) both; }
+.seal.stamp { animation: stamp .5s cubic-bezier(.2, 1.6, .4, 1) both, sway 4s ease-in-out .6s infinite; }
+@keyframes sway { 0%, 100% { rotate: -3deg; } 50% { rotate: 3deg; } }
 @keyframes stamp { 0% { opacity: 0; transform: rotate(-8deg) scale(2.2); } 60% { opacity: 1; } 100% { opacity: 1; transform: rotate(-8deg) scale(1); } }
 .dots { display: grid; grid-template-columns: repeat(14, 1fr); gap: 6px; margin-top: 18px; }
 .dots i { aspect-ratio: 1; border-radius: 48% 52% 50% 50% / 52% 48% 52% 48%; border: 1.5px solid var(--stroke); background: var(--surface); }
@@ -131,6 +132,11 @@ h1 .ch { display: inline-block; }
 .dots i.v { background: var(--ai); border-color: var(--ai); }
 .dots i.p { border: 2px dashed var(--shu); }
 .dots.play i.v, .dots.play i.p { animation: pop .4s ease both; }
+/* load 完之後：已核實的點像呼吸般一浪一浪起伏，等候核實的虛線圈慢慢轉 */
+.dots.live i.v { animation: breathe 3.2s ease-in-out calc(var(--i, 0) * 45ms) infinite; }
+.dots.live i.p { animation: turn 7s linear infinite; }
+@keyframes breathe { 0%, 100% { scale: 1; } 50% { scale: 1.2; } }
+@keyframes turn { to { rotate: 360deg; } }
 @keyframes pop { from { opacity: 0; scale: 0; } 70% { scale: 1.25; } to { opacity: 1; scale: 1; } }
 .key { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 12px 0 0; padding: 0; list-style: none; font-size: 14px; color: var(--muted); }
 .key i { display: inline-block; width: 11px; height: 11px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; border: 1.5px solid var(--stroke); }
