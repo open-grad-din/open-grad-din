@@ -110,8 +110,12 @@
   function renderHeader(info) {
     var parts = [];
     if (info["發出人"]) parts.push(info["發出人"] + " 發出");
-    if (info["最後更新"]) parts.push("最後更新 " + info["最後更新"]);
     document.getElementById("by").textContent = parts.join(" · ");
+    if (info["最後更新"]) {
+      var up = document.getElementById("updated");
+      up.textContent = "最後更新 " + info["最後更新"];
+      up.hidden = false;
+    }
   }
 
   var DINNER = Date.UTC(2027, 6, 2);

@@ -117,6 +117,7 @@ h1 .ch { display: inline-block; }
 
 /* ---- 全級進度：每粒點 = 一位畢業生 ---- */
 #prog-section { margin-top: 16px; }
+.updated { font-size: 13px; color: var(--muted); margin: -8px 0 12px; }
 .tally { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .big { font-family: var(--font-display); font-size: 68px; font-weight: 700; color: var(--ai); line-height: 1; font-variant-numeric: tabular-nums; margin: 0; }
 .big .of { font-family: var(--font-body); font-size: 18px; font-weight: 500; color: var(--muted); margin-left: 4px; white-space: nowrap; }
