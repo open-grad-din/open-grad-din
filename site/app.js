@@ -141,8 +141,7 @@
       var p = document.getElementById("deadline");
       p.textContent = "截止：";
       p.appendChild(el("b", dl.label));
-      p.appendChild(el("span",
-        dl.daysLeft > 0 ? "，還有 " + dl.daysLeft + " 日" : dl.daysLeft === 0 ? "，今日截止" : "，已截止", "left"));
+      if (dl.daysLeft < 0) p.appendChild(el("span", "（已截止）", "left"));
       p.hidden = false;
     }
 
