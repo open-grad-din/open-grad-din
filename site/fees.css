@@ -1,6 +1,4 @@
 /* 收費詳細頁：以圖為主，手機單手操作。 */
-:root { --meal: #c9d0d9; --teach: #d9892b; --misc: #1f8f84; --fig: #8b97a6; }
-@media (prefers-color-scheme: dark) { :root { --meal: #3a4452; --teach: #f0a650; --misc: #43c2b4; --fig: #7d8a9a; } }
 .eyebrow a { color: var(--accent); text-decoration: none; }
 section > h2 { font-size: 17px; color: var(--fg); letter-spacing: 0; }
 
@@ -12,29 +10,20 @@ section > h2 { font-size: 17px; color: var(--fg); letter-spacing: 0; }
 .hero-sub { font-size: 15px; opacity: .92; }
 @media (prefers-color-scheme: dark) { .hero { color: #0b1a1d; } }
 
-.dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; vertical-align: -1px; margin-right: 6px; }
-.dot.meal { background: var(--meal); } .dot.teach { background: var(--teach); } .dot.misc { background: var(--misc); }
-
-.stack { display: flex; height: 44px; border-radius: 12px; overflow: hidden; font-size: 13px; font-weight: 700; }
-.stack span { display: flex; align-items: center; justify-content: center; min-width: 46px; white-space: nowrap; }
-.stack .meal { background: var(--meal); color: var(--fg); }
-.stack .teach { background: var(--teach); color: #fff; }
-.stack .misc { background: var(--misc); color: #fff; }
-.legend { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
-.legend li { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 8px; }
-.legend small { color: var(--muted); font-size: 14px; }
 .note { margin: 12px 0 0; background: var(--accent-soft); border-radius: 12px; padding: 10px 14px; }
 .hint { margin: 0 0 10px; color: var(--muted); font-size: 15px; }
-
+.sum { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+.sum td { padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.sum td small { display: block; color: var(--muted); font-size: 14px; }
+.sum .amt { text-align: right; font-weight: 700; font-size: 19px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.sum .total td { border-bottom: 0; font-weight: 700; background: var(--accent-soft); }
 .plans { display: flex; flex-direction: column; gap: 10px; }
-.plan { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; align-items: center; }
-.plan h3 { grid-column: 1 / -1; margin: 0; font-size: 18px; }
-.plan p { margin: 0; font-size: 15px; }
-.family { display: flex; align-items: flex-end; gap: 0; }
-.family svg { width: 34px; height: auto; }
-.fig { fill: var(--fig); } .cap { fill: var(--fg); }
-.d-teach { fill: var(--teach); } .d-misc { fill: var(--misc); }
-
+.plan { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; }
+.plan h3 { margin: 0 0 6px; font-size: 18px; }
+.plan dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; }
+.plan dt { color: var(--muted); }
+.plan dd { margin: 0; font-weight: 700; }
+.plan p { margin: 6px 0 0; font-size: 15px; color: var(--muted); }
 .calc { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 12px; }
 .stepper { display: grid; grid-template-columns: 1fr 52px 44px 52px; align-items: center; gap: 6px; }
 .stepper .lbl { font-weight: 700; font-size: 18px; }
@@ -52,9 +41,10 @@ button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 .bar-name { font-weight: 700; }
 .bar-num { text-align: right; font-variant-numeric: tabular-nums; }
 .bar-num b { font-size: 20px; } .bar-num small { display: block; font-size: 13px; color: var(--muted); }
-.track { grid-column: 1 / -1; grid-row: 2; display: flex; height: 16px; border-radius: 8px; background: var(--bg); border: 1px dashed var(--line); overflow: hidden; }
+.bar-calc { grid-column: 1 / -1; font-size: 14px; color: var(--muted); margin-top: -4px; }
+.track { grid-column: 1 / -1; display: flex; height: 16px; border-radius: 8px; background: var(--bg); border: 1px dashed var(--line); overflow: hidden; }
 .track i { display: block; height: 100%; transition: width .45s ease; }
-.fill-meal { background: var(--meal); } .fill-share { background: linear-gradient(90deg, var(--teach), var(--misc)); }
+.fill-share { background: var(--accent); }
 .bar-row.over .bar-num b { color: var(--warn); }
 .fine.warn { color: var(--warn); font-weight: 700; }
 @media (prefers-reduced-motion: reduce) { .track i { transition: none; } }
@@ -74,5 +64,5 @@ details td { padding: 4px; vertical-align: top; }
 .sym { font-weight: 700; width: 2em; }
 .formula { background: var(--accent-soft); border-radius: 10px; padding: 8px 12px; }
 .formula p { margin: 4px 0; }
-.bar-row.best .bar-num small { color: var(--misc); font-weight: 700; }
+.bar-row.best .bar-num small { color: var(--accent); font-weight: 700; }
 .bar-row .track { border-style: solid; }
