@@ -169,3 +169,6 @@ details td { padding: 4px; vertical-align: top; }
 /* 上限卡左上角的章節號，與其他章節一致 */
 .hero-no { position: absolute; top: 14px; left: 14px; font-size: 15px; font-weight: 700; color: var(--shu); border: 2px solid var(--shu); width: 30px; height: 30px; display: grid; place-items: center;
   border-radius: 48% 52% 50% 50% / 55% 45% 55% 45%; transform: rotate(-6deg); background: var(--surface); }
+/* 章節卡片：與上限卡同一款紙卡（手繪圓角、實色陰影） */
+.sec-card { background: var(--surface); border: 2px solid var(--stroke); border-radius: var(--wobble2); box-shadow: 4px 4px 0 var(--line); padding: 18px 16px 16px; }
+.sec-card .note { background: var(--sage-soft); }
