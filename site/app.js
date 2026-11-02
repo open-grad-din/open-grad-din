@@ -261,7 +261,7 @@
 
   setFooter();
   renderCountdown(new Date());
-  if (config.isDemo) document.getElementById("demo-banner").hidden = false;
+  // 2026-11-02 統籌決定首頁不顯示示範提示（Ken 轉達）。isDemo 仍控制報名 tab 的「原型表格」提示。
 
   var status = document.getElementById("status");
   Promise.all([load(config.infoCsvUrl), load(config.summaryCsvUrl)])
