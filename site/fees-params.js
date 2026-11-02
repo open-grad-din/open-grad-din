@@ -4,10 +4,10 @@
 // 改動必須經 Pull Request 及統籌批准，網頁會顯示新的版本編號及日期，舊版本永遠留在改動紀錄。
 // Form 內的例子金額必須照抄這一頁顯示的數字。
 //
-// 目前全部是示範數字（isDemo: true），不是真實報價。
+// 2026-11-02 籌委會已通過（Ken 轉達），isDemo 改為 false。出席人數 G、N 仍是估算，實際按截止時的核實人數計。
 window.OGD_FEES = {
-  isDemo: true,
-  version: "示範版",          // 凍結後改為「第 1 版」等
+  isDemo: false,
+  version: "籌委會已通過",          // 凍結後改為「第 1 版」等
   frozenDate: "",             // 凍結日期，YYYY-MM-DD
 
   // 已投票決定的每位預算範圍（只用作提示，不影響計算）。

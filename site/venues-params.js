@@ -7,8 +7,8 @@
 // photos：場地相片 [{ src: "images/venues/xxx-1.jpg", alt: "…" }]。必須由籌委會自己拍攝或獲場地授權，不可從網上複製。
 // 未有相片時頁面顯示示範圖片。
 window.OGD_VENUES = {
-  isDraft: true,              // 籌委會通過名單及向場地確認報價後改為 false
-  version: "草稿",
+  isDraft: false,             // 2026-11-02 籌委會已通過名單（Ken 轉達）。報價仍以場地書面確認為準，頁面照舊註明。
+  version: "籌委會已通過",
   frozenDate: "",
   collected: "約 20 多間",     // 籌委會委員最初收集的數目
   history: "近年的畢業晚宴都在酒店舉行。酒樓只在很多年前辦過一次。",
