@@ -1,12 +1,35 @@
-// 收費頁及場地頁底部的「去報名」掣，以及每頁底部導覽的「報名」tab（data-signup）。
-// tab 預設指向收費頁底的「去報名」一節；讀到報名表格連結後才改為在新分頁打開 Google 表格。
+// 每頁底部導覽的「報名」tab（data-signup）。
 // 報名表格連結不寫在程式碼內，而是從統籌的 Google Sheet 公開分頁（infoCsvUrl 的「報名表格連結」一行）讀取，
-// 所以連結一定是統籌那張表格。連結必須是 Google 表格的網址，否則不顯示按鈕。
+// 所以連結一定是統籌那張表格。連結必須是 Google 表格的網址，否則不會打開。
+// 讀到連結前、報名未開始或讀取失敗時，按 tab 會在畫面底部顯示原因，不會打開任何網址。
 (function () {
-  var btn = document.getElementById("signup-btn");
-  var note = document.getElementById("signup-note");
   var tabs = document.querySelectorAll("[data-signup]");
-  if (!window.OGD_CONFIG || (!btn && !tabs.length)) return;
+  if (!window.OGD_CONFIG || !tabs.length) return;
+  var msg = "報名連結載入中，請稍後再按一次。";
+  var toast;
+
+  function say(text) {
+    if (!toast) {
+      toast = document.createElement("p");
+      toast.className = "signup-toast";
+      toast.setAttribute("role", "status");
+      document.body.appendChild(toast);
+    }
+    toast.textContent = text;
+    toast.hidden = false;
+    clearTimeout(say.t);
+    say.t = setTimeout(function () { toast.hidden = true; }, 4000);
+  }
+
+  function hold(e) {
+    if (this.dataset.ready) {
+      if (window.OGD_CONFIG.isDemo) say("示範版：這是原型表格，只可以填假資料，請不要轉帳。");
+      return;
+    }
+    e.preventDefault();
+    say(msg);
+  }
+  Array.prototype.forEach.call(tabs, function (a) { a.addEventListener("click", hold); });
 
   function parseCsv(text) {
     var rows = [], row = [], field = "", q = false;
@@ -39,22 +62,13 @@
       var url = info["報名表格連結"] || "";
       if (isGoogleForm(url)) {
         Array.prototype.forEach.call(tabs, function (a) {
-          a.href = url; a.target = "_blank"; a.rel = "noopener";
+          a.href = url; a.target = "_blank"; a.rel = "noopener"; a.dataset.ready = "1";
         });
-        if (!btn) return;
-        btn.href = url;
-        btn.hidden = false;
-        if (window.OGD_CONFIG.isDemo) {
-          btn.textContent = "試用原型表格";
-          note.textContent = "示範版：這是原型表格，收款人資料是佔位字。只可以填假資料，請不要轉帳。";
-        } else {
-          note.textContent = "會在新分頁打開 Google 表格，需要登入 Google 帳戶。約 5 分鐘。";
-        }
-      } else if (note) {
-        note.textContent = "報名尚未開始。開始時，這裏會出現報名按鈕。";
+      } else {
+        msg = "報名尚未開始。開始時，按這裏就會打開報名表格。";
       }
     })
     .catch(function () {
-      if (note) note.textContent = "暫時未能載入報名連結，請稍後再試，或回到首頁。";
+      msg = "暫時未能載入報名連結，請稍後再試。";
     });
 })();
