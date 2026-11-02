@@ -8,8 +8,8 @@
   var VP = C.VP, V = VP.venues, S = C.S, M = C.M, G = C.G, N = C.N, CAP = C.CAP, FAVG = C.FAVG, PLANS = C.PLANS;
   var money = C.money, esc = C.esc, mid = C.mid, totals = C.totals, round10 = C.round10, PLAN_NAMES = C.PLAN_NAMES;
   var TYPE = { hotel: "酒店", rest: "酒樓" };
-  // 這一頁只用方案名字，不用 ①②③（Ken 2026-11-02：數字編號令人混亂）。
-  var NAMES = PLAN_NAMES.map(function (s) { return s.replace(/^[①②③]\s*/, ""); });
+  // 方案一律「編號＋名字」一起寫（Ken 2026-11-02：只寫編號會混亂）。
+  var NAMES = PLAN_NAMES;
 
   // ---- 場地詳情（相片、賣點、報價、連結），按場地名才展開 ----
   var TABLES = "";
