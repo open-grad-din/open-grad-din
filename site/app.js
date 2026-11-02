@@ -144,7 +144,6 @@
     if (dl) {
       var p = document.getElementById("deadline");
       p.textContent = "";
-      p.appendChild(el("span", "截止倒數", "dl-label"));
       var timer = el("span", undefined, "timer");
       var cells = ["日", "時", "分", "秒"].map(function (u) {
         var b = el("b", "0");
