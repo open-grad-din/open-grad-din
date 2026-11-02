@@ -100,12 +100,12 @@
     var total = parts.reduce(function (s, p) { return s + p[1]; }, 0);
     var box = document.getElementById("stack");
     parts.forEach(function (p) {
-      var seg = el("span", money(p[1]), p[0]);
+      var seg = el("span", p[0] === "meal" ? "" : money(p[1]), p[0]);
       seg.style.flexGrow = String(p[1] / total);
       box.appendChild(seg);
     });
-    box.setAttribute("aria-label", "以平均餐費估算，每位約：餐費 " + money(F) +
-      "，老師餐 " + money(S * F / N) + "，雜費 " + money(M / N));
+    box.setAttribute("aria-label", "每位的錢大部分是自己的餐費；" +
+      "老師餐約 " + money(S * F / N) + "，雜費 " + money(M / N));
     document.getElementById("teach-note").textContent = S + " 位老師的餐費，由家長分擔";
   }
 
