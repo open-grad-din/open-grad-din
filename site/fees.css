@@ -187,7 +187,6 @@ details td { padding: 4px; vertical-align: top; }
 .mn { font-size: 14px; font-weight: 700; }
 .mf { font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
 .mf b { color: var(--ink); font-weight: 700; }
-.mf small { font-size: 11px; margin-left: 4px; border: 1px solid var(--line); border-radius: 999px; padding: 0 6px; }
 .row-more { display: flex; flex-direction: column; gap: 10px; padding-top: 10px; margin-top: 6px; border-top: 1px dashed var(--line); }
 .quotes { margin: 0; padding-left: 1.1em; font-size: 13px; color: var(--muted); display: flex; flex-direction: column; gap: 4px; font-variant-numeric: tabular-nums; }
 .quotes b { color: var(--ink); }
