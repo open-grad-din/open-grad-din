@@ -180,8 +180,6 @@
 
   function renderText() {
     C.banner("demo-banner");
-    document.getElementById("funnel-line").textContent =
-      "籌委會委員收集了" + VP.collected + "，篩走" + VP.excludeReasons.join("、") + "的，剩下 " + V.length + " 間。" + VP.history;
     document.getElementById("history").textContent = VP.history;
     document.getElementById("funnel-text").textContent =
       "籌委會委員先收集了" + VP.collected + "酒店和酒樓，再篩走" + VP.excludeReasons.join("、") + "的場地，剩下 " + V.length +
