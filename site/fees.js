@@ -60,11 +60,11 @@
     var total = parts.reduce(function (s, p) { return s + p[1]; }, 0);
     var box = document.getElementById("stack");
     parts.forEach(function (p) {
-      var seg = el("span", p[0] === "meal" ? "餐費（視乎場地）" : "約 " + money(p[1]), p[0]);
+      var seg = el("span", { meal: "自己的餐費", teach: "老師餐", misc: "雜費" }[p[0]], p[0]);
       seg.style.flexGrow = String(p[1] / total);
       box.appendChild(seg);
     });
-    box.setAttribute("aria-label", "每位的錢大部分是自己的餐費；老師餐約 " + money(S * F / N) + "，雜費約 " + money(M / N));
+    box.setAttribute("aria-label", "每位的錢大部分是自己的餐費，其餘是老師餐及雜費");
     document.getElementById("teach-note").textContent = S + " 位老師和職員的餐費，由家長分擔";
   }
 
