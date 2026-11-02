@@ -76,7 +76,9 @@
     var hk = new Date(now.getTime() + 8 * 3600 * 1000);
     var today = Date.UTC(hk.getUTCFullYear(), hk.getUTCMonth(), hk.getUTCDate());
     var dayLeft = Math.round((Date.UTC(+m[1], +m[2] - 1, +m[3]) - today) / 86400000);
-    return { label: label, daysLeft: dayLeft };
+    // 截止一刻（香港時間）；沒有寫時間就當該日 23:59。
+    var at = Date.UTC(+m[1], +m[2] - 1, +m[3], (m[4] ? Number(m[4]) : 23) - 8, m[5] ? Number(m[5]) : 59);
+    return { label: label, daysLeft: dayLeft, at: at };
   }
 
   function readInfo(rows) {
@@ -141,10 +143,34 @@
     var dl = info["截止時間"] ? formatDeadline(info["截止時間"], now) : null;
     if (dl) {
       var p = document.getElementById("deadline");
-      p.textContent = "截止：";
-      p.appendChild(el("b", dl.label));
-      if (dl.daysLeft < 0) p.appendChild(el("span", "（已截止）", "left"));
+      p.textContent = "";
+      p.appendChild(el("span", "截止倒數", "dl-label"));
+      var timer = el("span", undefined, "timer");
+      var cells = ["日", "時", "分", "秒"].map(function (u) {
+        var b = el("b", "0");
+        timer.appendChild(b);
+        timer.appendChild(el("small", u));
+        return b;
+      });
+      p.appendChild(timer);
+      p.appendChild(el("span", "截止：" + dl.label, "dl-date"));
       p.hidden = false;
+      var pad = function (n) { return (n < 10 ? "0" : "") + n; };
+      var tick = function () {
+        var left = Math.floor((dl.at - Date.now()) / 1000);
+        if (left <= 0) {
+          timer.textContent = "";
+          timer.appendChild(el("span", "已截止", "left"));
+          clearInterval(id);
+          return;
+        }
+        cells[0].textContent = String(Math.floor(left / 86400));
+        cells[1].textContent = pad(Math.floor(left / 3600) % 24);
+        cells[2].textContent = pad(Math.floor(left / 60) % 60);
+        cells[3].textContent = pad(left % 60);
+      };
+      var id = setInterval(tick, 1000);
+      tick();
     }
 
     var href = safeUrl(info["行動連結"] || "");
