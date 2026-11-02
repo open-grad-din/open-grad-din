@@ -172,14 +172,6 @@
       tick();
     }
 
-    var href = safeUrl(info["行動連結"] || "");
-    if (href && info["行動掣文字"]) {
-      var a = document.getElementById("action");
-      a.href = href;
-      a.textContent = info["行動掣文字"];
-      a.hidden = false;
-      setTimeout(function () { a.classList.add("shine"); }, document.documentElement.className.indexOf("intro") !== -1 ? 1900 : 300);
-    }
     if (info["行動說明"]) {
       var note = document.getElementById("action-note");
       note.textContent = info["行動說明"];
