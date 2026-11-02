@@ -183,3 +183,7 @@ details td { padding: 4px; vertical-align: top; }
 .sec-card > .sec-h.only-no + .plate { margin-top: 14px; }
 /* 章節卡頂部與上限卡相同的膠紙 */
 .sec-card::before { content: ""; position: absolute; top: -12px; left: 50%; width: 84px; height: 22px; transform: translateX(-50%) rotate(2deg); background: var(--tape); border-radius: 3px; }
+/* 提醒：報名時要投票揀方案 */
+.vote-cue { margin: -4px 0 14px; padding: 12px 14px 12px 46px; position: relative; background: var(--shu-soft); border: 2px dashed var(--shu); border-radius: var(--wobble2); font-size: 15px; }
+.vote-cue::before { content: "✓"; position: absolute; left: 12px; top: 11px; width: 24px; height: 24px; display: grid; place-items: center; border: 2px solid var(--shu); color: var(--shu); border-radius: 6px; font-weight: 800; font-size: 14px; transform: rotate(-6deg); }
+.vote-cue b { color: var(--shu-deep); }
