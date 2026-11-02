@@ -22,7 +22,7 @@ window.OGD_FEES = {
   staff: { value: 35, source: "Ken 提供，待學校確認" },
 
   // 預計雜費 M：參考上屆實際報銷。實際收費按實際雜費計，決算時公布單據總額。
-  incidentals: { value: 20000, source: "示範數字（日後改為上屆實際報銷）" },
+  incidentals: { value: 25356, source: "2025 年實際雜費（Ken 提供）" },
 
   // 預計出席畢業生 G 及預計出席總人數 N（包括畢業生）。只用來估算；實際按截止時的核實人數計。
   graduates: { value: 100, source: "示範數字" },
