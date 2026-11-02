@@ -22,23 +22,22 @@
 
   <section aria-labelledby="h-list" id="venues">
     <h2 class="vh" id="h-list">你家人數、三個方案的分別、候選場地</h2>
-    <div class="dock">
-      <div class="fam" aria-label="你家出席人數">
-        <div class="stepper" data-key="adults">
-          <span class="lbl">大人</span>
-          <button type="button" data-d="-1" aria-label="大人減一">−</button>
-          <output id="adults-out">1</output>
-          <button type="button" data-d="1" aria-label="大人加一">＋</button>
-        </div>
-        <div class="stepper" data-key="kids">
-          <span class="lbl">小朋友<small>含畢業生</small></span>
-          <button type="button" data-d="-1" aria-label="小朋友減一">−</button>
-          <output id="kids-out">1</output>
-          <button type="button" data-d="1" aria-label="小朋友加一">＋</button>
-        </div>
+    <div class="fam" aria-label="你家出席人數">
+      <div class="stepper" data-key="adults">
+        <span class="lbl">大人</span>
+        <button type="button" data-d="-1" aria-label="大人減一">−</button>
+        <output id="adults-out">1</output>
+        <button type="button" data-d="1" aria-label="大人加一">＋</button>
       </div>
-
-      <!-- 第一層：三個方案的分別（和場地幾乎無關）；與人數一起黏在頂部 -->
+      <div class="stepper" data-key="kids">
+        <span class="lbl">小朋友<small>含畢業生</small></span>
+        <button type="button" data-d="-1" aria-label="小朋友減一">−</button>
+        <output id="kids-out">1</output>
+        <button type="button" data-d="1" aria-label="小朋友加一">＋</button>
+      </div>
+    </div>
+    <div class="dock">
+      <!-- 第一層：三個方案下你家的總開支；捲動時黏在頂部（人數列不黏） -->
       <div class="strip">
         <div class="tiles" id="tiles" role="group" aria-label="三個方案下你家的總開支"></div>
         <p class="strip-key"><span class="scroll-hint" id="scroll-hint">向上捲動場地，看你家總開支</span><span class="dotkey"><i class="dot teach"></i>老師餐　<i class="dot misc"></i>雜費</span></p>

@@ -51,7 +51,7 @@
 .js .reveal.in .plan:nth-child(2) circle[class^="d-"] { transition-delay: .2s; } .js .reveal.in .plan:nth-child(3) circle[class^="d-"] { transition-delay: .4s; }
 
 /* 3. 場地：你家人數＋分頁（捲動時黏在頂部） */
-.dock { position: sticky; top: 0; z-index: 3; margin: 0 -18px; padding: 8px 18px 8px; border-bottom: 2px solid var(--line); padding-top: max(8px, env(safe-area-inset-top, 0px));
+.dock { position: sticky; top: 0; z-index: 3; margin: 0 -18px; padding: 8px 18px 8px; border-bottom: 2px solid var(--line); padding-top: max(14px, env(safe-area-inset-top, 0px));
   background: color-mix(in srgb, var(--paper) 97%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
 .fam { display: flex; align-items: center; justify-content: space-around; gap: 4px 8px; flex-wrap: wrap; background: var(--surface); border: 2px solid var(--stroke); border-radius: var(--wobble2); box-shadow: 3px 3px 0 var(--line); padding: 6px 10px; }
 .stepper { display: grid; grid-template-columns: auto 34px 24px 34px; align-items: center; gap: 3px; }
@@ -138,10 +138,11 @@ details td { padding: 4px; vertical-align: top; }
 #plan-h { margin-bottom: 18px; }
 .vote-cue + .hint { margin-bottom: 18px; line-height: 1.7; }
 /* 計算機頁：頁首說明與人數列靠近一點 */
-.page-head + #venues { margin-top: -32px; }
+.page-head + #venues { margin-top: -24px; }
 
 /* 計算機頁 第一層：三個方案的分別 */
-.strip { display: flex; flex-direction: column; gap: 6px; margin: 18px 0 0; }
+.strip { display: flex; flex-direction: column; gap: 6px; margin: 0; }
+.fam + .dock { margin-top: 4px; }
 .strip-lead { margin: 0; font-size: 15px; }
 .strip-lead .dotkey { white-space: nowrap; font-weight: 700; color: var(--ink); }
 .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
