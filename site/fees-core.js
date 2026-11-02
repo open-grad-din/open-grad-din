@@ -62,11 +62,9 @@
 
   function ver(o) { return o.version + (o.frozenDate ? " · " + o.frozenDate + " 凍結" : " · 未凍結"); }
   function banner(id) {
-    var warn = [];
-    if (P.isDemo) warn.push("示範版：收費的人數及規則細節是假設，未經籌委會通過。");
-    if (VP.isDraft) warn.push("場地名單是草稿，未經籌委會通過；報價僅供參考，未經場地書面確認；相片是示範圖片。");
+    // 未經籌委會通過時一定顯示一句提示；數字及名單通過後（isDemo、isDraft 改為 false）自動消失。
     var bn = document.getElementById(id);
-    if (bn && warn.length) { bn.textContent = warn.join(""); bn.hidden = false; }
+    if (bn && (P.isDemo || VP.isDraft)) { bn.textContent = "示範資料，未經籌委會通過。"; bn.hidden = false; }
     var v = document.getElementById("version");
     if (v) v.textContent = "收費：" + ver(P) + "　場地名單：" + ver(VP);
   }
