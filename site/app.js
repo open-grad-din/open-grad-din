@@ -230,7 +230,6 @@
       var a = document.getElementById(s[0]);
       var abs = new URL(s[1] || "", location.href).href;
       a.href = abs; a.textContent = abs;
-      if (s[0] === "src-summary") document.getElementById("src-open").href = abs;
     });
     var commit = window.OGD_COMMIT || "";
     var link = document.getElementById("commit-link");
