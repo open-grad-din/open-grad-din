@@ -138,10 +138,10 @@ details td { padding: 4px; vertical-align: top; }
 #plan-h { margin-bottom: 18px; }
 .vote-cue + .hint { margin-bottom: 18px; line-height: 1.7; }
 /* 計算機頁：頁首說明與人數列靠近一點 */
-.page-head + #venues { margin-top: -20px; }
+.page-head + #venues { margin-top: -32px; }
 
 /* 計算機頁 第一層：三個方案的分別 */
-.strip { display: flex; flex-direction: column; gap: 4px; margin: 10px 0 0; }
+.strip { display: flex; flex-direction: column; gap: 6px; margin: 18px 0 0; }
 .strip-lead { margin: 0; font-size: 15px; }
 .strip-lead .dotkey { white-space: nowrap; font-weight: 700; color: var(--ink); }
 .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
