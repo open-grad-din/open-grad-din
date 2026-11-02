@@ -210,3 +210,10 @@ details[open] summary::after { transform: rotate(45deg); }
 }
 /* 「報名」tab 未有連結時的提示 */
 .signup-toast { position: fixed; z-index: 30; left: max(16px, env(safe-area-inset-left, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(68px + env(safe-area-inset-bottom, 0px)); max-width: 428px; margin: 0 auto; padding: 12px 16px; background: var(--ink); color: var(--paper); border-radius: 14px; font-size: 15px; text-align: center; box-shadow: 3px 3px 0 var(--line); }
+/* 跳去另一頁的卡（收費頁 → 計算機，首頁 → 收費） */
+.to-calc { display: flex; align-items: center; justify-content: space-between; gap: 12px; text-decoration: none; color: var(--ink);
+  background: var(--ai-soft); border: 2px solid var(--stroke); border-radius: var(--wobble); box-shadow: 3px 3px 0 var(--line); padding: 14px 16px; }
+.to-calc b { display: block; font-family: var(--font-display); font-size: 20px; }
+.to-calc small { display: block; font-size: 14px; color: var(--muted); }
+.to-calc-go { flex: none; font-weight: 700; color: var(--shu-fg); background: var(--shu); border-radius: 999px; padding: 8px 14px; font-size: 15px; box-shadow: 2px 2px 0 var(--shu-deep); }
+.to-calc:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--line); }

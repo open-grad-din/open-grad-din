@@ -161,13 +161,6 @@ details td { padding: 4px; vertical-align: top; }
 .cut li { color: var(--shu); border: 1.5px solid currentColor; border-radius: 999px; padding: 1px 10px; font-size: 14px; }
 .history { background: var(--sage-soft); border-radius: var(--wobble2); padding: 12px 14px; font-size: 15px; }
 
-/* 收費頁 → 計算機 */
-.to-calc { display: flex; align-items: center; justify-content: space-between; gap: 12px; text-decoration: none; color: var(--ink);
-  background: var(--ai-soft); border: 2px solid var(--stroke); border-radius: var(--wobble); box-shadow: 3px 3px 0 var(--line); padding: 14px 16px; }
-.to-calc b { display: block; font-family: var(--font-display); font-size: 20px; }
-.to-calc small { display: block; font-size: 14px; color: var(--muted); }
-.to-calc-go { flex: none; font-weight: 700; color: var(--shu-fg); background: var(--shu); border-radius: 999px; padding: 8px 14px; font-size: 15px; box-shadow: 2px 2px 0 var(--shu-deep); }
-.to-calc:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--line); }
 /* 上限卡左上角的章節號，與其他章節一致 */
 .hero-no { position: absolute; top: 14px; left: 14px; font-size: 15px; font-weight: 700; color: var(--shu); border: 2px solid var(--shu); width: 30px; height: 30px; display: grid; place-items: center;
   border-radius: 48% 52% 50% 50% / 55% 45% 55% 45%; transform: rotate(-6deg); background: var(--surface); }
