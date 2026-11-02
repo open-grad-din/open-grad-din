@@ -71,7 +71,7 @@
   function renderText() {
     C.banner("demo-banner");
     document.getElementById("cap").textContent = money(CAP);
-    document.getElementById("cap-range").textContent = money(P.budgetPerHead.min) + " 至 " + money(CAP);
+    document.getElementById("cap-range").textContent = money(CAP);
     Array.prototype.forEach.call(document.querySelectorAll(".deposit"), function (s) { s.textContent = String(P.depositPerHead); });
     document.getElementById("win-line").textContent =
       (P.winRule || "勝出規則待籌委會決定，會在開放報名前公布。") + "所有家庭都按勝出的場地及方案付尾數，包括投了其他選項的家庭。";
