@@ -51,7 +51,7 @@
 .js .reveal.in .plan:nth-child(2) circle[class^="d-"] { transition-delay: .2s; } .js .reveal.in .plan:nth-child(3) circle[class^="d-"] { transition-delay: .4s; }
 
 /* 3. 場地：你家人數＋分頁（捲動時黏在頂部） */
-.dock { position: sticky; top: 0; z-index: 3; margin: 0 -18px; padding: 8px 18px 0; padding-top: max(8px, env(safe-area-inset-top, 0px));
+.dock { position: sticky; top: 0; z-index: 3; margin: 0 -18px; padding: 8px 18px 8px; border-bottom: 2px solid var(--line); padding-top: max(8px, env(safe-area-inset-top, 0px));
   background: color-mix(in srgb, var(--paper) 97%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
 .fam { display: flex; align-items: center; justify-content: space-around; gap: 4px 8px; flex-wrap: wrap; background: var(--surface); border: 2px solid var(--stroke); border-radius: var(--wobble2); box-shadow: 3px 3px 0 var(--line); padding: 6px 10px; }
 .stepper { display: grid; grid-template-columns: auto 34px 24px 34px; align-items: center; gap: 3px; }
@@ -163,7 +163,6 @@ details td { padding: 4px; vertical-align: top; }
 .tile:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--line); }
 
 /* 第二層：場地列表（頂部黏住：人數＋欄名） */
-.cols { margin: 6px -18px 0; padding: 6px 22px 6px; font-size: 13px; font-weight: 700; color: var(--muted); display: flex; justify-content: space-between; gap: 8px; border-bottom: 2px solid var(--line); }
 .dock + .shuffle-note { margin-top: 12px; }
 .list { display: flex; flex-direction: column; gap: 10px; }
 .row { background: var(--surface); border: 2px solid var(--stroke); border-radius: var(--wobble2); box-shadow: 3px 3px 0 var(--line); padding: 8px 14px 10px; }

@@ -115,8 +115,6 @@
     });
 
     // 第二層：每間場地你家要付的總數（包括自己的餐費）。
-    document.getElementById("col-total").textContent =
-      state.plan === null ? "你家總數（三個方案）" : "你家總數（" + NAMES[state.plan] + "）";
     Array.prototype.forEach.call(document.querySelectorAll("#list .mrow"), function (row) {
       var t = totals(n, Number(row.getAttribute("data-f")));
       var a = Math.min.apply(null, t), b = Math.max.apply(null, t);
