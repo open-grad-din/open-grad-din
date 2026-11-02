@@ -143,6 +143,9 @@ details td { padding: 4px; vertical-align: top; }
 /* 計算機頁 第一層：三個方案的分別 */
 .strip { display: flex; flex-direction: column; gap: 6px; margin: 0; }
 .fam + .dock { margin-top: 4px; }
+/* 提示家長先改人數：未改過之前人數框加橙邊 */
+.fam-hint { margin: 0 2px 6px; font-size: 14px; font-weight: 700; color: var(--shu-deep); }
+.fam.nudge { border-color: var(--shu); box-shadow: 3px 3px 0 var(--shu-soft); }
 .strip-lead { margin: 0; font-size: 15px; }
 .strip-lead .dotkey { white-space: nowrap; font-weight: 700; color: var(--ink); }
 .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }

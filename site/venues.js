@@ -157,6 +157,7 @@
         var d = e.target && e.target.getAttribute && e.target.getAttribute("data-d");
         if (!d) return;
         state[key] = Math.min(LIMITS[key][1], Math.max(LIMITS[key][0], state[key] + Number(d)));
+        st.parentElement.classList.remove("nudge"); // 改過人數就不再提示
         update();
       });
     });
