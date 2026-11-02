@@ -13,4 +13,4 @@ node shot.js "$PWD/og.html" "$PWD/../../site/og.png"
 node fav.js && mv favicon-32.png apple-touch-icon.png ../../site/ && cp favicon.svg ../../site/ && rm -f icon-512.png
 ```
 
-改了分享圖後，WhatsApp 可能仍顯示舊圖一段時間（它會快取預覽）。
+主要內容要放在中間 600px：WhatsApp 等會把圖裁成正方形小縮圖。分享圖網址帶部署編號（`og.png?v=…`），改圖後新分享的連結會讀新圖；舊對話的預覽仍可能是舊圖。
