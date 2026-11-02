@@ -154,7 +154,8 @@ details td { padding: 4px; vertical-align: top; }
 .tile-fam .family { flex-wrap: wrap; justify-content: center; gap: 0; max-width: 100%; }
 .tile-fam .family svg { width: var(--fw, 26px); height: auto; }
 .tile b { order: 3; font-family: var(--font-display); font-size: 25px; line-height: 1.15; font-variant-numeric: tabular-nums; }
-.tile i { order: 4; font-style: normal; font-size: 12px; font-weight: 700; color: var(--ai); line-height: 1.2; }
+/* 「最省」做成貼在格子頂邊的小標籤，不佔位置，三格對位不變 */
+.tile i { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); font-style: normal; font-size: 11px; font-weight: 700; line-height: 1; white-space: nowrap; padding: 3px 8px; border-radius: 999px; color: var(--surface); background: var(--ai); }
 .tile i:empty { display: none; }
 .tile.empty b { color: var(--line); }
 
