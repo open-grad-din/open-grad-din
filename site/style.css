@@ -136,7 +136,7 @@ h1 .ch { display: inline-block; }
 .dots i:nth-child(3n) { transform: rotate(40deg); } .dots i:nth-child(3n+1) { transform: rotate(-70deg); }
 .dots i.v { background: var(--nudge); border-color: var(--nudge); }
 /* 虛線圈不用 dashed border（iOS Safari 小圓角元素上會畫不出來），改用錐形漸變＋遮罩畫環 */
-.dots i.p, .key i.p { border: none; background: repeating-conic-gradient(var(--shu) 0 24deg, transparent 24deg 45deg);
+.dots i.p, .key i.p { border: none; background: repeating-conic-gradient(var(--kin) 0 24deg, transparent 24deg 45deg);
   -webkit-mask: radial-gradient(circle, transparent 54%, #000 56%); mask: radial-gradient(circle, transparent 54%, #000 56%); }
 .dots.play i.v, .dots.play i.p { animation: pop .4s ease both; }
 /* load 完之後：已核實的點像呼吸般一浪一浪起伏，等候核實的虛線圈慢慢轉 */
