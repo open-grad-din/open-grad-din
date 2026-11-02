@@ -108,6 +108,7 @@
       var k = Number(t.getAttribute("data-k"));
       var fam = t.querySelector(".tile-fam");
       fam.innerHTML = ""; fam.appendChild(C.family(k, state.adults, state.kids));
+      fam.style.setProperty("--fw", n > 6 ? "20px" : "26px"); // 人多時縮小，免得格子太高
       t.querySelector("b").textContent = money(shares[k]);
       t.querySelector("i").textContent = (!same && shares[k] === lo) ? "最省" : "";
       t.classList.toggle("best", !same && shares[k] === lo);
