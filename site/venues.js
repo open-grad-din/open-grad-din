@@ -55,7 +55,7 @@
     return '<div class="mrow" data-f="' + mid(m) + '">' +
       '<span class="ml">' + (single ? "" : '<span class="mn">' + esc(m.name) + '</span>') +
       '<span class="mf">每位約 <b>' + money(mid(m)) + '</b>' + (m.Fmax ? '<small>範圍</small>' : "") + '</span></span>' +
-      '<span class="mr"><b class="mt"></b><small class="ms"></small></span></div>';
+      '<span class="mr"></span></div>';
   }
   function rowHTML(v) {
     var single = v.menus.length === 1;
@@ -120,13 +120,17 @@
     Array.prototype.forEach.call(document.querySelectorAll("#list .mrow"), function (row) {
       var t = totals(n, Number(row.getAttribute("data-f")));
       var a = Math.min.apply(null, t), b = Math.max.apply(null, t);
-      var sameRow = b - a < 10;
-      row.querySelector(".mt").textContent = state.plan === null
-        ? (sameRow ? money(a) : money(a) + "–" + money(b))
-        : money(t[state.plan]);
-      row.querySelector(".ms").textContent = state.plan === null
-        ? (sameRow ? "三個方案一樣" : "視乎方案")
-        : PLAN_NAMES[state.plan];
+      var sameRow = b - a < 10, mr = row.querySelector(".mr");
+      if (state.plan !== null) {
+        mr.innerHTML = '<b class="mt">' + money(t[state.plan]) + '</b><small class="ms">' + PLAN_NAMES[state.plan] + '</small>';
+      } else if (sameRow) {
+        mr.innerHTML = '<b class="mt">' + money(a) + '</b><small class="ms">三個方案一樣</small>';
+      } else {
+        // 三個方案分開列出，最平的加深顏色。
+        mr.innerHTML = t.map(function (x, k) {
+          return '<span class="m3' + (x === a ? " best" : "") + '">' + PLAN_NAMES[k].slice(0, 1) + '<b>' + money(x) + '</b></span>';
+        }).join("");
+      }
     });
 
     document.getElementById("adults-out").textContent = String(state.adults);
