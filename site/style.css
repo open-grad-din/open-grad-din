@@ -51,11 +51,11 @@ section { display: flex; flex-direction: column; }
 .mark { background: linear-gradient(transparent 58%, var(--kin-soft) 58% 92%, transparent 92%); padding: 0 .1em; }
 
 /* ---- 首頁：開場 ---- */
-.hero { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; padding-top: 10px; }
+.hero { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; padding-top: 16px; }
 .eyebrow { font-size: 14px; color: var(--muted); letter-spacing: .18em; }
-h1 { font-family: var(--font-display); font-size: 46px; line-height: 1.2; margin: 6px 0 0; letter-spacing: .14em; font-weight: 700; }
+h1 { font-family: var(--font-display); font-size: 46px; line-height: 1.2; margin: 12px 0 0; letter-spacing: .14em; font-weight: 700; }
 h1 .ch { display: inline-block; }
-.kids { width: min(100%, 340px); height: auto; margin: 6px 0 0; overflow: visible; }
+.kids { width: min(100%, 340px); height: auto; margin: 22px 0 6px; overflow: visible; }
 .kids .ln { fill: none; stroke: var(--ink); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
 .kids .fl, .kids .eye { fill: var(--ink); }
 /* 小朋友會動：整組輕輕上落，每個輪流左右搖，帽穗跟住擺，眼睛間中眨一下，星星閃 */
@@ -73,18 +73,18 @@ h1 .ch { display: inline-block; }
 .kids .cheek { fill: var(--shu-soft); }
 .kids .c1 { fill: var(--kin); } .kids .c2 { fill: var(--ai); } .kids .c3 { fill: var(--sage); } .kids .c4 { fill: var(--shu); }
 .kids .star { fill: none; stroke: var(--kin); stroke-width: 2.5; stroke-linecap: round; }
-.sticker { position: relative; display: inline-flex; align-items: baseline; gap: 8px; margin: 14px 0 4px; padding: 10px 26px 10px 22px; background: var(--surface);
+.sticker { position: relative; display: inline-flex; align-items: baseline; gap: 8px; margin: 26px 0 10px; padding: 10px 26px 10px 22px; background: var(--surface);
   border: 2px solid var(--stroke); border-radius: var(--wobble); transform: rotate(-2deg); box-shadow: 3px 3px 0 var(--line); }
 .sticker::before { content: ""; position: absolute; top: -12px; left: 50%; width: 84px; height: 22px; transform: translateX(-50%) rotate(3deg); background: var(--tape); border-radius: 3px; opacity: .95; }
 .sticker small { font-size: 14px; color: var(--muted); letter-spacing: .14em; }
 .sticker b { font-family: var(--font-display); font-size: 48px; line-height: 1; color: var(--shu); font-variant-numeric: tabular-nums; font-weight: 700; }
-.date { margin: 8px 0 0; font-size: 17px; letter-spacing: .06em; color: var(--muted); }
+.date { margin: 16px 0 0; font-size: 17px; letter-spacing: .06em; color: var(--muted); }
 .date b { color: var(--ink); font-weight: 700; }
 .by { font-size: 13px; color: var(--muted); margin: 6px 0 0; }
 
 /* ---- 現在要做甚麼 ---- */
 .now { background: var(--surface); border: 2px solid var(--stroke); border-radius: var(--wobble2); padding: 24px 18px 18px; display: flex; flex-direction: column; gap: 14px;
-  box-shadow: 4px 4px 0 var(--line); position: relative; margin-top: 22px; width: 100%; }
+  box-shadow: 4px 4px 0 var(--line); position: relative; margin-top: 34px; width: 100%; }
 .now-tag { position: absolute; top: -13px; left: 50%; width: 96px; height: 26px; display: grid; place-items: center; transform: translateX(-50%) rotate(-2deg);
   background: var(--tape); color: var(--ink); font-weight: 700; font-size: 13px; letter-spacing: .3em; border-radius: 3px; text-indent: .3em; }
 .stage { font-family: var(--font-display); font-size: 24px; font-weight: 700; margin: 0; line-height: 1.35; }
