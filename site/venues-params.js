@@ -23,7 +23,7 @@ window.OGD_VENUES = {
       menus: [{ name: "自助餐", F: 758, quote: "每位 $758，已含加一" }],
       chips: ["橙汁 2 小時", "即影即有相攤", "標誌展示", "哈根達斯"], photos: [] },
     { type: "hotel", name: "美麗華酒店", grade: "5 星", gradeSrc: "https://www.expedia.com/Kowloon-Hotels-The-Mira-Hong-Kong-Hotel.h20879.Hotel-Information", where: "尖沙咀", url: "https://www.themirahotel.com/hong-kong/tc/",
-      menus: [{ name: "中式", F: 600, quote: "每圍 $7,200 淨價（12 位，已含加一）" },
+      menus: [{ name: "中式筵席", F: 600, quote: "每圍 $7,200 淨價（12 位，已含加一）" },
               { name: "自助餐", F: 635, quote: "每位 $635 淨價" }],
       chips: ["全晚汽水、鮮橙汁任飲"], photos: [] },
     { type: "hotel", name: "千禧新世界香港酒店", grade: "5 星", gradeSrc: "https://www.expedia.com/Kowloon-Hotels-New-World-Millennium-Hong-Kong-Hotel.h2435.Hotel-Information", where: "尖東", url: "https://newworldmillenniumhotel.com/tc/",
@@ -40,15 +40,15 @@ window.OGD_VENUES = {
       chips: ["任飲 3 小時", "即影即有相攤 2 小時"], photos: [] },
 
     { type: "rest", name: "海月（煌府）", where: "中港城", seats: "可設 38–65 席", url: "https://palace-rest.com.hk/",
-      menus: [{ name: "中式", F: 332, Fmax: 724, quote: "每席 $3,988–$8,688" }], photos: [] },
+      menus: [{ name: "中式筵席", F: 332, Fmax: 724, quote: "每席 $3,988–$8,688" }], photos: [] },
     { type: "rest", name: "囍薈", where: "尖沙咀北京道 1 號 11 樓", seats: "可設 25–35 席", url: "https://vhsupreme.com.hk/hei-tsim-sha-tsui/",
-      menus: [{ name: "中式", F: 432, Fmax: 665, quote: "每席 $5,180–$7,980" }], photos: [] },
+      menus: [{ name: "中式筵席", F: 432, Fmax: 665, quote: "每席 $5,180–$7,980" }], photos: [] },
     { type: "rest", name: "彩福皇宴", where: "尖東", seats: "可設 16–60 席", url: "https://www.choifookent.com/%e5%b0%96%e6%9d%b1%e5%ba%97-%e5%bd%a9%e7%a6%8f%e7%9a%87%e5%ae%b4/#branch",
-      menus: [{ name: "中式", F: 415, Fmax: 665, quote: "每席 $4,980–$7,980" }], photos: [] },
+      menus: [{ name: "中式筵席", F: 415, Fmax: 665, quote: "每席 $4,980–$7,980" }], photos: [] },
     { type: "rest", name: "沙田美心皇宮", where: "沙田大會堂", seats: "可設 16–54 席", url: "https://www.maximschinese.com.hk/zh/brand/1",
-      menus: [{ name: "中式", F: 407, Fmax: 573, quote: "每席 $4,880–$6,880" }], photos: [] },
+      menus: [{ name: "中式筵席", F: 407, Fmax: 573, quote: "每席 $4,880–$6,880" }], photos: [] },
     { type: "rest", name: "中環美心皇宮", where: "中環大會堂", seats: "可設 27–50 席", url: "https://www.maximschinese.com.hk/zh/brand/1",
-      menus: [{ name: "中式", F: 648, Fmax: 807, quote: "每席 $7,780–$9,680" }], photos: [] }
+      menus: [{ name: "中式筵席", F: 648, Fmax: 807, quote: "每席 $7,780–$9,680" }], photos: [] }
   ],
 
   // 篩走的場地及原因（同一原因可合併一行）。
