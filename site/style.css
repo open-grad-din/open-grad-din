@@ -1,0 +1,60 @@
+/* 手機優先的單欄版面：最上是唯一的行動，其次是數字，最後是正式資訊索引。 */
+:root {
+  --bg: #f6f7f9; --surface: #ffffff; --fg: #1d2430; --muted: #5b6573; --line: #dde1e7;
+  --accent: #0f5f6b; --accent-soft: #e2f0f1; --action: #e8a33d; --action-fg: #2a1d05;
+  --warn: #b5541c; --warn-soft: #fbeee5;
+  --font-display: "Songti TC", "Noto Serif TC", "PMingLiU", serif;
+  --font-body: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12161c; --surface: #1b212a; --fg: #e8ecf1; --muted: #9aa5b3; --line: #2c3440;
+    --accent: #5fc0cc; --accent-soft: #1d3338; --action: #f0b55a; --action-fg: #24190a;
+    --warn: #f09a63; --warn-soft: #3a2619; color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 17px; line-height: 1.6; }
+.wrap { max-width: 440px; margin: 0 auto; padding-block: 12px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex; flex-direction: column; gap: 20px; }
+.draft { background: var(--warn-soft); color: var(--warn); font-size: 14px; padding: 8px 12px; border-radius: 8px; margin: 0; font-weight: 700; }
+header { display: flex; flex-direction: column; gap: 4px; padding-top: 8px; }
+.eyebrow { font-size: 14px; color: var(--muted); letter-spacing: .04em; }
+h1 { font-family: var(--font-display); font-size: 30px; line-height: 1.25; margin: 0; text-wrap: balance; }
+.why { font-size: 18px; margin: 8px 0 0; }
+.by { font-size: 14px; color: var(--muted); margin: 0; }
+h2 { font-size: 15px; font-weight: 700; color: var(--muted); letter-spacing: .06em; margin: 0 0 8px; }
+section { display: flex; flex-direction: column; }
+.now { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 14px; }
+.stage { font-size: 22px; font-weight: 700; margin: 0; }
+.deadline { margin: 0; color: var(--muted); }
+.deadline b { color: var(--fg); }
+.btn { display: block; text-align: center; background: var(--action); color: var(--action-fg); font-weight: 700; font-size: 19px;
+  padding: 16px; border-radius: 12px; text-decoration: none; }
+a:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.btn-note { font-size: 14px; color: var(--muted); margin: -6px 0 0; text-align: center; }
+.steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; font-size: 15px; }
+.steps li { display: flex; gap: 10px; align-items: center; color: var(--muted); }
+.steps li::before { content: ""; width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--line); flex: none; }
+.steps li.done::before { background: var(--accent); border-color: var(--accent); }
+.steps li.cur { color: var(--fg); font-weight: 700; }
+.steps li.cur::before { border-color: var(--action); background: var(--action); }
+.big { font-size: 44px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; margin: 0; }
+.big small { font-size: 18px; font-weight: 500; color: var(--muted); }
+.bar { height: 12px; background: var(--accent-soft); border-radius: 6px; overflow: hidden; margin-top: 10px; }
+.bar span { display: block; height: 100%; width: 0; background: var(--accent); }
+.fine { font-size: 14px; color: var(--muted); margin: 8px 0 0; }
+.payee, .index { list-style: none; margin: 0; padding: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
+.payee li { padding: 14px 16px; display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; }
+.payee li + li, .index li + li { border-top: 1px solid var(--line); }
+.payee .who { font-weight: 700; min-width: 0; }
+.payee .got { text-align: right; font-size: 15px; font-variant-numeric: tabular-nums; }
+.payee .wait { grid-column: 1 / -1; font-size: 15px; color: var(--muted); }
+.payee .wait.slow { color: var(--warn); font-weight: 700; }
+.index a { display: flex; justify-content: space-between; gap: 12px; padding: 14px 16px; color: var(--fg); text-decoration: none; }
+.index a span:last-child { color: var(--muted); font-size: 14px; white-space: nowrap; }
+.official { background: var(--accent-soft); border-radius: 12px; padding: 12px 14px; margin: 10px 0 0; font-size: 16px; }
+footer { font-size: 13px; color: var(--muted); display: flex; flex-direction: column; gap: 2px; word-break: break-all; }
+footer a { color: var(--accent); }
