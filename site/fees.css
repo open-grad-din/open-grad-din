@@ -146,6 +146,17 @@ details td { padding: 4px; vertical-align: top; }
 /* 提示家長先改人數：未改過之前人數框加橙邊 */
 .fam-hint { margin: 0 2px 6px; font-size: 14px; font-weight: 700; color: var(--shu-deep); }
 .fam.nudge { border-color: var(--shu); box-shadow: 3px 3px 0 var(--shu-soft); }
+/* 未改過人數：人數框外圈一下一下擴散，＋ 掣輕輕跳動，提醒家長先填人數；按過一次就停 */
+.fam.nudge { animation: nudge-ring 1.8s ease-out infinite; }
+.fam.nudge .stepper button[data-d="1"]:not(:disabled) { animation: nudge-hop 1.8s ease-in-out infinite; }
+.fam.nudge .stepper + .stepper button[data-d="1"]:not(:disabled) { animation-delay: .25s; }
+@keyframes nudge-ring {
+  0%   { box-shadow: 3px 3px 0 var(--shu-soft), 0 0 0 0 color-mix(in srgb, var(--shu) 45%, transparent); }
+  70%  { box-shadow: 3px 3px 0 var(--shu-soft), 0 0 0 10px color-mix(in srgb, var(--shu) 0%, transparent); }
+  100% { box-shadow: 3px 3px 0 var(--shu-soft), 0 0 0 0 color-mix(in srgb, var(--shu) 0%, transparent); }
+}
+@keyframes nudge-hop { 0%, 60%, 100% { transform: none; } 70% { transform: translateY(-3px) scale(1.08); } 80% { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .fam.nudge, .fam.nudge .stepper button { animation: none !important; } }
 .strip-lead { margin: 0; font-size: 15px; }
 .strip-lead .dotkey { white-space: nowrap; font-weight: 700; color: var(--ink); }
 .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
