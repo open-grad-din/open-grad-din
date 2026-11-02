@@ -12,7 +12,7 @@
   // 方案一律「編號＋名字」一起寫（Ken 2026-11-02：只寫編號會混亂）。
   var NAMES = PLAN_NAMES;
 
-  // ---- 場地詳情（相片、賣點、報價、連結），按場地名才展開 ----
+  // ---- 場地相片及官方連結，按場地名彈出視窗 ----
   var TABLES = "";
   for (var i = 0; i < 9; i++) {
     TABLES += '<circle cx="' + (40 + (i % 3) * 60) + '" cy="' + (48 + Math.floor(i / 3) * 36) + '" r="13"/>';
@@ -35,38 +35,29 @@
       '<button class="gal-btn prev" aria-label="上一張" data-dir="-1">‹</button>' +
       '<button class="gal-btn next" aria-label="下一張" data-dir="1">›</button></div>';
   }
-  function quoteHTML(m) {
-    var over = C.worstPerHead(C.top(m)) > CAP;
-    return '<li><b>' + esc(m.name) + '</b>：' + esc(m.quote) +
-      (m.Fmax ? '（範圍 ' + money(m.F) + '–' + money(m.Fmax) + '，取中位數 ' + money(mid(m)) + '）' : "") +
-      (over ? '<span class="over">按估算可能超出每位 ' + money(CAP) + ' 上限，請籌委會覆核。</span>' : "") + '</li>';
-  }
-  function moreHTML(v) {
+  // 按場地名彈出視窗：只有相片及官方網站連結（Ken 2026-11-02）。
+  function popHTML(v) {
     var link = v.url
       ? '<a class="link" href="' + esc(v.url) + '" target="_blank" rel="noopener">官方網站 ↗</a>'
       : '<span class="link none">官方連結待補</span>';
-    return '<div class="row-more" hidden>' +
-      galleryHTML(v) +
-      (v.chips && v.chips.length ? '<div class="chips">' + v.chips.map(function (c) { return '<span>' + esc(c) + '</span>'; }).join("") + '</div>' : "") +
-      '<ul class="quotes">' + v.menus.map(quoteHTML).join("") + '</ul>' +
-      '<div class="row-foot"><span class="where">' + esc(v.where || "") + '</span>' + link + '</div>' +
-      '</div>';
+    return galleryHTML(v) + '<div class="pop-foot">' + link + '</div>';
   }
 
   // ---- 一行一間 ----
   function menuRowHTML(m) {
     return '<div class="mrow" data-f="' + mid(m) + '">' +
       '<span class="ml"><span class="mn"><span class="mtag ' + (/自助/.test(m.name) ? "buffet" : "chinese") + '">' + esc(m.name) + '</span></span>' +
-      '<span class="mf">場地餐飲費每位約 <b>' + money(mid(m)) + '</b></span></span></div>';
+      '<span class="mf">場地餐飲費每位約 <b>' + money(mid(m)) + '</b></span></span>' +
+      (C.worstPerHead(C.top(m)) > CAP ? '<span class="over">按估算可能超出每位 ' + money(CAP) + ' 上限，請籌委會覆核。</span>' : "") +
+      '</div>';
   }
-  function rowHTML(v) {
+  function rowHTML(v, i) {
     return '<article class="row">' +
-      '<button type="button" class="row-head" aria-expanded="false">' +
+      '<button type="button" class="row-head" data-i="' + i + '" aria-haspopup="dialog">' +
         '<span class="tag ' + v.type + '">' + (v.grade ? esc(v.grade) : "") + TYPE[v.type] + '</span>' +
         '<span class="name">' + esc(v.name) + '</span>' +
-        '<span class="chev" aria-hidden="true">▾</span></button>' +
+        '<span class="chev" aria-hidden="true">相片 ›</span></button>' +
       v.menus.map(menuRowHTML).join("") +
-      moreHTML(v) +
       '</article>';
   }
 
@@ -171,22 +162,26 @@
 
     var list = document.getElementById("list");
     list.innerHTML = ORDER.map(rowHTML).join("");
+    var pop = document.getElementById("venue-pop"), popBody = document.getElementById("pop-body"), lastHead = null;
     list.addEventListener("click", function (e) {
-      var head = e.target.closest(".row-head");
-      if (head) {
-        var open = head.getAttribute("aria-expanded") !== "true";
-        head.setAttribute("aria-expanded", String(open));
-        head.parentElement.querySelector(".row-more").hidden = !open;
-        pickActive();
-        return;
-      }
+      var head = e.target.closest(".row-head"); if (!head) return;
+      var v = ORDER[Number(head.getAttribute("data-i"))];
+      document.getElementById("pop-h").textContent = v.name;
+      popBody.innerHTML = popHTML(v);
+      lastHead = head;
+      if (pop.showModal) pop.showModal(); else pop.setAttribute("open", "");
+    });
+    function closePop() { if (pop.close) pop.close(); else pop.removeAttribute("open"); }
+    pop.addEventListener("click", function (e) {
+      if (e.target === pop || e.target.closest(".pop-x")) { closePop(); return; } // 按外面灰色位或 × 關閉
       var b = e.target.closest(".gal-btn"); if (!b) return;
       var g = b.parentElement.querySelector(".gallery");
       g.scrollBy({ left: Number(b.dataset.dir) * g.querySelector(".shot").offsetWidth, behavior: "smooth" });
     });
+    pop.addEventListener("close", function () { popBody.innerHTML = ""; if (lastHead) lastHead.focus(); });
     // 相片：電腦用左右箭咀或按住拖動；手機用手指掃。
     var drag = null;
-    list.addEventListener("pointerdown", function (e) {
+    pop.addEventListener("pointerdown", function (e) {
       var g = e.target.closest(".gallery"); if (!g || e.pointerType !== "mouse") return;
       drag = { g: g, x: e.clientX, left: g.scrollLeft }; g.classList.add("dragging"); e.preventDefault();
     });
