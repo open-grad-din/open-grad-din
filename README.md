@@ -39,6 +39,7 @@
   - `summaryCsvUrl`（收款人分頁），第一行必須是：`收款人,已核實,未核實,最早未核實提交日期`。每位收款人一行；收款人寫「A 班財務」等；日期格式 `YYYY-MM-DD`。示範：[`site/data/demo-summary.csv`](site/data/demo-summary.csv)。
   - `infoCsvUrl`（首頁文字分頁），第一行是 `項目,內容`，每行一項，例如現階段、截止時間（`YYYY-MM-DD HH:MM`）、各文件連結（只接受 https）。示範：[`site/data/demo-info.csv`](site/data/demo-info.csv)。
   - 「現階段」必須是以下其中一項：籌委會公布規則、報名、投票及交訂金、公布投票結果、收尾數、晚宴。
+- 收費詳細頁 [`site/fees.html`](site/fees.html)：數字全部在 [`site/fees-params.js`](site/fees-params.js)，每項寫明來源，由籌委會通過；頁面按公開公式算出家庭例子（按家庭及按人頭兩種）。第 0 段通過後凍結，改動要經 PR 及統籌批准。報名表格內的例子金額必須照抄此頁。
 - Google 發佈的 CSV 約每 5 分鐘更新一次，試算表改動後網頁可能稍遲才反映。
 - 本地測試：在 `site/` 目錄執行 `python3 -m http.server`，打開 http://localhost:8000 。
 

@@ -25,11 +25,11 @@ jobs:
       - uses: actions/checkout@v4
 
       # 把這次部署的 commit 編號寫進頁底，家長可以點擊查看該版本的原始碼。
-      # 同一編號亦加在 CSS 及 JS 連結後，令瀏覽器每次部署都載入新版，不會用舊的快取。
+      # 同一編號亦加在 CSS 及 JS 連結後（所有 HTML 頁），令瀏覽器每次部署都載入新版，不會用舊的快取。
       - name: 寫入 commit 編號
         run: |
-          sed -i "s/__COMMIT_SHORT__/${GITHUB_SHA:0:7}/g; s/__COMMIT__/${GITHUB_SHA}/g" site/index.html
-          grep -q "${GITHUB_SHA}" site/index.html
+          sed -i "s/__COMMIT_SHORT__/${GITHUB_SHA:0:7}/g; s/__COMMIT__/${GITHUB_SHA}/g" site/*.html
+          for f in site/*.html; do grep -q "${GITHUB_SHA}" "$f"; done
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
