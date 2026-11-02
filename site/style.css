@@ -135,7 +135,8 @@ h1 .ch { display: inline-block; }
 
 
 /* ---- 正式資訊 ---- */
-.official { margin: 0; font-size: 15px; display: flex; gap: 12px; align-items: flex-start; }
+.official { margin: 0; font-size: 15px; line-height: 1.7; display: flex; gap: 12px; align-items: flex-start; background: var(--shu-soft); border-radius: var(--wobble2); padding: 14px 16px; }
+#idx-section { margin-top: -8px; }
 .official::before { content: "正"; flex: none; width: 32px; height: 32px; display: grid; place-items: center; border: 2px solid var(--shu); color: var(--shu); background: var(--shu-soft); border-radius: 48% 52% 50% 50% / 52% 48% 52% 48%; font-family: var(--font-display); font-weight: 700; font-size: 16px; transform: rotate(-8deg); margin-top: 2px; }
 
 /* ---- 頁底 ---- */
