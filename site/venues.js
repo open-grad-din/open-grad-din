@@ -57,7 +57,7 @@
   function menuRowHTML(m, single) {
     return '<div class="mrow" data-f="' + mid(m) + '">' +
       '<span class="ml">' + (single ? "" : '<span class="mn">' + esc(m.name) + '</span>') +
-      '<span class="mf">每位約 <b>' + money(mid(m)) + '</b></span></span></div>';
+      '<span class="mf">場地餐飲費每位約 <b>' + money(mid(m)) + '</b></span></span></div>';
   }
   function rowHTML(v) {
     var single = v.menus.length === 1;
