@@ -54,19 +54,19 @@
   }
 
   // ---- 一行一間 ----
-  function menuRowHTML(m, single) {
+  function menuRowHTML(m) {
     return '<div class="mrow" data-f="' + mid(m) + '">' +
-      '<span class="ml">' + (single ? "" : '<span class="mn">' + esc(m.name) + '</span>') +
+      '<span class="ml"><span class="mn"><span class="mtag">' + esc(m.name) + '</span></span>' +
       '<span class="mf">場地餐飲費每位約 <b>' + money(mid(m)) + '</b></span></span></div>';
   }
   function rowHTML(v) {
-    var single = v.menus.length === 1;
     return '<article class="row">' +
       '<button type="button" class="row-head" aria-expanded="false">' +
         '<span class="tag ' + v.type + '">' + TYPE[v.type] + '</span>' +
+        (v.grade ? '<span class="tag grade">' + esc(v.grade) + '</span>' : "") +
         '<span class="name">' + esc(v.name) + '</span>' +
         '<span class="chev" aria-hidden="true">▾</span></button>' +
-      v.menus.map(function (m) { return menuRowHTML(m, single); }).join("") +
+      v.menus.map(menuRowHTML).join("") +
       moreHTML(v) +
       '</article>';
   }
