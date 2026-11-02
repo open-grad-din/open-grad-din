@@ -8,6 +8,8 @@
   var VP = C.VP, V = VP.venues, S = C.S, M = C.M, G = C.G, N = C.N, CAP = C.CAP, FAVG = C.FAVG, PLANS = C.PLANS;
   var money = C.money, esc = C.esc, mid = C.mid, totals = C.totals, round10 = C.round10, PLAN_NAMES = C.PLAN_NAMES;
   var TYPE = { hotel: "酒店", rest: "酒樓" };
+  // 這一頁只用方案名字，不用 ①②③（Ken 2026-11-02：數字編號令人混亂）。
+  var NAMES = PLAN_NAMES.map(function (s) { return s.replace(/^[①②③]\s*/, ""); });
 
   // ---- 場地詳情（相片、賣點、報價、連結），按場地名才展開 ----
   var TABLES = "";
@@ -91,7 +93,7 @@
     var box = document.getElementById("tiles");
     box.innerHTML = PLAN_NAMES.map(function (name, k) {
       return '<button type="button" class="tile" data-k="' + k + '" aria-pressed="false">' +
-        '<small>' + name + '</small><b></b><i></i></button>';
+        '<small>' + NAMES[k] + '</small><b></b><i></i></button>';
     }).join("");
   }
 
@@ -116,19 +118,19 @@
 
     // 第二層：每間場地你家要付的總數（包括自己的餐費）。
     document.getElementById("col-total").textContent =
-      state.plan === null ? "你家總數（三方案）" : "你家總數（" + PLAN_NAMES[state.plan].slice(0, 1) + "）";
+      state.plan === null ? "你家總數（三個方案）" : "你家總數（" + NAMES[state.plan] + "）";
     Array.prototype.forEach.call(document.querySelectorAll("#list .mrow"), function (row) {
       var t = totals(n, Number(row.getAttribute("data-f")));
       var a = Math.min.apply(null, t), b = Math.max.apply(null, t);
       var sameRow = b - a < 10, mr = row.querySelector(".mr");
       if (state.plan !== null) {
-        mr.innerHTML = '<b class="mt">' + money(t[state.plan]) + '</b><small class="ms">' + PLAN_NAMES[state.plan] + '</small>';
+        mr.innerHTML = '<b class="mt">' + money(t[state.plan]) + '</b><small class="ms">' + NAMES[state.plan] + '</small>';
       } else if (sameRow) {
         mr.innerHTML = '<b class="mt">' + money(a) + '</b><small class="ms">三個方案一樣</small>';
       } else {
         // 三個方案分開列出，最平的加深顏色。
         mr.innerHTML = t.map(function (x, k) {
-          return '<span class="m3' + (x === a ? " best" : "") + '">' + PLAN_NAMES[k].slice(0, 1) + '<b>' + money(x) + '</b></span>';
+          return '<span class="m3' + (x === a ? " best" : "") + '">' + NAMES[k] + '<b>' + money(x) + '</b></span>';
         }).join("");
       }
     });
@@ -197,8 +199,8 @@
     var avg = Math.round(N / G * 10) / 10, avgTxt = (avg % 1 ? "約 " : "") + avg;
     document.getElementById("avg-line").textContent =
       "三個方案分擔的是同一筆錢（老師餐和雜費），分別只在於按人頭攤還是按家庭攤。按估算，出席總人數約 " + N +
-      " 位、出席畢業生約 " + G + " 位，即平均每家 " + avgTxt + " 人。一個家庭的人數剛好等於平均時，按人頭攤（①）和按家庭攤（③）付的一樣，" +
-      "② 亦一樣，所以 2 大 1 小的家庭三個方案差不多。人數多過平均的家庭，按家庭攤（③）較省；人數少過平均的（例如 1 大 1 小），按人頭攤（①）較省。" +
+      " 位、出席畢業生約 " + G + " 位，即平均每家 " + avgTxt + " 人。一個家庭的人數剛好等於平均時，「按人頭」和「按家庭」付的一樣，" +
+      "「雜費按人頭」亦一樣，所以 2 大 1 小的家庭三個方案差不多。人數多過平均的家庭，「按家庭」較省；人數少過平均的（例如 1 大 1 小），「按人頭」較省。" +
       "實際平均人數要報名截止才知道，差距會隨之改變。";
     document.getElementById("assume-line").textContent =
       "假設老師和職員 " + S + " 位、雜費約 " + money(M) + "、出席畢業生 " + G + " 位、出席總人數 " + N + " 位（包括畢業生）。頂部三個方案的分擔金額以名單平均餐費計，場地之間只差幾十元。";
