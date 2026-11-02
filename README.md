@@ -39,7 +39,7 @@
   - `infoCsvUrl`（首頁文字分頁），第一行是 `項目,內容`，每行一項，例如現階段、截止時間（`YYYY-MM-DD HH:MM`）、各文件連結（只接受 https）。每頁底部導覽的「報名」tab 讀 `報名表格連結` 一行，必須是 Google 表格網址才會在新分頁打開；未填時按下會提示「報名尚未開始」。示範：[`site/data/demo-info.csv`](site/data/demo-info.csv)。
   - 「現階段」必須是以下其中一項：籌委會公布規則、報名、投票及交訂金、公布投票結果、收尾數、晚宴。
 - 收費頁 [`site/fees.html`](site/fees.html)：每位上限、錢用在哪、三個分擔方案圖解、怎樣選出及細節。數字全部在 [`site/fees-params.js`](site/fees-params.js)，每項寫明來源，由籌委會通過。報名表格內的例子金額必須照抄網站。
-- 計算機頁 [`site/venues.html`](site/venues.html)：候選場地卡（相片、每位餐費、官方連結，次序每次隨機），每張卡按你家人數即時計出三個方案的總數。場地名單、報價、篩走原因在 [`site/venues-params.js`](site/venues-params.js)，由籌委會提供；相片必須由籌委會自己拍攝或獲場地授權。兩頁共用的公式在 [`site/fees-core.js`](site/fees-core.js)。第 0 段通過後凍結，改動要經 PR 及統籌批准。
+- 計算機頁 [`site/venues.html`](site/venues.html)：填你家人數，先顯示三個分擔方案對你家的分別，再一行一間列出候選場地（每位餐費、你家總數；次序每次隨機），按場地名展開相片、報價及官方連結。場地名單、報價、篩走原因在 [`site/venues-params.js`](site/venues-params.js)，由籌委會提供；相片必須由籌委會自己拍攝或獲場地授權。兩頁共用的公式在 [`site/fees-core.js`](site/fees-core.js)。第 0 段通過後凍結，改動要經 PR 及統籌批准。
 - Google 發佈的 CSV 約每 5 分鐘更新一次，試算表改動後網頁可能稍遲才反映。
 - 本地測試：在 `site/` 目錄執行 `python3 -m http.server`，打開 http://localhost:8000 。
 

@@ -18,12 +18,11 @@
   <header class="page-head">
     <span class="eyebrow">K3 畢業晚宴 · 計算機</span>
     <h1 class="page-h">你家要付多少</h1>
-    <p class="muted">填你家出席謝師宴的人數（小朋友包括畢業生），每個候選場地都會即時計出三個分擔方案下你家的總數。</p>
+    <p class="muted">填你家出席謝師宴的人數（小朋友包括畢業生），先看三個方案對你家的分別，再比較各場地你家要付的總數。</p>
   </header>
 
-  <!-- 3. 場地卡 + 你家要付多少 -->
-  <section aria-labelledby="h-cards" id="venues">
-    <h2 class="vh" id="h-cards">候選場地</h2>
+  <section aria-labelledby="h-list" id="venues">
+    <h2 class="vh" id="h-list">你家人數、三個方案的分別、候選場地</h2>
     <div class="dock">
       <div class="fam" aria-label="你家出席人數">
         <div class="stepper" data-key="adults">
@@ -39,17 +38,22 @@
           <button type="button" data-d="1" aria-label="小朋友加一">＋</button>
         </div>
       </div>
-      <div class="seg" role="tablist">
-        <button role="tab" id="tab-hotel" aria-selected="true">酒店 <small id="n-hotel"></small></button>
-        <button role="tab" id="tab-rest" aria-selected="false">中式酒樓 <small id="n-rest"></small></button>
-      </div>
     </div>
-    <p class="shuffle-note">為公平起見，每次打開這一頁，先顯示哪個分頁及場地的先後次序都是隨機排列，排得前不代表推薦。</p>
-    <div class="cards" id="cards" aria-live="polite"></div>
+
+    <!-- 第一層：三個方案的分別（和場地幾乎無關） -->
+    <div class="strip">
+      <p class="strip-lead">除自己的餐費外，你家還要分擔老師餐和雜費。三個方案下你家分擔的金額：</p>
+      <div class="tiles" id="tiles" role="group" aria-label="三個方案，按一個可只看該方案的總數"></div>
+      <p class="strip-note" id="calc-note"></p>
+    </div>
+
+    <!-- 第二層：候選場地，一行一間，按你家人數即時計總數 -->
+    <div class="cols" aria-hidden="true"><span>場地 · 每位餐費</span><span id="col-total">你家總數</span></div>
+    <p class="shuffle-note">為公平起見，每次打開這一頁，場地次序都隨機排列，排得前不代表推薦。按場地名可看相片、報價及官方連結。</p>
+    <div class="list" id="list"></div>
     <div class="notice">
       <b>注意事項</b>
       <ul>
-        <li id="calc-note"></li>
         <li>假設的例子，不是實數：用預計人數及預計雜費算出，實數要報名截止後才知道，屆時會公布。</li>
         <li>報價僅供參考，實際價錢及檔期以場地書面確認為準。</li>
       </ul>
@@ -75,10 +79,10 @@
       <p id="avg-line"></p>
     </details>
     <details>
-      <summary>場地卡的金額怎樣算</summary>
+      <summary>金額怎樣算</summary>
       <ul>
         <li>每位餐費已計入 10% 服務費。中式按每圍 12 位計。</li>
-        <li>有價錢範圍的場地（例如酒樓不同菜式、酒店預計加價），用範圍的中位數作「每位約」，並寫明範圍。</li>
+        <li>有價錢範圍的場地（例如酒樓不同菜式、酒店預計加價），用範圍的中位數計，並在場地詳情寫明範圍。</li>
         <li>酒樓價錢是否已含加一，仍要向酒樓確認。</li>
         <li id="assume-line"></li>
         <li>老師餐按同一場地的每位餐費計。</li>
