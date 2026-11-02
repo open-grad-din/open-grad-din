@@ -165,8 +165,6 @@ footer .ver::before { content: ""; width: 8px; height: 8px; border-radius: 50%; 
 .tabbar svg { width: 24px; height: 24px; }
 .tabbar a[aria-current="page"] { color: var(--ink); font-weight: 700; }
 .tabbar a[aria-current="page"] svg { color: var(--shu); }
-.tabbar a[data-signup] { color: var(--shu-deep); font-weight: 700; }
-.tabbar a[data-signup] svg { color: var(--shu); }
 
 /* ---- 捲動時淡入（只在有 JS 及容許動畫時） ---- */
 .js .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s cubic-bezier(.2, .7, .2, 1); }
