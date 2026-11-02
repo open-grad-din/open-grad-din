@@ -4,7 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#fcf7f4" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1b161a" media="(prefers-color-scheme: dark)">
   <title>老師餐和雜費</title>
+  <link rel="preload" href="fonts/ogd-kai.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="style.css?v=__COMMIT_SHORT__">
   <link rel="stylesheet" href="fees.css?v=__COMMIT_SHORT__">
 </head>
@@ -12,22 +15,23 @@
 <div class="wrap">
   <p id="demo-banner" class="draft" hidden>示範版：以下所有數字都是假資料，規則細節亦未經籌委會通過。</p>
 
-  <header>
-    <span class="eyebrow"><a href="./">← K3 畢業晚宴首頁</a></span>
-    <h1>晚宴費用<br>一分鐘看明白</h1>
+  <header class="page-head">
+    <span class="eyebrow">K3 畢業晚宴 · 收費</span>
+    <h1 class="page-h">晚宴費用<br>一分鐘看明白</h1>
     <p class="by" id="version"></p>
   </header>
 
   <!-- 1. 最重要的一個數字 -->
   <section class="hero" aria-labelledby="cap-h">
+    <span class="seal hero-seal" aria-hidden="true">上<br>限</span>
     <p class="hero-kicker">無論哪個方案勝出</p>
     <p class="hero-num" id="cap-h">每位最多 <b id="cap"></b></p>
     <p class="hero-sub">不會超過之前投票定的上限（<span id="cap-range"></span>）。雜費會控制在這個上限之內。</p>
   </section>
 
   <!-- 2. 錢用在哪 -->
-  <section aria-labelledby="where-h">
-    <h2 id="where-h">每位的錢用在哪（假設的例子）</h2>
+  <section aria-labelledby="where-h" class="reveal">
+    <h2 class="sec-h" id="where-h"><span class="no">1</span>每位的錢用在哪</h2>
     <p class="assume">以下金額是用預計人數及預計雜費算出的<b>假設例子，不是實數</b>。實數要報名截止後才知道，屆時會公布。</p>
     <div class="stack" id="stack" role="img"></div>
     <ul class="legend">
@@ -39,15 +43,16 @@
   </section>
 
   <!-- 3. 三個方案：圖解 -->
-  <section aria-labelledby="plan-h">
-    <h2 id="plan-h">三個方案：老師餐和雜費由誰分擔</h2>
+  <section aria-labelledby="plan-h" class="reveal">
+    <h2 class="sec-h" id="plan-h"><span class="no">2</span>三個方案</h2>
+    <p class="lead">老師餐和雜費由誰分擔。</p>
     <p class="hint">以一家 2 大 1 小為例。點點在誰身上，就由誰分擔：<br><span class="key"><i class="dot teach"></i>老師餐　<i class="dot misc"></i>雜費</span></p>
     <div class="plans" id="plans"></div>
   </section>
 
   <!-- 4. 揀你家人數 -->
-  <section aria-labelledby="calc-h">
-    <h2 id="calc-h">我家應該揀哪一個？</h2>
+  <section aria-labelledby="calc-h" class="reveal">
+    <h2 class="sec-h" id="calc-h"><span class="no">3</span>我家揀哪一個？</h2>
     <p class="hint">揀你家人數，看三個方案下你家要分擔多少老師餐和雜費。</p>
     <div class="calc">
       <div class="stepper" data-key="adults">
@@ -76,8 +81,8 @@
   </section>
 
   <!-- 5. 怎樣選出 -->
-  <section aria-labelledby="vote-h">
-    <h2 id="vote-h">怎樣選出方案</h2>
+  <section aria-labelledby="vote-h" class="reveal">
+    <h2 class="sec-h" id="vote-h"><span class="no">4</span>怎樣選出方案</h2>
     <ol class="flow">
       <li><b>填表、投票</b><span>和場地一起投，每位畢業生一票。</span></li>
       <li><b>付訂金</b><span>每位 $<span class="deposit"></span>，三個方案都一樣。</span></li>
@@ -88,8 +93,8 @@
   </section>
 
   <!-- 6. 細節，收起 -->
-  <section aria-labelledby="more-h">
-    <h2 id="more-h">想知多一點</h2>
+  <section aria-labelledby="more-h" class="reveal">
+    <h2 class="sec-h" id="more-h"><span class="no">5</span>想知多一點</h2>
     <details>
       <summary>怎樣保證不超過上限？</summary>
       <p id="mcap-line"></p>
@@ -119,20 +124,29 @@
     </details>
   </section>
 
-  <section class="signup" aria-labelledby="signup-h">
-    <h2 id="signup-h">看完了？去報名</h2>
+  <section class="signup reveal" aria-labelledby="signup-h">
+    <h2 class="sec-h" id="signup-h"><span class="no">✿</span>看完了？去報名</h2>
     <a class="btn" id="signup-btn" target="_blank" rel="noopener" hidden>去報名及投票</a>
     <p class="btn-note" id="signup-note">載入中…</p>
   </section>
 
   <footer>
-    <span>本頁版本 <a id="commit-link">__COMMIT_SHORT__</a> ·
+    <span><span class="ver">本頁版本 <a id="commit-link">__COMMIT_SHORT__</a></span> ·
       <a href="https://github.com/open-grad-din/open-grad-din/blob/main/site/fees-params.js">本頁數字及來源</a> ·
       <a href="https://github.com/open-grad-din/open-grad-din/commits/main/site/fees-params.js">數字改動紀錄</a></span>
   </footer>
 </div>
 
+<div class="tabbar">
+  <nav aria-label="主要頁面">
+    <a href="./"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg>首頁</a>
+    <a href="fees.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15 9.2c-.6-1-1.7-1.5-3-1.5-1.7 0-3 .9-3 2.2 0 3 6 1.6 6 4.4 0 1.3-1.3 2.2-3 2.2-1.4 0-2.6-.6-3.1-1.6M12 6v1.7M12 16.5V18"/></svg>收費</a>
+    <a href="venues.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>場地</a>
+  </nav>
+</div>
+
 <script>window.OGD_COMMIT = "__COMMIT__";</script>
+<script src="ui.js?v=__COMMIT_SHORT__"></script>
 <script src="config.js?v=__COMMIT_SHORT__"></script>
 <script src="signup.js?v=__COMMIT_SHORT__"></script>
 <script src="fees-params.js?v=__COMMIT_SHORT__"></script>
