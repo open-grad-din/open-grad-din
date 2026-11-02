@@ -123,7 +123,7 @@ h1 .ch { display: inline-block; }
 #prog-section { margin-top: 16px; }
 .updated { font-size: 13px; color: var(--muted); margin: -8px 0 12px; }
 .tally { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.big { font-family: var(--font-display); font-size: 68px; font-weight: 700; color: var(--ai); line-height: 1; font-variant-numeric: tabular-nums; margin: 0; }
+.big { font-family: var(--font-display); font-size: 68px; font-weight: 700; color: var(--nudge); line-height: 1; font-variant-numeric: tabular-nums; margin: 0; }
 .big .of { font-family: var(--font-body); font-size: 18px; font-weight: 500; color: var(--muted); margin-left: 4px; white-space: nowrap; }
 .seal { flex: none; width: 78px; height: 78px; border: 3px solid var(--shu); color: var(--shu); border-radius: 48% 52% 50% 50% / 52% 48% 52% 48%; display: grid; place-items: center;
   font-family: var(--font-display); font-weight: 700; font-size: 24px; line-height: 1.05; text-align: center; transform: rotate(-10deg);
@@ -134,7 +134,7 @@ h1 .ch { display: inline-block; }
 .dots { display: grid; grid-template-columns: repeat(14, 1fr); gap: 6px; margin-top: 18px; }
 .dots i { aspect-ratio: 1; border-radius: 48% 52% 50% 50% / 52% 48% 52% 48%; border: 1.5px solid var(--stroke); background: var(--surface); }
 .dots i:nth-child(3n) { transform: rotate(40deg); } .dots i:nth-child(3n+1) { transform: rotate(-70deg); }
-.dots i.v { background: var(--ai); border-color: var(--ai); }
+.dots i.v { background: var(--nudge); border-color: var(--nudge); }
 /* 虛線圈不用 dashed border（iOS Safari 小圓角元素上會畫不出來），改用錐形漸變＋遮罩畫環 */
 .dots i.p, .key i.p { border: none; background: repeating-conic-gradient(var(--shu) 0 24deg, transparent 24deg 45deg);
   -webkit-mask: radial-gradient(circle, transparent 54%, #000 56%); mask: radial-gradient(circle, transparent 54%, #000 56%); }
@@ -147,7 +147,7 @@ h1 .ch { display: inline-block; }
 @keyframes pop { from { opacity: 0; scale: 0; } 70% { scale: 1.25; } to { opacity: 1; scale: 1; } }
 .key { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 12px 0 0; padding: 0; list-style: none; font-size: 14px; color: var(--muted); }
 .key i { display: inline-block; width: 11px; height: 11px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; border: 1.5px solid var(--stroke); }
-.key i.v { background: var(--ai); border-color: var(--ai); }
+.key i.v { background: var(--nudge); border-color: var(--nudge); }
 
 
 /* ---- 正式資訊 ---- */
