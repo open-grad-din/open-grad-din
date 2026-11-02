@@ -204,27 +204,6 @@
     if (ui) ui.whenSeen(dots.hidden ? num : dots, go); else go();
   }
 
-  function renderIndex(info) {
-    var items = [
-      ["正式通告", "通告連結", info["通告日期"] || ""],
-      ["規則（投票、訂金、截止）", "規則連結", info["規則凍結日期"] ? "已凍結 " + info["規則凍結日期"] : ""],
-      ["收費計法及場地", "詳細頁連結", info["詳細頁版本"] || ""]
-    ];
-    var ul = document.getElementById("index");
-    items.forEach(function (it) {
-      var href = safeUrl(info[it[1]] || "");
-      if (!href) return;
-      var a = el("a");
-      a.href = href;
-      a.appendChild(el("span", it[0]));
-      a.appendChild(el("span", it[2]));
-      var li = el("li");
-      li.appendChild(a);
-      ul.appendChild(li);
-    });
-    document.getElementById("idx-section").hidden = false;
-  }
-
   function setFooter() {
     [["src-summary", config.summaryCsvUrl], ["src-info", config.infoCsvUrl]].forEach(function (s) {
       var a = document.getElementById(s[0]);
@@ -266,7 +245,7 @@
       renderHeader(info);
       renderNow(info, now);
       renderProgress(payees, info);
-      renderIndex(info);
+      document.getElementById("idx-section").hidden = false;
       status.textContent = "資料讀取時間：" + now.toLocaleString("zh-HK", { timeZone: "Asia/Hong_Kong" });
     })
     .catch(function (err) {
