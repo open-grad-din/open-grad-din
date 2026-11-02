@@ -56,7 +56,7 @@
   // ---- 一行一間 ----
   function menuRowHTML(m) {
     return '<div class="mrow" data-f="' + mid(m) + '">' +
-      '<span class="ml"><span class="mn"><span class="mtag">' + esc(m.name) + '</span></span>' +
+      '<span class="ml"><span class="mn"><span class="mtag ' + (/自助/.test(m.name) ? "buffet" : "chinese") + '">' + esc(m.name) + '</span></span>' +
       '<span class="mf">場地餐飲費每位約 <b>' + money(mid(m)) + '</b></span></span></div>';
   }
   function rowHTML(v) {

@@ -196,7 +196,9 @@ details td { padding: 4px; vertical-align: top; }
 .ml { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; min-width: 0; }
 .mn { font-size: 14px; font-weight: 700; }
 /* 餐飲類型標籤（自助晚餐、中式等）及場地級別標籤 */
-.mtag { display: inline-block; font-size: 14px; font-weight: 800; line-height: 1.5; padding: 0 10px; border-radius: 999px; color: var(--paper); background: var(--ink); }
+.mtag { display: inline-block; font-size: 13px; font-weight: 700; line-height: 1.5; padding: 0 9px; border-radius: 999px; border: 1.5px solid; }
+.mtag.buffet { color: var(--ink); background: var(--kin-soft); border-color: var(--kin); }
+.mtag.chinese { color: var(--shu-deep); background: var(--shu-soft); border-color: var(--shu); }
 .mf { font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
 .mf b { color: var(--ink); font-weight: 700; }
 .row-more { display: flex; flex-direction: column; gap: 10px; padding-top: 10px; margin-top: 6px; border-top: 1px dashed var(--line); }
