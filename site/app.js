@@ -8,7 +8,7 @@
 
   // 流程的固定階段。資訊分頁的「現階段」必須是其中一項。
   var STAGES = ["籌委會公布規則", "報名、投票及交訂金", "公布投票結果", "收尾數", "晚宴"];
-  var SUMMARY_COLUMNS = ["收款人", "已核實", "未核實", "最早未核實提交日期", "已收總額"];
+  var SUMMARY_COLUMNS = ["收款人", "已核實", "未核實", "最早未核實提交日期"];
 
   // 簡單 CSV 解析：支援引號內的逗號、換行及 "" 轉義。
   function parseCsv(text) {
@@ -77,10 +77,6 @@
     return { label: label, daysLeft: dayLeft };
   }
 
-  function money(n) {
-    return "$" + n.toLocaleString("en-US");
-  }
-
   function readInfo(rows) {
     var info = {};
     rows.slice(1).forEach(function (r) { if (r[0]) info[r[0]] = r[1] || ""; });
@@ -98,10 +94,9 @@
         name: r[idx[0]] || "",
         verified: wholeNumber(r[idx[1]] || ""),
         pending: wholeNumber(r[idx[2]] || ""),
-        oldest: r[idx[3]] || "",
-        total: wholeNumber((r[idx[4]] || "").replace(/[$,]/g, ""))
+        oldest: r[idx[3]] || ""
       };
-      if (!p.name || p.verified === null || p.pending === null || p.total === null) {
+      if (!p.name || p.verified === null || p.pending === null) {
         throw new Error("收款人分頁有一行資料格式有誤：" + r.join(","));
       }
       return p;
@@ -172,7 +167,7 @@
     payees.forEach(function (p) {
       var li = el("li");
       li.appendChild(el("span", "收款人（" + p.name + "）", "who"));
-      li.appendChild(el("span", p.verified + " 筆 · " + money(p.total), "got"));
+      li.appendChild(el("span", "已核實 " + p.verified + " 筆", "got"));
       var waitText = "未核實 " + p.pending + " 筆", slow = false;
       if (p.pending > 0) {
         var d = daysSince(p.oldest, now);
