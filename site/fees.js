@@ -188,7 +188,7 @@
       money(CAP) + "：" + money(Math.min.apply(null, P.venues.map(function (v) { return maxIncidentals(v.perHead); }))) +
       "（以最貴的場地計）。實際雜費如會超出，籌委會刪減雜費項目，不會向家長多收。截止後按實際人數重新計算這個上限並公布。";
     document.getElementById("what-line").textContent =
-      "老師餐：" + S + " 位老師和職員（" + P.staff.source + "）。其他雜費：預計約 " + money(M) + "（" + P.incidentals.source + "）。";
+      "老師餐：" + S + " 位老師和職員。其他雜費：參考 2025 年實際雜費，約 " + money(M) + "。";
 
     var rows = [
       ["n", "你家出席人數（包括畢業生）"],
