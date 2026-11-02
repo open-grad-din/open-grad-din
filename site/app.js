@@ -8,6 +8,8 @@
 
   // 流程的固定階段。資訊分頁的「現階段」必須是其中一項。
   var STAGES = ["籌委會公布規則", "報名、投票及交訂金", "公布投票結果", "收尾數", "晚宴"];
+  // 進度條上顯示的短名（最多 5 個字）；資訊分頁的「現階段」仍用上面的全名。
+  var STAGE_SHORT = ["公布規則", "報名交訂金", "公布結果", "收尾數", "晚宴"];
   var SUMMARY_COLUMNS = ["收款人", "已核實", "未核實", "最早未核實提交日期"];
 
   // 簡單 CSV 解析：支援引號內的逗號、換行及 "" 轉義。
@@ -161,7 +163,8 @@
 
     var steps = document.getElementById("steps");
     STAGES.forEach(function (s, i) {
-      var li = el("li", s, cur === -1 ? "" : i < cur ? "done" : i === cur ? "cur" : "");
+      var li = el("li", STAGE_SHORT[i], cur === -1 ? "" : i < cur ? "done" : i === cur ? "cur" : "");
+      li.title = s;
       if (i === cur) li.setAttribute("aria-current", "step");
       steps.appendChild(li);
     });
