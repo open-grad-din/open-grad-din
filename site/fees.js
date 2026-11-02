@@ -16,18 +16,17 @@
     function (n, F, S, M, G, N) { return n * F + (S * F + M) / G; }
   ];
   var PLAN_NAMES = ["① 按人頭", "② 雜費按人頭", "③ 按家庭"];
-  // 每個方案下，一家 n 人要分擔的 [老師餐, 雜費]。T = 老師餐總額。
-  var SPLITS = [
-    function (n, T, M, G, N) { return [n * T / N, n * M / N]; },
-    function (n, T, M, G, N) { return [T / G, n * M / N]; },
-    function (n, T, M, G, N) { return [T / G, M / G]; }
+  var PLAN_TEXT = [
+    "老師餐和雜費全部按出席人數平分，大人小朋友同一個價錢。",
+    "老師餐只由畢業生分擔，雜費按出席人數平分。",
+    "老師餐和雜費都由畢業生分擔，陪同家人只付自己的餐費。接龍時公布的是這個方法。"
   ];
-  var WHO = [
-    ["全部出席者平分", "全部出席者平分"],
-    ["只由畢業生分擔（每家一份）", "全部出席者平分"],
-    ["只由畢業生分擔（每家一份）", "只由畢業生分擔（每家一份）"]
+  // 2 大 1 小的圖解：每人身上有甚麼點點（t = 老師餐，m = 雜費）。最後一位是畢業生。
+  var PLAN_DOTS = [
+    [["t", "m"], ["t", "m"], ["t", "m"]],
+    [["m"], ["m"], ["t", "m"]],
+    [[], [], ["t", "m"]]
   ];
-  var PLAN_NOTE = ["大人小朋友同一個價錢。", "", "陪同家人只付自己的餐費。接龍時公布的是這個方法。"];
   var SMALLEST_FAMILY = 2; // 最少 1 大 1 小
 
   function round10(x) { return Math.round(x / 10) * 10; }
@@ -63,41 +62,51 @@
     return Math.max(0, Math.floor(best / 100) * 100);
   }
 
+  // ---- 人形圖 ----
+  function person(isGrad, dots) {
+    var w = 48, h = 92;
+    var s = svg("svg", { viewBox: "0 0 " + w + " " + h, width: w, height: h, "aria-hidden": "true" });
+    var tall = !isGrad;
+    var headY = tall ? 14 : 30, headR = tall ? 9 : 8;
+    var bodyTop = headY + headR + 2, bodyH = tall ? 34 : 24;
+    s.appendChild(svg("circle", { cx: 24, cy: headY, r: headR, "class": "fig" }));
+    s.appendChild(svg("rect", { x: tall ? 12 : 14, y: bodyTop, width: tall ? 24 : 20, height: bodyH, rx: 10, "class": "fig" }));
+    if (isGrad) { // 畢業帽
+      s.appendChild(svg("polygon", { points: "12,22 24,16 36,22 24,28", "class": "cap" }));
+    }
+    dots.forEach(function (d, i) {
+      s.appendChild(svg("circle", { cx: dots.length === 2 ? 16 + i * 16 : 24, cy: 82, r: 6, "class": d === "t" ? "d-teach" : "d-misc" }));
+    });
+    return s;
+  }
+
   function renderPlans() {
     var box = document.getElementById("plans");
     PLANS.forEach(function (_, i) {
       var card = el("div", undefined, "plan");
       card.appendChild(el("h3", PLAN_NAMES[i]));
-      var dl = el("dl");
-      dl.appendChild(el("dt", "老師餐")); dl.appendChild(el("dd", WHO[i][0]));
-      dl.appendChild(el("dt", "雜費")); dl.appendChild(el("dd", WHO[i][1]));
-      card.appendChild(dl);
-      if (PLAN_NOTE[i]) card.appendChild(el("p", PLAN_NOTE[i]));
+      var fam = el("div", undefined, "family");
+      PLAN_DOTS[i].forEach(function (dots, k) { fam.appendChild(person(k === 2, dots)); });
+      card.appendChild(fam);
+      card.appendChild(el("p", PLAN_TEXT[i]));
       box.appendChild(card);
     });
   }
 
-  // 每位的錢用在哪：以平均餐費及「全部出席者平分」估算。
-  function renderSum() {
-    var meal = round10(FAVG), t = round10(S * FAVG / N), m = round10(M / N);
-    var rows = [
-      ["自己的餐費", "三個方案都一樣，視乎場地", meal],
-      ["老師餐", S + " 位老師的餐費，由家長分擔", t],
-      ["雜費", "佈置、節目、影片、物資等", m]
-    ];
-    var tb = document.getElementById("sum");
-    rows.forEach(function (r) {
-      var tr = el("tr"), td = el("td");
-      td.appendChild(el("b", r[0]));
-      td.appendChild(el("small", r[1]));
-      tr.appendChild(td);
-      tr.appendChild(el("td", money(r[2]), "amt"));
-      tb.appendChild(tr);
+  // ---- 每位的錢用在哪（以第一個場地、方案 ① 的平均計） ----
+  function renderStack() {
+    var F = FAVG;
+    var parts = [["meal", F], ["teach", S * F / N], ["misc", M / N]];
+    var total = parts.reduce(function (s, p) { return s + p[1]; }, 0);
+    var box = document.getElementById("stack");
+    parts.forEach(function (p) {
+      var seg = el("span", money(p[1]), p[0]);
+      seg.style.flexGrow = String(p[1] / total);
+      box.appendChild(seg);
     });
-    var tr = el("tr", undefined, "total");
-    tr.appendChild(el("td", "合共每位約"));
-    tr.appendChild(el("td", money(meal + t + m), "amt"));
-    tb.appendChild(tr);
+    box.setAttribute("aria-label", "以平均餐費估算，每位約：餐費 " + money(F) +
+      "，老師餐 " + money(S * F / N) + "，雜費 " + money(M / N));
+    document.getElementById("teach-note").textContent = S + " 位老師的餐費，由家長分擔";
   }
 
   // ---- 計算機 ----
@@ -113,39 +122,38 @@
       btns[1].disabled = state[key] >= LIMITS[key][1];
     });
 
-    var n = state.adults + state.kids, T = S * FAVG;
-    // 只比較要分擔的老師餐和雜費。每項先四捨五入至十位，令加起來與顯示的總數一致。
-    var parts = SPLITS.map(function (f) { return f(n, T, M, G, N).map(round10); });
-    var shares = parts.map(function (p) { return p[0] + p[1]; });
-    var top = Math.max.apply(null, shares), lo = Math.min.apply(null, shares);
+    var n = state.adults + state.kids, F = FAVG;
+    // 只比較要分擔的老師餐和雜費（總額減去自己家的餐費）。
+    var shares = PLANS.map(function (f) { return round10(f(n, F, S, M, G, N) - n * F); });
+    var top = Math.max.apply(null, shares);
+    var lo = Math.min.apply(null, shares);
     var bars = document.getElementById("bars");
     if (!bars.children.length) {
       PLANS.forEach(function (_, i) {
         var row = el("div", undefined, "bar-row");
         row.appendChild(el("span", PLAN_NAMES[i], "bar-name"));
-        var num = el("span", undefined, "bar-num");
-        num.appendChild(el("b"));
-        num.appendChild(el("small", undefined, "tag"));
-        row.appendChild(num);
-        row.appendChild(el("span", undefined, "bar-calc"));
         var track = el("div", undefined, "track");
         track.appendChild(el("i", undefined, "fill-share"));
         row.appendChild(track);
+        var num = el("span", undefined, "bar-num");
+        num.appendChild(el("b"));
+        num.appendChild(el("small"));
+        row.appendChild(num);
         bars.appendChild(row);
       });
     }
-    var same = top - lo < 10;
+    var same = round10(top - lo) < 10;
     shares.forEach(function (x, i) {
       var row = bars.children[i];
       row.querySelector(".fill-share").style.width = (x / top * 100) + "%";
       row.querySelector("b").textContent = money(x);
-      row.querySelector(".tag").textContent = same ? "差不多" : (x === lo ? "你家最省" : "多 " + money(x - lo));
-      row.querySelector(".bar-calc").textContent = "= 老師餐 " + money(parts[i][0]) + " ＋ 雜費 " + money(parts[i][1]);
-      row.classList.toggle("best", !same && x === lo);
+      row.querySelector("small").textContent = same ? "差不多" : (round10(x) === round10(lo) ? "你家最省" : "多 " + money(round10(x - lo)));
+      row.classList.toggle("best", !same && round10(x) === round10(lo));
     });
     document.getElementById("calc-note").textContent = same
       ? "你家人數接近平均，三個方案差不多，可以按你覺得哪個最公平來投。"
-      : "三個方案相差最多約 " + money(top - lo) + "。";
+      : "以上只是你家要分擔的老師餐和雜費，三個方案最多相差約 " + money(round10(top - lo)) +
+        "。自己家的餐費三個方案都一樣，所以不計在內；無論哪個場地，三個方案的比較都差不多。";
   }
 
   function setupCalc() {
@@ -211,7 +219,7 @@
 
   if (P) {
     renderText();
-    renderSum();
+    renderStack();
     renderPlans();
     setupCalc();
   }
