@@ -1,12 +1,13 @@
-// 計算機頁。兩層：先按你家人數顯示三個方案的分別（和場地幾乎無關），再一行一間列出候選場地你家要付的總數。
+// 計算機頁。頂部黏住：你家人數＋三個方案下你家的總開支；下面一行一間列出候選場地。
+// 向上捲動時，去到頂部下方的那個菜式（以菜式為單位）會以 active 顏色標示，三格即時換成該菜式的總開支；未捲到任何菜式時不顯示銀碼。
 // 公式在 fees-core.js，場地資料在 venues-params.js，收費數字在 fees-params.js。
 // 只做計算和顯示，沒有讀取或寫入任何人的資料，亦不會記住你輸入的人數。
 (function () {
   "use strict";
   var C = window.OGD_CALC;
   if (!C) return;
-  var VP = C.VP, V = VP.venues, S = C.S, M = C.M, G = C.G, N = C.N, CAP = C.CAP, FAVG = C.FAVG, PLANS = C.PLANS;
-  var money = C.money, esc = C.esc, mid = C.mid, totals = C.totals, round10 = C.round10, PLAN_NAMES = C.PLAN_NAMES;
+  var VP = C.VP, V = VP.venues, S = C.S, M = C.M, G = C.G, N = C.N, CAP = C.CAP;
+  var money = C.money, esc = C.esc, mid = C.mid, totals = C.totals, PLAN_NAMES = C.PLAN_NAMES;
   var TYPE = { hotel: "酒店", rest: "酒樓" };
   // 方案一律「編號＋名字」一起寫（Ken 2026-11-02：只寫編號會混亂）。
   var NAMES = PLAN_NAMES;
@@ -56,8 +57,7 @@
   function menuRowHTML(m, single) {
     return '<div class="mrow" data-f="' + mid(m) + '">' +
       '<span class="ml">' + (single ? "" : '<span class="mn">' + esc(m.name) + '</span>') +
-      '<span class="mf">每位約 <b>' + money(mid(m)) + '</b>' + (m.Fmax ? '<small>範圍</small>' : "") + '</span></span>' +
-      '<span class="mr"></span></div>';
+      '<span class="mf">每位約 <b>' + money(mid(m)) + '</b>' + (m.Fmax ? '<small>範圍</small>' : "") + '</span></span></div>';
   }
   function rowHTML(v) {
     var single = v.menus.length === 1;
@@ -85,51 +85,61 @@
   var ORDER = shuffle(V.slice());
   function count(type) { return V.filter(function (v) { return v.type === type; }).length; }
 
-  // ---- 狀態：你家人數、有沒有揀定一個方案來看 ----
-  var state = { adults: 2, kids: 1, plan: null };
+  // ---- 狀態：你家人數、現在捲到哪個菜式 ----
+  var state = { adults: 2, kids: 1, active: null };
   var LIMITS = { adults: [1, 6], kids: [1, 4] };
 
   function renderTiles() {
     var box = document.getElementById("tiles");
     box.innerHTML = PLAN_NAMES.map(function (name, k) {
-      return '<button type="button" class="tile" data-k="' + k + '" aria-pressed="false">' +
-        '<span class="tile-l"><small>' + NAMES[k] + '</small><b></b><i></i></span><span class="tile-fam"></span></button>';
+      return '<div class="tile" data-k="' + k + '">' +
+        '<span class="tile-l"><small>' + NAMES[k] + '</small><b></b><i></i></span><span class="tile-fam"></span></div>';
     }).join("");
+  }
+
+  // 三格：未捲到任何菜式時不顯示銀碼；捲到時顯示該菜式下你家三個方案的總開支（包括自己的餐費）。
+  function paintTiles() {
+    var n = state.adults + state.kids, row = state.active;
+    var t = row ? totals(n, Number(row.getAttribute("data-f"))) : null;
+    var lo = t && Math.min.apply(null, t), same = !t || Math.max.apply(null, t) - lo < 10;
+    Array.prototype.forEach.call(document.querySelectorAll(".tile"), function (el) {
+      var k = Number(el.getAttribute("data-k")), best = !same && t[k] === lo;
+      el.querySelector("b").textContent = t ? money(t[k]) : "—";
+      el.classList.toggle("empty", !t);
+      el.querySelector("i").textContent = best ? "最省" : "";
+      el.classList.toggle("best", best);
+    });
+    document.getElementById("scroll-hint").hidden = !!t;
+  }
+
+  // 未捲動時不顯示銀碼。捲動後：黏頂那塊底線以下，第一個完整看得見的菜式就是 active（以菜式為單位）。
+  // 一間場地的第一個菜式由場地名開始計，其餘由該菜式那行開始計；整個列表捲過了頂就不再有 active。
+  function pickActive() {
+    var line = document.querySelector(".dock").getBoundingClientRect().bottom - 12;
+    var found = null;
+    if (window.scrollY > 10) {
+      var rows = document.querySelectorAll("#list .mrow");
+      for (var i = 0; i < rows.length; i++) {
+        var r = rows[i], art = r.parentElement;
+        var start = (art.querySelector(".mrow") === r ? art : r).getBoundingClientRect().top;
+        if (start >= line) { found = r; break; }
+      }
+    }
+    if (found === state.active) return;
+    if (state.active) { state.active.classList.remove("active"); state.active.parentElement.classList.remove("on"); }
+    state.active = found;
+    if (found) { found.classList.add("active"); found.parentElement.classList.add("on"); }
+    paintTiles();
   }
 
   function update() {
     var n = state.adults + state.kids;
-
-    // 第一層：你家分擔老師餐和雜費的金額（以名單平均餐費計；場地之間只差幾十元）。
-    var shares = PLANS.map(function (f) { return round10(f(n, FAVG, S, M, G, N) - n * FAVG); });
-    var lo = Math.min.apply(null, shares), hi = Math.max.apply(null, shares), same = hi - lo < 10;
     Array.prototype.forEach.call(document.querySelectorAll(".tile"), function (t) {
-      var k = Number(t.getAttribute("data-k"));
       var fam = t.querySelector(".tile-fam");
-      fam.innerHTML = ""; fam.appendChild(C.family(k, state.adults, state.kids));
+      fam.innerHTML = ""; fam.appendChild(C.family(Number(t.getAttribute("data-k")), state.adults, state.kids));
       fam.style.setProperty("--fw", n > 6 ? "20px" : "26px"); // 人多時縮小，免得格子太高
-      t.querySelector("b").textContent = money(shares[k]);
-      t.querySelector("i").textContent = (!same && shares[k] === lo) ? "最省" : "";
-      t.classList.toggle("best", !same && shares[k] === lo);
-      t.setAttribute("aria-pressed", String(state.plan === k));
     });
-
-    // 第二層：每間場地你家要付的總數（包括自己的餐費）。
-    Array.prototype.forEach.call(document.querySelectorAll("#list .mrow"), function (row) {
-      var t = totals(n, Number(row.getAttribute("data-f")));
-      var a = Math.min.apply(null, t), b = Math.max.apply(null, t);
-      var sameRow = b - a < 10, mr = row.querySelector(".mr");
-      if (state.plan !== null) {
-        mr.innerHTML = '<b class="mt">' + money(t[state.plan]) + '</b><small class="ms">' + NAMES[state.plan] + '</small>';
-      } else if (sameRow) {
-        mr.innerHTML = '<b class="mt">' + money(a) + '</b><small class="ms">三個方案一樣</small>';
-      } else {
-        // 三個方案分開列出，最平的加深顏色。
-        mr.innerHTML = t.map(function (x, k) {
-          return '<span class="m3' + (x === a ? " best" : "") + '">' + NAMES[k] + '<b>' + money(x) + '</b></span>';
-        }).join("");
-      }
-    });
+    paintTiles();
 
     document.getElementById("adults-out").textContent = String(state.adults);
     document.getElementById("kids-out").textContent = String(state.kids);
@@ -150,12 +160,13 @@
         update();
       });
     });
-    document.getElementById("tiles").addEventListener("click", function (e) {
-      var t = e.target.closest(".tile"); if (!t) return;
-      var k = Number(t.getAttribute("data-k"));
-      state.plan = state.plan === k ? null : k; // 再按一次還原為三方案範圍
-      update();
-    });
+    var ticking = false;
+    function onScroll() {
+      if (ticking) return; ticking = true;
+      requestAnimationFrame(function () { ticking = false; pickActive(); });
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
 
     var list = document.getElementById("list");
     list.innerHTML = ORDER.map(rowHTML).join("");
@@ -165,6 +176,7 @@
         var open = head.getAttribute("aria-expanded") !== "true";
         head.setAttribute("aria-expanded", String(open));
         head.parentElement.querySelector(".row-more").hidden = !open;
+        pickActive();
         return;
       }
       var b = e.target.closest(".gal-btn"); if (!b) return;
@@ -199,7 +211,7 @@
       "「雜費按人頭」亦一樣，所以 2 大 1 小的家庭三個方案差不多。人數多過平均的家庭，「按家庭」較省；人數少過平均的（例如 1 大 1 小），「按人頭」較省。" +
       "實際平均人數要報名截止才知道，差距會隨之改變。";
     document.getElementById("assume-line").textContent =
-      "假設老師和職員 " + S + " 位、雜費約 " + money(M) + "、出席畢業生 " + G + " 位、出席總人數 " + N + " 位（包括畢業生）。頂部三個方案的分擔金額以名單平均餐費計，場地之間只差幾十元。";
+      "假設老師和職員 " + S + " 位、雜費約 " + money(M) + "、出席畢業生 " + G + " 位、出席總人數 " + N + " 位（包括畢業生）。頂部三格顯示你捲到的那個菜式下，你家在三個方案的總開支（自己的餐費加分擔的老師餐和雜費）。";
     C.commitLink();
   }
 
@@ -207,4 +219,5 @@
   renderTiles();
   setup();
   update();
+  pickActive();
 })();
