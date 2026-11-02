@@ -131,7 +131,9 @@ h1 .ch { display: inline-block; }
 .dots i { aspect-ratio: 1; border-radius: 48% 52% 50% 50% / 52% 48% 52% 48%; border: 1.5px solid var(--stroke); background: var(--surface); }
 .dots i:nth-child(3n) { transform: rotate(40deg); } .dots i:nth-child(3n+1) { transform: rotate(-70deg); }
 .dots i.v { background: var(--ai); border-color: var(--ai); }
-.dots i.p { border: 2px dashed var(--shu); }
+/* 虛線圈不用 dashed border（iOS Safari 小圓角元素上會畫不出來），改用錐形漸變＋遮罩畫環 */
+.dots i.p, .key i.p { border: none; background: repeating-conic-gradient(var(--shu) 0 24deg, transparent 24deg 45deg);
+  -webkit-mask: radial-gradient(circle, transparent 54%, #000 56%); mask: radial-gradient(circle, transparent 54%, #000 56%); }
 .dots.play i.v, .dots.play i.p { animation: pop .4s ease both; }
 /* load 完之後：已核實的點像呼吸般一浪一浪起伏，等候核實的虛線圈慢慢轉 */
 .dots.live i.v { animation: breathe 3.2s ease-in-out calc(var(--i, 0) * 45ms) infinite; }
@@ -142,7 +144,6 @@ h1 .ch { display: inline-block; }
 .key { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 12px 0 0; padding: 0; list-style: none; font-size: 14px; color: var(--muted); }
 .key i { display: inline-block; width: 11px; height: 11px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; border: 1.5px solid var(--stroke); }
 .key i.v { background: var(--ai); border-color: var(--ai); }
-.key i.p { border: 2px dashed var(--shu); }
 
 
 /* ---- 正式資訊 ---- */
