@@ -174,3 +174,6 @@ details td { padding: 4px; vertical-align: top; }
 /* 章節卡片：與上限卡同一款紙卡（手繪圓角、實色陰影） */
 .sec-card { background: var(--surface); border: 2px solid var(--stroke); border-radius: var(--wobble2); box-shadow: 4px 4px 0 var(--line); padding: 18px 16px 16px; }
 .sec-card .note { background: var(--sage-soft); }
+/* 只顯示章節號的卡（標題文字只給讀屏器） */
+.sec-h.only-no::after { display: none; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
