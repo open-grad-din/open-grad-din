@@ -55,7 +55,7 @@
     return '<div class="mrow" data-f="' + mid(m) + '">' +
       '<span class="ml">' + (single ? "" : '<span class="mn">' + esc(m.name) + '</span>') +
       '<span class="mf">每位約 <b>' + money(mid(m)) + '</b>' + (m.Fmax ? '<small>範圍</small>' : "") + '</span></span>' +
-      '<b class="mt"></b></div>';
+      '<span class="mr"><b class="mt"></b><small class="ms"></small></span></div>';
   }
   function rowHTML(v) {
     var single = v.menus.length === 1;
@@ -120,9 +120,13 @@
     Array.prototype.forEach.call(document.querySelectorAll("#list .mrow"), function (row) {
       var t = totals(n, Number(row.getAttribute("data-f")));
       var a = Math.min.apply(null, t), b = Math.max.apply(null, t);
+      var sameRow = b - a < 10;
       row.querySelector(".mt").textContent = state.plan === null
-        ? (b - a < 10 ? money(a) : money(a) + "–" + money(b))
+        ? (sameRow ? money(a) : money(a) + "–" + money(b))
         : money(t[state.plan]);
+      row.querySelector(".ms").textContent = state.plan === null
+        ? (sameRow ? "三個方案一樣" : "視乎方案")
+        : PLAN_NAMES[state.plan];
     });
 
     document.getElementById("adults-out").textContent = String(state.adults);
