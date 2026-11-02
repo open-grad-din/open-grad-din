@@ -1,3 +1,6 @@
+/* Ken 指定的提示／active 顏色（人數框提示、捲到的菜式） */
+:root { --nudge: #4dfff6; }
+
 /* 場地及收費頁：以圖為主，手機單手操作。上限 → 錢用在哪 → 三個方案 → 場地卡（按你家人數即時計算）→ 怎樣選出 → 細節。 */
 :root { --meal: #d9c8ad; --teach: #d7a53d; --misc: #5e7f9b; --fig: #cdbfae; }
 @media (prefers-color-scheme: dark) { :root { --meal: #6a5d4e; --teach: #e2b85f; --misc: #8fb0cb; --fig: #6a6057; } }
@@ -144,7 +147,7 @@ details td { padding: 4px; vertical-align: top; }
 .strip { display: flex; flex-direction: column; gap: 6px; margin: 0; }
 .fam + .dock { margin-top: 4px; }
 /* 提示家長先改人數：未改過之前人數框加橙邊 */
-.fam.nudge { --nudge: #4dfff6; border-color: var(--nudge); box-shadow: 3px 3px 0 color-mix(in srgb, var(--nudge) 35%, transparent); }
+.fam.nudge { border-color: var(--nudge); box-shadow: 3px 3px 0 color-mix(in srgb, var(--nudge) 35%, transparent); }
 /* 未改過人數：人數框外圈一下一下擴散，＋ 掣輕輕跳動，提醒家長先填人數；按過一次就停 */
 .fam.nudge { animation: nudge-ring 1.8s ease-out infinite; }
 .fam.nudge .stepper button[data-d="1"]:not(:disabled) { animation: nudge-hop 1.8s ease-in-out infinite; }
@@ -189,10 +192,10 @@ details td { padding: 4px; vertical-align: top; }
 .mrow + .mrow { border-top: 1px dotted var(--line); }
 /* 捲到頂部下方、三格正在顯示的那個菜式 */
 .mrow { margin: 0 -8px; padding-left: 8px; padding-right: 8px; border-radius: 10px; transition: background .2s ease, box-shadow .2s ease; }
-.mrow.active { background: var(--shu-soft); box-shadow: inset 4px 0 0 var(--shu); }
-.mrow.active .mf, .mrow.active .mf b, .mrow.active .mn { color: var(--shu-deep); }
+.mrow.active { background: color-mix(in srgb, var(--nudge) 22%, var(--surface)); box-shadow: inset 4px 0 0 var(--nudge); }
+.mrow.active .mf, .mrow.active .mf b, .mrow.active .mn { color: var(--ink); }
 .row { transition: border-color .2s ease; }
-.row.on { border-color: var(--shu); }
+.row.on { border-color: var(--nudge); }
 .ml { display: flex; flex-direction: column; min-width: 0; }
 .mn { font-size: 14px; font-weight: 700; }
 .mf { font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
