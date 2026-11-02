@@ -177,3 +177,7 @@ details td { padding: 4px; vertical-align: top; }
 /* 只顯示章節號的卡（標題文字只給讀屏器） */
 .sec-h.only-no::after { display: none; }
 .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+/* 只有號碼時，號碼放在卡的左上角（與上限卡一樣），內容向上靠 */
+.sec-card { position: relative; }
+.sec-card > .sec-h.only-no { position: absolute; top: 14px; left: 14px; margin: 0; }
+.sec-card > .sec-h.only-no + .plate { margin-top: -4px; }
