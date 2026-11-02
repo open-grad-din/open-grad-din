@@ -26,18 +26,20 @@
   </section>
 
   <section aria-labelledby="vote-h">
-    <h2 id="vote-h">雜費按家庭分，還是按人頭分？由你投票</h2>
+    <h2 id="vote-h">老師餐費和雜費怎樣分？三個方案，由你投票</h2>
     <dl class="choices">
-      <dt>按家庭</dt>
-      <dd>每個畢業生家庭分擔同一份雜費，來多少人都一樣。接龍時公布的是這個方法。</dd>
-      <dt>按人頭</dt>
-      <dd>每位出席者分擔同一份雜費，所以全場每位的價錢一樣。</dd>
+      <dt>① 按人頭</dt>
+      <dd>老師餐費和雜費全部按出席人數平分，大人小朋友同一個價錢。</dd>
+      <dt>② 雜費按人頭</dt>
+      <dd>老師餐費只由畢業生家庭分擔（每家一份），雜費按出席人數平分。</dd>
+      <dt>③ 按家庭</dt>
+      <dd>老師餐費和雜費都由畢業生家庭分擔（每家一份），陪同家人只付自己的餐費。接龍時公布的是這個方法。</dd>
     </dl>
     <p class="fine" id="who-wins"></p>
   </section>
 
   <section aria-labelledby="ex-h">
-    <h2 id="ex-h">你家大約要付多少（全晚合共）</h2>
+    <h2 id="ex-h">你家大約要付多少（全晚合共，① ② ③ 即上面三個方案）</h2>
     <div id="venues"></div>
     <p class="fine">「大」「小」都計一位出席者，包括畢業生和兄弟姊妹。金額四捨五入至十位，是估算；最後以實際數字計，見下面「為甚麼是約數」。</p>
   </section>
@@ -61,7 +63,8 @@
     <ul class="plain">
       <li>每位畢業生一票，和場地一起在報名表格內投。</li>
       <li>只計已核實付款的報名；填了表但沒有付款的票不計。</li>
-      <li>截止前不公開票數，截止後公布兩種計法各自的票數。</li>
+      <li>截止前不公開票數，截止後公布三個方案各自的票數。</li>
+      <li id="win-rule">怎樣定勝出：待籌委會決定。</li>
       <li id="tie-rule">平手時：待籌委會決定。</li>
     </ul>
   </section>
@@ -69,8 +72,9 @@
   <section aria-labelledby="f-h">
     <h2 id="f-h">給想自己核對的人：公式</h2>
     <div class="formula">
-      <p><b>按家庭</b>：家庭應付 = n × F + (S × F + M) ÷ G</p>
-      <p><b>按人頭</b>：家庭應付 = n × F + n × (S × F + M) ÷ N</p>
+      <p><b>① 按人頭</b>：家庭應付 = n × F + n × (S × F + M) ÷ N</p>
+      <p><b>② 雜費按人頭</b>：家庭應付 = n × F + S × F ÷ G + n × M ÷ N</p>
+      <p><b>③ 按家庭</b>：家庭應付 = n × F + (S × F + M) ÷ G</p>
     </div>
     <table class="vars">
       <thead><tr><th>符號</th><th>是甚麼</th><th>現在用的數字</th></tr></thead>

@@ -79,3 +79,5 @@ tr:last-child td { border-bottom: 0; }
 .formula p { margin: 4px 0; }
 .vars { font-size: 15px; }
 .vars .sym { font-weight: 700; width: 2em; }
+.fees td, .fees th { white-space: nowrap; }
+.fees td:first-child { font-size: 15px; }

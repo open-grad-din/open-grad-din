@@ -5,9 +5,15 @@
 
   var P = window.OGD_FEES;
 
-  // 按家庭：n×F + (S×F+M)/G；按人頭：n×F + n×(S×F+M)/N
-  function perFamily(n, F, S, M, G) { return n * F + (S * F + M) / G; }
-  function perHead(n, F, S, M, N) { return n * F + n * (S * F + M) / N; }
+  // 三個方案（n = 家庭出席人數，S×F = 老師餐費總額）：
+  // ① 按人頭：      n×F + n×(S×F+M)/N
+  // ② 雜費按人頭：  n×F + (S×F)/G + n×M/N
+  // ③ 按家庭：      n×F + (S×F+M)/G
+  var PLANS = [
+    function (n, F, S, M, G, N) { return n * F + n * (S * F + M) / N; },
+    function (n, F, S, M, G, N) { return n * F + (S * F) / G + n * M / N; },
+    function (n, F, S, M, G, N) { return n * F + (S * F + M) / G; }
+  ];
 
   function round10(x) { return Math.round(x / 10) * 10; }
   function money(x) { return "$" + Math.round(x).toLocaleString("en-US"); }
@@ -28,12 +34,14 @@
     Array.prototype.forEach.call(document.querySelectorAll(".deposit"), function (s) {
       s.textContent = String(P.depositPerHead);
     });
+    document.getElementById("win-rule").textContent = "怎樣定勝出：" + (P.winRule || "待籌委會決定。");
     document.getElementById("tie-rule").textContent = "平手時：" + (P.tieRule || "待籌委會決定。");
 
     var avg = N / G;
     document.getElementById("who-wins").textContent =
-      "出席人數少於平均（約每家 " + (Math.round(avg * 10) / 10) + " 人）的家庭，按人頭會付少一點；" +
-      "人數多於平均的家庭，按家庭會付少一點。差額只是雜費部分，餐費兩種計法都一樣。";
+      "人數少於平均（約每家 " + (Math.round(avg * 10) / 10) + " 人）的家庭，方案 ① 最便宜；" +
+      "人數多於平均的家庭，方案 ③ 最便宜；方案 ② 在兩者中間。平均人數的家庭三個方案差不多。" +
+      "差額只在老師餐費及雜費，自己家的餐費三個方案都一樣。";
 
     var box = document.getElementById("venues");
     P.venues.forEach(function (v) {
@@ -42,17 +50,16 @@
       card.appendChild(el("h3", v.name + " · 每位餐費 " + money(F)));
       var t = el("table", undefined, "fees");
       var head = el("tr");
-      ["家庭", "按家庭", "按人頭"].forEach(function (h) { head.appendChild(el("th", h)); });
+      ["家庭", "①", "②", "③"].forEach(function (h) { head.appendChild(el("th", h)); });
       var thead = el("thead"); thead.appendChild(head); t.appendChild(thead);
       var tb = el("tbody");
       P.examples.forEach(function (ex) {
-        var a = perFamily(ex.n, F, S, M, G), b = perHead(ex.n, F, S, M, N);
         var tr = el("tr");
         tr.appendChild(el("td", ex.label));
-        [a, b].forEach(function (x) {
+        PLANS.map(function (f) { return f(ex.n, F, S, M, G, N); }).forEach(function (x) {
           var td = el("td");
-          td.appendChild(el("span", "約 " + money(round10(x))));
-          td.appendChild(el("small", "每位約 " + money(round10(x / ex.n))));
+          td.appendChild(el("span", money(round10(x))));
+          td.appendChild(el("small", "每位 " + money(round10(x / ex.n))));
           tr.appendChild(td);
         });
         tb.appendChild(tr);
@@ -63,7 +70,7 @@
     });
 
     document.getElementById("staff-line").textContent =
-      S + " 位老師，餐費由全級家長分擔（" + P.staff.source + "）";
+      S + " 位老師，餐費由家長分擔，怎樣分視乎方案（" + P.staff.source + "）";
     document.getElementById("misc-line").textContent =
       "預計約 " + money(M) + "（" + P.incidentals.source + "）";
 
@@ -96,5 +103,5 @@
   if (P) render();
 
   // 給測試用。
-  window.OGD_FEES_TEST = { perFamily: perFamily, perHead: perHead, round10: round10 };
+  window.OGD_FEES_TEST = { plans: PLANS, round10: round10 };
 })();
