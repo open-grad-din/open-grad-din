@@ -110,6 +110,27 @@
     document.getElementById("by").textContent = parts.join(" · ");
   }
 
+  var DINNER = Date.UTC(2027, 6, 2);
+  function hkToday(now) {
+    var hk = new Date(now.getTime() + 8 * 3600 * 1000);
+    return Date.UTC(hk.getUTCFullYear(), hk.getUTCMonth(), hk.getUTCDate());
+  }
+
+  function renderCountdown(now) {
+    var d = Math.round((DINNER - hkToday(now)) / 86400000);
+    var box = document.getElementById("days");
+    var enso = document.getElementById("enso");
+    if (d > 0) {
+      box.textContent = String(d);
+      enso.setAttribute("aria-label", "距離晚宴還有 " + d + " 日");
+    } else {
+      box.textContent = d === 0 ? "今晚" : "完";
+      box.parentNode.firstChild.textContent = d === 0 ? "晚宴就在" : "晚宴已舉行";
+      box.parentNode.lastChild.textContent = "";
+      enso.setAttribute("aria-label", d === 0 ? "晚宴就在今晚" : "晚宴已舉行");
+    }
+  }
+
   function renderNow(info, now) {
     var stage = info["現階段"] || "";
     var cur = STAGES.indexOf(stage);
@@ -120,8 +141,8 @@
       var p = document.getElementById("deadline");
       p.textContent = "截止：";
       p.appendChild(el("b", dl.label));
-      p.appendChild(document.createTextNode(
-        dl.daysLeft > 0 ? "，還有 " + dl.daysLeft + " 日" : dl.daysLeft === 0 ? "，今日截止" : "，已截止"));
+      p.appendChild(el("span",
+        dl.daysLeft > 0 ? "，還有 " + dl.daysLeft + " 日" : dl.daysLeft === 0 ? "，今日截止" : "，已截止", "left"));
       p.hidden = false;
     }
 
@@ -131,6 +152,7 @@
       a.href = href;
       a.textContent = info["行動掣文字"];
       a.hidden = false;
+      setTimeout(function () { a.classList.add("shine"); }, document.documentElement.className.indexOf("intro") !== -1 ? 1900 : 300);
     }
     if (info["行動說明"]) {
       var note = document.getElementById("action-note");
@@ -140,25 +162,45 @@
 
     var steps = document.getElementById("steps");
     STAGES.forEach(function (s, i) {
-      steps.appendChild(el("li", s, cur === -1 ? "" : i < cur ? "done" : i === cur ? "cur" : ""));
+      var li = el("li", s, cur === -1 ? "" : i < cur ? "done" : i === cur ? "cur" : "");
+      if (i === cur) li.setAttribute("aria-current", "step");
+      steps.appendChild(li);
     });
     document.getElementById("now-section").hidden = false;
   }
 
   function renderProgress(payees, info) {
     var verified = payees.reduce(function (s, p) { return s + p.verified; }, 0);
+    var pending = payees.reduce(function (s, p) { return s + p.pending; }, 0);
     var grade = wholeNumber(info["全級人數"] || "");
-    document.getElementById("verified").textContent = String(verified);
+    var num = document.getElementById("verified");
     document.getElementById("verified-of").textContent =
-      "人已核實付款" + (grade ? " · 全級約 " + grade + " 人" : "");
+      "位畢業生已核實付款" + (grade ? "（全級約 " + grade + " 位）" : "");
+
+    var dots = document.getElementById("dots");
     if (grade) {
-      var pct = Math.min(100, Math.round(verified / grade * 100));
-      document.getElementById("bar-fill").style.width = pct + "%";
-      document.getElementById("bar").setAttribute("aria-label", "已核實 " + verified + " 人，約佔全級 " + pct + "%");
+      var total = Math.max(grade, verified + pending);
+      for (var i = 0; i < total; i++) {
+        var d = el("i", undefined, i < verified ? "v" : i < verified + pending ? "p" : "");
+        if (i < verified + pending) d.style.animationDelay = (i * 18) + "ms";
+        dots.appendChild(d);
+      }
+      dots.setAttribute("aria-label", "全級約 " + grade + " 位畢業生，已核實 " + verified + " 位，等候核實 " + pending + " 位");
     } else {
-      document.getElementById("bar").hidden = true;
+      dots.hidden = true;
     }
+    if (!pending) document.getElementById("key-p").hidden = true;
     document.getElementById("prog-section").hidden = false;
+
+    var ui = window.OGD_UI;
+    var seal = document.getElementById("seal");
+    var go = function () {
+      dots.classList.add("play");
+      if (!ui) { num.textContent = String(verified); return; }
+      ui.countUp(num, verified, 1200, function () { if (verified > 0) seal.classList.add("stamp"); });
+    };
+    if (verified === 0) seal.hidden = true;
+    if (ui) ui.whenSeen(dots.hidden ? num : dots, go); else go();
   }
 
   function renderPayees(payees, info, now) {
@@ -167,7 +209,10 @@
     payees.forEach(function (p) {
       var li = el("li");
       li.appendChild(el("span", "收款人（" + p.name + "）", "who"));
-      li.appendChild(el("span", "已核實 " + p.verified + " 筆", "got"));
+      var got = el("span", undefined, "got");
+      got.appendChild(el("b", String(p.verified)));
+      got.appendChild(document.createTextNode("筆已核實"));
+      li.appendChild(got);
       var waitText = "未核實 " + p.pending + " 筆", slow = false;
       if (p.pending > 0) {
         var d = daysSince(p.oldest, now);
@@ -175,8 +220,10 @@
           waitText += " · 最長等了 " + d + " 日";
           slow = limit !== null && d > limit;
         }
+      } else {
+        waitText = "全部已核實，沒有人在等";
       }
-      li.appendChild(el("span", waitText, "wait" + (slow ? " slow" : "")));
+      li.appendChild(el("span", waitText, "wait" + (p.pending > 0 ? " has" : "") + (slow ? " slow" : "")));
       list.appendChild(li);
     });
     if (limit !== null) {
@@ -212,6 +259,7 @@
       var a = document.getElementById(s[0]);
       var abs = new URL(s[1] || "", location.href).href;
       a.href = abs; a.textContent = abs;
+      if (s[0] === "src-summary") document.getElementById("src-open").href = abs;
     });
     var commit = window.OGD_COMMIT || "";
     var link = document.getElementById("commit-link");
@@ -236,6 +284,7 @@
   }
 
   setFooter();
+  renderCountdown(new Date());
   if (config.isDemo) document.getElementById("demo-banner").hidden = false;
 
   var status = document.getElementById("status");

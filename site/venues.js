@@ -19,11 +19,11 @@
     TABLES += '<circle cx="' + (40 + (i % 3) * 60) + '" cy="' + (48 + Math.floor(i / 3) * 36) + '" r="13"/>';
   }
   function placeholder(i, name) {
-    var hue = [190, 32, 150][i % 3];
+    var hue = [212, 34, 10][i % 3];
     return '<figure class="shot"><svg viewBox="0 0 200 150" role="img" aria-label="' + esc(name) + ' 示範圖片 ' + (i + 1) + '">' +
-      '<rect width="200" height="150" fill="hsl(' + hue + ' 35% 72%)"/>' +
-      '<rect width="200" height="22" fill="hsl(' + hue + ' 30% 60%)"/>' +
-      '<g fill="hsl(' + hue + ' 25% 92%)">' + TABLES + '</g></svg>' +
+      '<rect width="200" height="150" fill="hsl(' + hue + ' 22% 70%)"/>' +
+      '<rect width="200" height="22" fill="hsl(' + hue + ' 24% 56%)"/>' +
+      '<g fill="hsl(' + hue + ' 30% 94%)">' + TABLES + '</g></svg>' +
       '<figcaption>示範圖片 ' + (i + 1) + '</figcaption></figure>';
   }
   function galleryHTML(v) {
@@ -71,7 +71,11 @@
   var ORDER = shuffle(V.slice());
   function show(type) {
     var list = ORDER.filter(function (v) { return v.type === type; });
-    document.getElementById("cards").innerHTML = list.map(cardHTML).join("");
+    var box = document.getElementById("cards");
+    box.classList.remove("anim");
+    box.innerHTML = list.map(cardHTML).join("");
+    void box.offsetWidth; // 重新觸發入場動畫
+    box.classList.add("anim");
     document.getElementById("tab-hotel").setAttribute("aria-selected", type === "hotel");
     document.getElementById("tab-rest").setAttribute("aria-selected", type === "rest");
   }
