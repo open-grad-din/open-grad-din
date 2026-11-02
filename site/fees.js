@@ -106,7 +106,7 @@
     });
     box.setAttribute("aria-label", "每位的錢大部分是自己的餐費；" +
       "老師餐約 " + money(S * F / N) + "，雜費 " + money(M / N));
-    document.getElementById("teach-note").textContent = S + " 位老師的餐費，由家長分擔";
+    document.getElementById("teach-note").textContent = S + " 位老師和職員的餐費，由家長分擔";
   }
 
   // ---- 計算機 ----
@@ -188,12 +188,12 @@
       money(CAP) + "：" + money(Math.min.apply(null, P.venues.map(function (v) { return maxIncidentals(v.perHead); }))) +
       "（以最貴的場地計）。實際雜費如會超出，籌委會刪減雜費項目，不會向家長多收。截止後按實際人數重新計算這個上限並公布。";
     document.getElementById("what-line").textContent =
-      "老師餐：" + S + " 位老師（" + P.staff.source + "）。其他雜費：預計約 " + money(M) + "（" + P.incidentals.source + "）。";
+      "老師餐：" + S + " 位老師和職員（" + P.staff.source + "）。其他雜費：預計約 " + money(M) + "（" + P.incidentals.source + "）。";
 
     var rows = [
       ["n", "你家出席人數（包括畢業生）"],
       ["F", "每位餐費：" + P.venues.map(function (v) { return v.name + " " + money(v.perHead); }).join("；")],
-      ["S", "老師人數：" + S],
+      ["S", "老師和職員人數：" + S],
       ["M", "雜費：預計 " + money(M)],
       ["G", "出席畢業生：預計 " + G],
       ["N", "出席總人數：預計 " + N]

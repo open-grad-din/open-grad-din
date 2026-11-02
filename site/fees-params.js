@@ -18,8 +18,8 @@ window.OGD_FEES = {
   winRule: "",
   tieRule: "",
 
-  // 教職員人數 S：由學校提供。
-  staff: { value: 15, source: "示範數字" },
+  // 老師和職員人數 S：由學校提供。
+  staff: { value: 35, source: "Ken 提供，待學校確認" },
 
   // 預計雜費 M：參考上屆實際報銷。實際收費按實際雜費計，決算時公布單據總額。
   incidentals: { value: 20000, source: "示範數字（日後改為上屆實際報銷）" },
