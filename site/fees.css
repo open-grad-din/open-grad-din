@@ -1,6 +1,6 @@
 /* 場地及收費頁：以圖為主，手機單手操作。上限 → 錢用在哪 → 三個方案 → 場地卡（按你家人數即時計算）→ 怎樣選出 → 細節。 */
-:root { --meal: #e9e0d2; --teach: #d7a53d; --misc: #5e7f9b; --fig: #cdbfae; }
-@media (prefers-color-scheme: dark) { :root { --meal: #3b3630; --teach: #e2b85f; --misc: #8fb0cb; --fig: #6a6057; } }
+:root { --meal: #d9c8ad; --teach: #d7a53d; --misc: #5e7f9b; --fig: #cdbfae; }
+@media (prefers-color-scheme: dark) { :root { --meal: #6a5d4e; --teach: #e2b85f; --misc: #8fb0cb; --fig: #6a6057; } }
 
 /* 1. 上限 */
 .hero { position: relative; color: var(--ink); border-radius: var(--wobble); padding: 26px 20px 22px; text-align: center; gap: 4px; isolation: isolate;
@@ -18,15 +18,17 @@
 .dot.meal { background: var(--meal); } .dot.teach { background: var(--teach); } .dot.misc { background: var(--misc); }
 
 /* 2. 錢用在哪 */
-.stack { display: flex; height: 52px; border-radius: var(--wobble2); border: 2px solid var(--stroke); overflow: hidden; font-size: 13px; font-weight: 700; }
-.stack span { display: flex; align-items: center; justify-content: center; min-width: 52px; white-space: nowrap; }
-.js .reveal .stack span { transform-origin: left; transform: scaleX(0); transition: transform .9s cubic-bezier(.2, .7, .2, 1); }
-.js .reveal.in .stack span { transform: none; }
-.js .reveal.in .stack span:nth-child(2) { transition-delay: .25s; } .js .reveal.in .stack span:nth-child(3) { transition-delay: .45s; }
-.stack .meal { background: var(--meal); color: var(--ink); }
-.stack .teach { background: var(--teach); color: #fff; }
-.stack .misc { background: var(--misc); color: #fff; }
-@media (prefers-color-scheme: dark) { .stack .teach, .stack .misc { color: #111; } }
+/* 一隻碟：三段圓環 */
+.plate { display: flex; justify-content: center; margin: 2px 0 4px; }
+.plate svg { width: 156px; height: 156px; overflow: visible; }
+.plate-rim { fill: var(--paper); stroke: var(--stroke); stroke-width: 2; }
+.plate-in { fill: none; stroke: var(--line); stroke-width: 1.5; stroke-dasharray: 3 5; }
+.plate .arc { fill: none; stroke-width: 20; stroke-linecap: butt; }
+.plate .arc.meal { stroke: var(--meal); } .plate .arc.teach { stroke: var(--teach); } .plate .arc.misc { stroke: var(--misc); }
+.plate-t { font-family: var(--font-display); font-size: 17px; font-weight: 700; fill: var(--ink); }
+.js .reveal .plate .arc { stroke-dasharray: 0 999 !important; transition: stroke-dasharray 1s cubic-bezier(.2, .7, .2, 1); transition-delay: calc(var(--i) * .25s); }
+.js .reveal.in .plate .arc { stroke-dasharray: var(--len) 999 !important; }
+.legend li .dot { flex: none; }
 .legend { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
 .legend li { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 8px; }
 .legend small { color: var(--muted); font-size: 14px; }

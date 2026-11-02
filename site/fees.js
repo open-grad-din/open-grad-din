@@ -54,16 +54,29 @@
   }
 
   // ---- 每位的錢用在哪（以名單平均餐費、方案 ① 的平均計） ----
+  // 一隻碟：三段圓環按比例畫出（以名單平均餐費、方案 ① 的平均計），只寫類別，不寫金額。
   function renderStack() {
     var F = FAVG;
     var parts = [["meal", F], ["teach", S * F / N], ["misc", M / N]];
     var total = parts.reduce(function (s, p) { return s + p[1]; }, 0);
     var box = document.getElementById("stack");
-    parts.forEach(function (p) {
-      var seg = el("span", { meal: "自己的餐費", teach: "老師餐", misc: "雜費" }[p[0]], p[0]);
-      seg.style.flexGrow = String(p[1] / total);
-      box.appendChild(seg);
+    var R = 54, C = 2 * Math.PI * R, GAP = 4, at = 0;
+    var s = svg("svg", { viewBox: "0 0 160 160", width: 160, height: 160, "aria-hidden": "true" });
+    s.appendChild(svg("circle", { cx: 80, cy: 80, r: 74, "class": "plate-rim" }));
+    s.appendChild(svg("circle", { cx: 80, cy: 80, r: 66, "class": "plate-in" }));
+    parts.forEach(function (p, i) {
+      var len = p[1] / total * C;
+      var arc = svg("circle", { cx: 80, cy: 80, r: R, "class": "arc " + p[0],
+        "stroke-dasharray": Math.max(1, len - GAP) + " " + C, "stroke-dashoffset": String(-at), transform: "rotate(-90 80 80)" });
+      arc.style.setProperty("--len", Math.max(1, len - GAP));
+      arc.style.setProperty("--i", i);
+      s.appendChild(arc);
+      at += len;
     });
+    var t = svg("text", { x: 80, y: 86, "text-anchor": "middle", "class": "plate-t" });
+    t.textContent = "每位";
+    s.appendChild(t);
+    box.appendChild(s);
     box.setAttribute("aria-label", "每位的錢大部分是自己的餐費，其餘是老師餐及雜費");
     document.getElementById("teach-note").textContent = S + " 位老師和職員的餐費，由家長分擔";
   }
