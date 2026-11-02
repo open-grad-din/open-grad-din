@@ -76,3 +76,4 @@ details td { padding: 4px; vertical-align: top; }
 .formula p { margin: 4px 0; }
 .bar-row.best .bar-num small { color: var(--misc); font-weight: 700; }
 .bar-row .track { border-style: solid; }
+.hint .key { display: inline-block; margin-top: 4px; color: var(--fg); font-weight: 700; }
