@@ -184,9 +184,8 @@
     document.getElementById("tie-line").textContent = P.tieRule || "待籌委會決定，會在開放報名前公布。";
 
     document.getElementById("mcap-line").textContent =
-      "雜費設有上限。只要雜費不超過以下金額，即使人數最少的家庭（1 大 1 小），無論哪個方案勝出，每位都不會超過 " +
-      money(CAP) + "：" + money(Math.min.apply(null, P.venues.map(function (v) { return maxIncidentals(v.perHead); }))) +
-      "（以最貴的場地計）。實際雜費如會超出，籌委會刪減雜費項目，不會向家長多收。截止後按實際人數重新計算這個上限並公布。";
+      "雜費設有上限：即使人數最少的家庭（1 大 1 小），無論哪個方案勝出，每位都不會超過 " + money(CAP) +
+      "。實際雜費如會超出，籌委會刪減雜費項目，不會向家長多收。截止後按實際人數計算這個上限並公布。";
     document.getElementById("what-line").textContent =
       "老師餐：" + S + " 位老師和職員。其他雜費：參考 2025 年實際雜費，約 " + money(M) + "。";
 
