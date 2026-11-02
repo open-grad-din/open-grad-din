@@ -99,7 +99,6 @@
 
   function update() {
     var n = state.adults + state.kids;
-    var who = state.adults + " 大 " + state.kids + " 小";
 
     // 第一層：你家分擔老師餐和雜費的金額（以名單平均餐費計；場地之間只差幾十元）。
     var shares = PLANS.map(function (f) { return round10(f(n, FAVG, S, M, G, N) - n * FAVG); });
@@ -114,10 +113,6 @@
       t.classList.toggle("best", !same && shares[k] === lo);
       t.setAttribute("aria-pressed", String(state.plan === k));
     });
-    var avg = Math.round(N / G * 10) / 10;
-    document.getElementById("calc-note").textContent = same
-      ? "你家 " + who + "，人數接近平均（每家約 " + avg + " 人），三個方案差不多，可以按你覺得哪個最公平來投。按一個方案，下面列表只顯示該方案的總數。"
-      : "你家 " + who + "，三個方案最多相差約 " + money(hi - lo) + "，哪個場地都差不多。按一個方案，下面列表只顯示該方案的總數。";
 
     // 第二層：每間場地你家要付的總數（包括自己的餐費）。
     document.getElementById("col-total").textContent =

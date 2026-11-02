@@ -161,7 +161,6 @@ details td { padding: 4px; vertical-align: top; }
 .tile[aria-pressed="true"] { background: var(--shu-soft); border-color: var(--shu); box-shadow: 1px 1px 0 var(--shu-deep); transform: translate(2px, 2px); }
 .tile[aria-pressed="true"] small { color: var(--shu-deep); }
 .tile:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--line); }
-.strip-note { margin: 0; font-size: 14px; color: var(--muted); }
 
 /* 第二層：場地列表（頂部黏住：人數＋欄名） */
 .cols { position: sticky; top: calc(54px + max(8px, env(safe-area-inset-top, 0px))); z-index: 2; margin: 0 -18px; padding: 6px 22px 6px; font-size: 13px; font-weight: 700; color: var(--muted); display: flex; justify-content: space-between; gap: 8px;
