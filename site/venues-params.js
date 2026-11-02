@@ -3,7 +3,7 @@
 // 名單、報價及篩走原因由籌委會提供。開放報名前（第 0 段）凍結：之後改動必須經 Pull Request 及統籌批准，
 // 改動紀錄永遠公開。報價僅供參考，實際價錢及檔期以場地書面確認為準。
 //
-// 每位餐費 F 一律計入 10% 服務費；中式按每圍 12 位計。有範圍的（不同菜式或預計加價）寫 F 及 Fmax，頁面取中位數並寫明範圍。
+// 每位餐費 F 一律計入 10% 服務費（酒樓報價已含加一，Ken 2026-11-02 確認）；中式筵席按每席 12 位計。有範圍的（不同菜式或預計加價）寫 F 及 Fmax，頁面取中位數並寫明範圍。
 // photos：場地相片 [{ src: "images/venues/xxx-1.jpg", alt: "…" }]。必須由籌委會自己拍攝或獲場地授權，不可從網上複製。
 // 未有相片時頁面顯示示範圖片。
 // grade：場地級別標籤。酒店星級一律照 Expedia 所列（Ken 2026-11-02 決定），gradeSrc 寫 Expedia 頁面；酒樓 Expedia 沒有星級，留空不顯示。
@@ -40,15 +40,15 @@ window.OGD_VENUES = {
       chips: ["任飲 3 小時", "即影即有相攤 2 小時"], photos: [] },
 
     { type: "rest", name: "海月（煌府）", where: "中港城", seats: "可設 38–65 席", url: "https://palace-rest.com.hk/",
-      menus: [{ name: "中式筵席", F: 332, Fmax: 724, quote: "每席 $3,988–$8,688" }], photos: [] },
+      menus: [{ name: "中式筵席", F: 332, Fmax: 724, quote: "每席 $3,988–$8,688（已含加一）" }], photos: [] },
     { type: "rest", name: "囍薈", where: "尖沙咀北京道 1 號 11 樓", seats: "可設 25–35 席", url: "https://vhsupreme.com.hk/hei-tsim-sha-tsui/",
-      menus: [{ name: "中式筵席", F: 432, Fmax: 665, quote: "每席 $5,180–$7,980" }], photos: [] },
+      menus: [{ name: "中式筵席", F: 432, Fmax: 665, quote: "每席 $5,180–$7,980（已含加一）" }], photos: [] },
     { type: "rest", name: "彩福皇宴", where: "尖東", seats: "可設 16–60 席", url: "https://www.choifookent.com/%e5%b0%96%e6%9d%b1%e5%ba%97-%e5%bd%a9%e7%a6%8f%e7%9a%87%e5%ae%b4/#branch",
-      menus: [{ name: "中式筵席", F: 415, Fmax: 665, quote: "每席 $4,980–$7,980" }], photos: [] },
+      menus: [{ name: "中式筵席", F: 415, Fmax: 665, quote: "每席 $4,980–$7,980（已含加一）" }], photos: [] },
     { type: "rest", name: "沙田美心皇宮", where: "沙田大會堂", seats: "可設 16–54 席", url: "https://www.maximschinese.com.hk/zh/brand/1",
-      menus: [{ name: "中式筵席", F: 407, Fmax: 573, quote: "每席 $4,880–$6,880" }], photos: [] },
+      menus: [{ name: "中式筵席", F: 407, Fmax: 573, quote: "每席 $4,880–$6,880（已含加一）" }], photos: [] },
     { type: "rest", name: "中環美心皇宮", where: "中環大會堂", seats: "可設 27–50 席", url: "https://www.maximschinese.com.hk/zh/brand/1",
-      menus: [{ name: "中式筵席", F: 648, Fmax: 807, quote: "每席 $7,780–$9,680" }], photos: [] }
+      menus: [{ name: "中式筵席", F: 648, Fmax: 807, quote: "每席 $7,780–$9,680（已含加一）" }], photos: [] }
   ],
 
   // 篩走的場地及原因（同一原因可合併一行）。
