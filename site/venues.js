@@ -57,9 +57,20 @@
       (v.chips && v.chips.length ? '<div class="chips">' + v.chips.map(function (c) { return '<span>' + esc(c) + '</span>'; }).join("") + '</div>' : "") +
       '</article>';
   }
+  // 為公平起見：每次打開頁面，場地次序隨機打亂一次，並隨機決定先顯示酒店還是酒樓。切換分頁時次序不變。
+  function rand(n) {
+    if (window.crypto && crypto.getRandomValues) {
+      var a = new Uint32Array(1); crypto.getRandomValues(a); return a[0] % n;
+    }
+    return Math.floor(Math.random() * n);
+  }
+  function shuffle(arr) {
+    for (var i = arr.length - 1; i > 0; i--) { var j = rand(i + 1), t = arr[i]; arr[i] = arr[j]; arr[j] = t; }
+    return arr;
+  }
+  var ORDER = shuffle(V.slice());
   function show(type) {
-    var list = V.filter(function (v) { return v.type === type; })
-      .sort(function (a, b) { return mid(a.menus[0]) - mid(b.menus[0]); });
+    var list = ORDER.filter(function (v) { return v.type === type; });
     document.getElementById("cards").innerHTML = list.map(cardHTML).join("");
     document.getElementById("tab-hotel").setAttribute("aria-selected", type === "hotel");
     document.getElementById("tab-rest").setAttribute("aria-selected", type === "rest");
@@ -79,7 +90,7 @@
   document.getElementById("n-rest").textContent = count("rest") + " 間";
   document.getElementById("tab-hotel").onclick = function () { show("hotel"); };
   document.getElementById("tab-rest").onclick = function () { show("rest"); };
-  show("hotel");
+  show(rand(2) ? "rest" : "hotel");
 
   // ---- 相片：電腦用左右箭咀或按住拖動；手機用手指掃 ----
   var cards = document.getElementById("cards");
