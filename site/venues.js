@@ -185,6 +185,12 @@
       "籌委會委員先收集了" + VP.collected + "酒店和酒樓，再篩走" + VP.excludeReasons.join("、") + "的場地，剩下 " + V.length +
       " 間：" + count("hotel") + " 間酒店、" + count("rest") + " 間酒樓。篩走了哪些場地，見下面「已篩走的場地及原因」。";
     document.getElementById("excluded").innerHTML = VP.excluded.map(function (r) { return "<li>" + esc(r) + "</li>"; }).join("");
+    var avg = Math.round(N / G * 10) / 10, avgTxt = (avg % 1 ? "約 " : "") + avg;
+    document.getElementById("avg-line").textContent =
+      "三個方案分擔的是同一筆錢（老師餐和雜費），分別只在於按人頭攤還是按家庭攤。按估算，出席總人數約 " + N +
+      " 位、出席畢業生約 " + G + " 位，即平均每家 " + avgTxt + " 人。一個家庭的人數剛好等於平均時，按人頭攤（①）和按家庭攤（③）付的一樣，" +
+      "② 亦一樣，所以 2 大 1 小的家庭三個方案差不多。人數多過平均的家庭，按家庭攤（③）較省；人數少過平均的（例如 1 大 1 小），按人頭攤（①）較省。" +
+      "實際平均人數要報名截止才知道，差距會隨之改變。";
     document.getElementById("assume-line").textContent =
       "假設老師和職員 " + S + " 位、雜費約 " + money(M) + "、出席畢業生 " + G + " 位、出席總人數 " + N + " 位（包括畢業生）。";
     C.commitLink();
