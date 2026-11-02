@@ -165,12 +165,15 @@
     list.innerHTML = ORDER.map(rowHTML).join("");
     var pop = document.getElementById("venue-pop"), popBody = document.getElementById("pop-body"), lastHead = null;
     list.addEventListener("click", function (e) {
-      var head = e.target.closest(".row-head"); if (!head) return;
+      // 整個場地卡都可按（Ken 2026-11-02），不只場地名
+      var row = e.target.closest(".row"); if (!row) return;
+      var head = row.querySelector(".row-head");
       var v = ORDER[Number(head.getAttribute("data-i"))];
       document.getElementById("pop-h").innerHTML = '<span class="tag ' + v.type + '">' + (v.grade ? esc(v.grade) : "") + TYPE[v.type] + '</span>' + esc(v.name);
       popBody.innerHTML = popHTML(v);
       lastHead = head;
       if (pop.showModal) pop.showModal(); else pop.setAttribute("open", "");
+      pop.focus(); // 對焦面板本身，不讓 × 掣一打開就出現對焦框（手機上會見到紅框）
     });
     function closePop() { if (pop.close) pop.close(); else pop.removeAttribute("open"); }
     pop.addEventListener("click", function (e) {
