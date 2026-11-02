@@ -58,8 +58,11 @@
       P.examples.forEach(function (ex) {
         var tr = el("tr");
         tr.appendChild(el("td", ex.label));
-        PLANS.map(function (f) { return f(ex.n, F, S, M, G, N); }).forEach(function (x) {
-          var td = el("td", undefined, x / ex.n > P.budgetPerHead.max ? "over" : "");
+        var amounts = PLANS.map(function (f) { return f(ex.n, F, S, M, G, N); });
+        var most = Math.max.apply(null, amounts.map(round10));
+        amounts.forEach(function (x) {
+          var cls = (round10(x) === most ? "max " : "") + (x / ex.n > P.budgetPerHead.max ? "over" : "");
+          var td = el("td", undefined, cls.trim());
           td.appendChild(el("span", money(round10(x))));
           td.appendChild(el("small", "每位 " + money(round10(x / ex.n))));
           tr.appendChild(td);

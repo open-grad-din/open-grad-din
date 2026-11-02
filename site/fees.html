@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="robots" content="noindex, nofollow">
-  <title>收費怎樣計</title>
+  <title>老師餐和雜費</title>
   <link rel="stylesheet" href="style.css?v=__COMMIT_SHORT__">
 </head>
 <body>
@@ -13,42 +13,58 @@
 
   <header>
     <span class="eyebrow"><a href="./">← K3 畢業晚宴首頁</a></span>
-    <h1>收費怎樣計</h1>
+    <h1>老師餐和雜費<br>怎樣計、怎樣選</h1>
     <p class="by" id="version"></p>
   </header>
 
   <section aria-labelledby="sum-h">
-    <h2 id="sum-h">一句講完</h2>
+    <h2 id="sum-h">報名前要知道</h2>
     <div class="now">
-      <p class="lead">每家要付的 = <b>自己家的餐費</b> + <b>分擔的雜費</b>。</p>
-      <p class="lead">現在只付訂金：<b>每位 $<span class="deposit"></span></b>（出席人數 × $<span class="deposit"></span>），不論最後用哪種計法。尾數在報名截止、投票結果公布後才收。</p>
+      <p class="lead">每家要付的 = <b>自己家的餐費</b> + <b>分擔的老師餐和雜費</b>。</p>
+      <p class="lead">怎樣分擔有三個方案，由報名並付了訂金的家長投票選出。</p>
+      <p class="pledge">付訂金即表示你同意：<b>無論哪個方案勝出，都按結果付尾數。</b>所以請先看清楚你家在三個方案下最多要付多少。</p>
+      <p class="fine">訂金每位 $<span class="deposit"></span>（出席人數 × $<span class="deposit"></span>），三個方案都一樣。尾數在報名截止、公布投票結果後才收。</p>
     </div>
   </section>
 
-  <section aria-labelledby="vote-h">
-    <h2 id="vote-h">老師餐費和雜費怎樣分？三個方案，由你投票</h2>
+  <section aria-labelledby="plan-h">
+    <h2 id="plan-h">三個方案</h2>
     <dl class="choices">
       <dt>① 按人頭</dt>
-      <dd>老師餐費和雜費全部按出席人數平分，大人小朋友同一個價錢。</dd>
+      <dd>老師餐和雜費全部按出席人數平分，大人小朋友同一個價錢。</dd>
       <dt>② 雜費按人頭</dt>
-      <dd>老師餐費只由畢業生家庭分擔（每家一份），雜費按出席人數平分。</dd>
+      <dd>老師餐只由畢業生家庭分擔（每家一份），雜費按出席人數平分。</dd>
       <dt>③ 按家庭</dt>
-      <dd>老師餐費和雜費都由畢業生家庭分擔（每家一份），陪同家人只付自己的餐費。接龍時公布的是這個方法。</dd>
+      <dd>老師餐和雜費都由畢業生家庭分擔（每家一份），陪同家人只付自己的餐費。接龍時公布的是這個方法。</dd>
     </dl>
     <p class="fine" id="who-wins"></p>
   </section>
 
   <section aria-labelledby="ex-h">
-    <h2 id="ex-h">你家大約要付多少（全晚合共，① ② ③ 即上面三個方案）</h2>
+    <h2 id="ex-h">你家要付多少（全晚合共，約數）</h2>
     <div id="venues"></div>
+    <p class="fine">深色底的一格，是你家在三個方案中最貴的金額：無論哪個方案勝出，都不會比它多（實際數字變動除外，見下面「為甚麼是約數」）。</p>
     <p class="fine" id="cap-note"></p>
-    <p class="fine">每位餐費已計入服務費。「大」「小」都計一位出席者，包括畢業生和兄弟姊妹。金額四捨五入至十位，是估算；最後以實際數字計，見下面「為甚麼是約數」。</p>
+    <p class="fine">每位餐費已計入服務費。「大」「小」都計一位出席者，包括畢業生和兄弟姊妹。金額四捨五入至十位。</p>
+  </section>
+
+  <section aria-labelledby="rule-h">
+    <h2 id="rule-h">怎樣選出方案</h2>
+    <ul class="plain">
+      <li>每位畢業生一票，和場地一起在報名表格內投。</li>
+      <li>只計已核實付款的報名；填了表但沒有付款的票不計。</li>
+      <li>截止前不公開票數，截止後公布三個方案各自的票數。</li>
+      <li id="win-rule">怎樣定勝出：待籌委會決定。</li>
+      <li id="tie-rule">平手時：待籌委會決定。</li>
+      <li>以上規則在開放報名前公布，投票開始後不會更改。</li>
+      <li><b>結果公布後，所有家庭都按勝出的方案計尾數，包括投了其他方案的家庭。</b></li>
+    </ul>
   </section>
 
   <section aria-labelledby="misc-h">
-    <h2 id="misc-h">雜費包括甚麼</h2>
+    <h2 id="misc-h">老師餐和雜費包括甚麼</h2>
     <ul class="plain">
-      <li>老師的餐費：<span id="staff-line"></span></li>
+      <li>老師餐：<span id="staff-line"></span></li>
       <li>其他雜費（佈置、節目、影片、物資等）：<span id="misc-line"></span></li>
     </ul>
     <p class="fine">報名表格內有一題問你最想雜費用在哪裏，結果只作參考，交負責的組別。</p>
@@ -56,18 +72,7 @@
 
   <section aria-labelledby="est-h">
     <h2 id="est-h">為甚麼是約數</h2>
-    <p class="text">雜費要辦完晚宴才知道實數，出席人數要報名截止才知道。所以現在只能估算。截止後，籌委會按已核實的人數重新計算，收尾數時公布每項數字；晚宴後公布決算及單據總額。</p>
-  </section>
-
-  <section aria-labelledby="rule-h">
-    <h2 id="rule-h">投票規則</h2>
-    <ul class="plain">
-      <li>每位畢業生一票，和場地一起在報名表格內投。</li>
-      <li>只計已核實付款的報名；填了表但沒有付款的票不計。</li>
-      <li>截止前不公開票數，截止後公布三個方案各自的票數。</li>
-      <li id="win-rule">怎樣定勝出：待籌委會決定。</li>
-      <li id="tie-rule">平手時：待籌委會決定。</li>
-    </ul>
+    <p class="text">雜費要辦完晚宴才知道實數，出席人數要報名截止才知道，所以現在只能估算。截止後，籌委會按已核實的人數及勝出的方案重新計算，收尾數時公布每項數字；晚宴後公布決算及單據總額。</p>
   </section>
 
   <section aria-labelledby="f-h">
