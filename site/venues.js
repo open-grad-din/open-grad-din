@@ -182,12 +182,11 @@
     C.banner("demo-banner");
     document.getElementById("funnel-line").textContent =
       "籌委會委員收集了" + VP.collected + "，篩走" + VP.excludeReasons.join("、") + "的，剩下 " + V.length + " 間。" + VP.history;
-    document.getElementById("collected").textContent = VP.collected;
     document.getElementById("history").textContent = VP.history;
-    document.getElementById("cut-reasons").innerHTML = VP.excludeReasons.map(function (r) { return "<li>" + esc(r) + "</li>"; }).join("");
+    document.getElementById("funnel-text").textContent =
+      "籌委會委員先收集了" + VP.collected + "酒店和酒樓，再篩走" + VP.excludeReasons.join("、") + "的場地，剩下 " + V.length +
+      " 間：" + count("hotel") + " 間酒店、" + count("rest") + " 間酒樓。篩走了哪些場地，見下面「已篩走的場地及原因」。";
     document.getElementById("excluded").innerHTML = VP.excluded.map(function (r) { return "<li>" + esc(r) + "</li>"; }).join("");
-    document.getElementById("n-total").textContent = V.length + " 間";
-    document.getElementById("n-split").textContent = count("hotel") + " 間酒店 ＋ " + count("rest") + " 間酒樓";
     document.getElementById("assume-line").textContent =
       "假設老師和職員 " + S + " 位、雜費約 " + money(M) + "、出席畢業生 " + G + " 位、出席總人數 " + N + " 位（包括畢業生）。";
     C.commitLink();
