@@ -1,5 +1,5 @@
-/* Ken 指定的提示／active 顏色（人數框提示、捲到的菜式） */
-:root { --nudge: #4dfff6; }
+/* Ken 指定的顏色：--nudge 人數框提示，--active 捲到的菜式 */
+:root { --nudge: #00918a; --active: #4dfff6; }
 
 /* 場地及收費頁：以圖為主，手機單手操作。上限 → 錢用在哪 → 三個方案 → 場地卡（按你家人數即時計算）→ 怎樣選出 → 細節。 */
 :root { --meal: #d9c8ad; --teach: #d7a53d; --misc: #5e7f9b; --fig: #cdbfae; }
@@ -192,10 +192,10 @@ details td { padding: 4px; vertical-align: top; }
 .mrow + .mrow { border-top: 1px dotted var(--line); }
 /* 捲到頂部下方、三格正在顯示的那個菜式 */
 .mrow { margin: 0 -8px; padding-left: 8px; padding-right: 8px; border-radius: 10px; transition: background .2s ease, box-shadow .2s ease; }
-.mrow.active { background: color-mix(in srgb, var(--nudge) 22%, var(--surface)); box-shadow: inset 4px 0 0 var(--nudge); }
+.mrow.active { background: color-mix(in srgb, var(--active) 22%, var(--surface)); box-shadow: inset 4px 0 0 var(--active); }
 .mrow.active .mf, .mrow.active .mf b, .mrow.active .mn { color: var(--ink); }
 .row { transition: border-color .2s ease; }
-.row.on { border-color: var(--nudge); }
+.row.on { border-color: var(--active); }
 .ml { display: flex; flex-direction: column; min-width: 0; }
 .mn { font-size: 14px; font-weight: 700; }
 .mf { font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
