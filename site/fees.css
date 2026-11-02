@@ -193,10 +193,10 @@ details td { padding: 4px; vertical-align: top; }
 .mrow.active .mf, .mrow.active .mf b, .mrow.active .mn { color: var(--ink); }
 .row { transition: border-color .2s ease; }
 .row.on { border-color: var(--active); }
-.ml { display: flex; flex-direction: column; min-width: 0; }
+.ml { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; min-width: 0; }
 .mn { font-size: 14px; font-weight: 700; }
 /* 餐飲類型標籤（自助晚餐、中式等）及場地級別標籤 */
-.mtag { display: inline-block; font-size: 12px; font-weight: 700; line-height: 1.5; padding: 0 8px; margin-bottom: 2px; border-radius: 999px; color: var(--ink); background: var(--paper); border: 1.5px solid var(--stroke); }
+.mtag { display: inline-block; font-size: 14px; font-weight: 800; line-height: 1.5; padding: 0 10px; border-radius: 999px; color: var(--paper); background: var(--ink); }
 .mf { font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
 .mf b { color: var(--ink); font-weight: 700; }
 .row-more { display: flex; flex-direction: column; gap: 10px; padding-top: 10px; margin-top: 6px; border-top: 1px dashed var(--line); }
@@ -206,7 +206,7 @@ details td { padding: 4px; vertical-align: top; }
 .row-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
 .row-foot .where { font-size: 14px; color: var(--muted); }
 .mrow { align-items: flex-start; }
-.ml { padding-top: 4px; }
+.ml { padding-block: 4px; }
 .stepper .lbl small { display: block; font-size: 11px; font-weight: 400; color: var(--muted); line-height: 1.1; }
 .strip-key { margin: 2px 2px 0; display: flex; justify-content: flex-end; align-items: baseline; gap: 8px; font-size: 14px; }
 .scroll-hint { margin-right: auto; font-size: 13px; color: var(--nudge); font-weight: 700; }
