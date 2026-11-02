@@ -181,3 +181,5 @@ details td { padding: 4px; vertical-align: top; }
 .sec-card { position: relative; }
 .sec-card > .sec-h.only-no { position: absolute; top: 14px; left: 14px; margin: 0; }
 .sec-card > .sec-h.only-no + .plate { margin-top: 14px; }
+/* 章節卡頂部與上限卡相同的膠紙 */
+.sec-card::before { content: ""; position: absolute; top: -12px; left: 50%; width: 84px; height: 22px; transform: translateX(-50%) rotate(2deg); background: var(--tape); border-radius: 3px; }
