@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="robots" content="noindex, nofollow">
-  <meta name="theme-color" content="#fcf7f4" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#1b161a" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f8f4ec" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1f1c19" media="(prefers-color-scheme: dark)">
   <title>K3 畢業晚宴</title>
-  <link rel="preload" href="fonts/ogd-kai.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/ogd-maru.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="style.css?v=__COMMIT_SHORT__">
   <script>
     // 開場動畫：每次打開瀏覽器只播一次；設定了「減少動態效果」就不播。
@@ -27,27 +27,54 @@
   <p id="demo-banner" class="draft" hidden>示範版：以下所有數字及日期都是假資料，不是真實資料。</p>
 
   <header class="hero">
-    <div class="petals" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
     <span class="eyebrow">學之園凱帆校 · K3 四班</span>
-
-    <div class="enso" role="img" id="enso" aria-label="距離晚宴的日數">
-      <svg viewBox="0 0 210 210" aria-hidden="true">
-        <defs>
-          <radialGradient id="wash" cx="40%" cy="35%" r="65%">
-            <stop offset="0" style="stop-color:var(--surface);stop-opacity:.95"/>
-            <stop offset=".7" style="stop-color:var(--shu-soft);stop-opacity:.9"/>
-            <stop offset="1" style="stop-color:var(--fuji);stop-opacity:.6"/>
-          </radialGradient>
-        </defs>
-        <circle class="wash" cx="105" cy="105" r="86"/>
-        <path class="ring" d="M150 30A88 88 0 1 0 172 48"/>
-        <circle class="ring2" cx="105" cy="105" r="97"/>
-        <g class="flower" transform="translate(163 37)"><ellipse cx="0" cy="-8" rx="5.5" ry="8" transform="rotate(0)"/><ellipse cx="0" cy="-8" rx="5.5" ry="8" transform="rotate(72)"/><ellipse cx="0" cy="-8" rx="5.5" ry="8" transform="rotate(144)"/><ellipse cx="0" cy="-8" rx="5.5" ry="8" transform="rotate(216)"/><ellipse cx="0" cy="-8" rx="5.5" ry="8" transform="rotate(288)"/><circle r="3"/></g>
-      </svg>
-      <div class="count"><small>距離晚宴</small><b id="days">—</b><small>日</small></div>
-    </div>
-
-    <h1 aria-label="畢業晚宴"><span class="ch" style="animation-delay:.5s">畢</span><span class="ch" style="animation-delay:.62s">業</span><span class="ch" style="animation-delay:.74s">晚</span><span class="ch" style="animation-delay:.86s">宴</span></h1>
+    <h1 aria-label="畢業晚宴"><span class="ch mark" style="animation-delay:.1s">畢</span><span class="ch mark" style="animation-delay:.2s">業</span><span class="ch mark" style="animation-delay:.3s">晚</span><span class="ch mark" style="animation-delay:.4s">宴</span></h1>
+    <svg class="kids" viewBox="0 0 340 130" role="img" aria-label="三個戴畢業帽的小朋友手牽手">
+      <path class="ln" pathLength="1" style="animation-delay:0.07s" d="M46 37 L70 25 L94 37 L70 45 Z"/>
+      <path class="ln" pathLength="1" style="animation-delay:0.14s" d="M94 37 L97 52"/>
+      <circle class="fl" cx="97" cy="54" r="3"/>
+      <path class="ln" pathLength="1" style="animation-delay:0.21s" d="M53 52 a17 17 0 1 0 34 0"/>
+      <path class="ln" pathLength="1" style="animation-delay:0.28s" d="M53 52 q4 -12 17 -8 q13 -4 17 8"/>
+      <circle class="fl" cx="64" cy="55" r="2.2"/><circle class="fl" cx="76" cy="55" r="2.2"/>
+      <circle class="cheek" cx="58" cy="62" r="3.5"/><circle class="cheek" cx="82" cy="62" r="3.5"/>
+      <path class="ln" pathLength="1" style="animation-delay:0.35s" d="M65 63 q5 5 10 0"/>
+      <path class="c1" style="opacity:.35" d="M55 74 q15 -8 30 0 v30 h-30 z"/>
+      <path class="ln" pathLength="1" style="animation-delay:0.42s" d="M55 74 q15 -8 30 0 v30 h-30 z"/>
+      <path class="ln" pathLength="1" style="animation-delay:0.49s" d="M63 104 v18 M77 104 v18"/>
+      <path class="ln" pathLength="1" style="animation-delay:0.56s" d="M146 37 L170 25 L194 37 L170 45 Z"/>
+      <path class="ln" pathLength="1" style="animation-delay:0.63s" d="M194 37 L197 52"/>
+      <circle class="fl" cx="197" cy="54" r="3"/>
+      <path class="ln" pathLength="1" style="animation-delay:0.70s" d="M153 52 a17 17 0 1 0 34 0"/>
+      <path class="ln" pathLength="1" style="animation-delay:0.77s" d="M153 52 q4 -12 17 -8 q13 -4 17 8"/>
+      <circle class="fl" cx="164" cy="55" r="2.2"/><circle class="fl" cx="176" cy="55" r="2.2"/>
+      <circle class="cheek" cx="158" cy="62" r="3.5"/><circle class="cheek" cx="182" cy="62" r="3.5"/>
+      <path class="ln" pathLength="1" style="animation-delay:0.84s" d="M165 63 q5 5 10 0"/>
+      <path class="c2" style="opacity:.35" d="M155 74 q15 -8 30 0 v30 h-30 z"/>
+      <path class="ln" pathLength="1" style="animation-delay:0.91s" d="M155 74 q15 -8 30 0 v30 h-30 z"/>
+      <path class="ln" pathLength="1" style="animation-delay:0.98s" d="M163 104 v18 M177 104 v18"/>
+      <path class="ln" pathLength="1" style="animation-delay:1.05s" d="M246 37 L270 25 L294 37 L270 45 Z"/>
+      <path class="ln" pathLength="1" style="animation-delay:1.12s" d="M294 37 L297 52"/>
+      <circle class="fl" cx="297" cy="54" r="3"/>
+      <path class="ln" pathLength="1" style="animation-delay:1.19s" d="M253 52 a17 17 0 1 0 34 0"/>
+      <path class="ln" pathLength="1" style="animation-delay:1.26s" d="M253 52 q4 -12 17 -8 q13 -4 17 8"/>
+      <circle class="fl" cx="264" cy="55" r="2.2"/><circle class="fl" cx="276" cy="55" r="2.2"/>
+      <circle class="cheek" cx="258" cy="62" r="3.5"/><circle class="cheek" cx="282" cy="62" r="3.5"/>
+      <path class="ln" pathLength="1" style="animation-delay:1.33s" d="M265 63 q5 5 10 0"/>
+      <path class="c3" style="opacity:.35" d="M255 74 q15 -8 30 0 v30 h-30 z"/>
+      <path class="ln" pathLength="1" style="animation-delay:1.40s" d="M255 74 q15 -8 30 0 v30 h-30 z"/>
+      <path class="ln" pathLength="1" style="animation-delay:1.47s" d="M263 104 v18 M277 104 v18"/>
+      <path class="ln" pathLength="1" style="animation-delay:1.54s" d="M85 84 q25 10 50 0"/>
+      <circle class="fl" cx="110" cy="88" r="2.5"/>
+      <path class="ln" pathLength="1" style="animation-delay:1.61s" d="M185 84 q25 10 50 0"/>
+      <circle class="fl" cx="210" cy="88" r="2.5"/>
+      <path class="ln" pathLength="1" style="animation-delay:1.68s" d="M55 84 q-12 6 -16 20"/>
+      <path class="ln" pathLength="1" style="animation-delay:1.75s" d="M285 84 q12 6 16 20"/>
+      <path class="star" pathLength="1" d="M22 30 v12 M16 36 h12"/>
+      <path class="star" pathLength="1" d="M318 24 v12 M312 30 h12"/>
+      <path class="star" pathLength="1" d="M150 10 v12 M144 16 h12"/>
+      <path class="star" pathLength="1" d="M300 104 v12 M294 110 h12"/>
+    </svg>
+    <div class="sticker" role="img" id="enso" aria-label="距離晚宴的日數"><small>距離晚宴</small><b id="days">—</b><small>日</small></div>
     <p class="date"><b>2027 年 7 月 2 日</b>（星期五）晚上</p>
     <p class="by" id="by"></p>
 

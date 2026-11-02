@@ -1,11 +1,11 @@
 /* 收費詳細頁：以圖為主，手機單手操作。 */
-:root { --meal: #eee3e2; --teach: #d0708f; --misc: #7c68b4; --fig: #c5b6bb; }
-@media (prefers-color-scheme: dark) { :root { --meal: #3d3439; --teach: #ee8fae; --misc: #b5a3ec; --fig: #6f6268; } }
+:root { --meal: #e9e0d2; --teach: #d7a53d; --misc: #5e7f9b; --fig: #cdbfae; }
+@media (prefers-color-scheme: dark) { :root { --meal: #3b3630; --teach: #e2b85f; --misc: #8fb0cb; --fig: #6a6057; } }
 
 /* 1. 上限 */
-.hero { position: relative; color: var(--ink); border-radius: 28px; padding: 26px 20px 22px; text-align: center; gap: 4px; overflow: hidden; isolation: isolate;
-  background: linear-gradient(140deg, var(--shu-soft), var(--surface) 55%, var(--ai-soft)); border: 1px solid var(--line); box-shadow: var(--shadow); }
-.hero::before { content: ""; position: absolute; width: 180px; height: 180px; right: -50px; bottom: -70px; border-radius: 50%; z-index: -1; background: var(--sakura); opacity: .5; filter: blur(8px); }
+.hero { position: relative; color: var(--ink); border-radius: var(--wobble); padding: 26px 20px 22px; text-align: center; gap: 4px; isolation: isolate;
+  background: var(--surface); border: 2px solid var(--stroke); box-shadow: 4px 4px 0 var(--line); }
+.hero::before { content: ""; position: absolute; top: -12px; left: 50%; width: 84px; height: 22px; transform: translateX(-50%) rotate(-3deg); background: var(--tape); border-radius: 3px; }
 .hero p { margin: 0; }
 .hero-kicker { font-size: 15px; color: var(--muted); letter-spacing: .12em; }
 .hero-num { font-size: 20px; font-weight: 700; }
@@ -18,7 +18,7 @@
 .dot.meal { background: var(--meal); } .dot.teach { background: var(--teach); } .dot.misc { background: var(--misc); }
 
 /* 2. 錢用在哪 */
-.stack { display: flex; height: 52px; border-radius: 14px; overflow: hidden; font-size: 13px; font-weight: 700; }
+.stack { display: flex; height: 52px; border-radius: var(--wobble2); border: 2px solid var(--stroke); overflow: hidden; font-size: 13px; font-weight: 700; }
 .stack span { display: flex; align-items: center; justify-content: center; min-width: 52px; white-space: nowrap; }
 .js .reveal .stack span { transform-origin: left; transform: scaleX(0); transition: transform .9s cubic-bezier(.2, .7, .2, 1); }
 .js .reveal.in .stack span { transform: none; }
@@ -30,14 +30,14 @@
 .legend { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
 .legend li { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 8px; }
 .legend small { color: var(--muted); font-size: 14px; }
-.note { margin: 14px 0 0; background: var(--ai-soft); border-radius: 14px; padding: 12px 14px; font-size: 15px; }
+.note { margin: 14px 0 0; background: var(--sage-soft); border-radius: var(--wobble2); padding: 12px 14px; font-size: 15px; }
 .hint { margin: 0 0 12px; color: var(--muted); font-size: 15px; }
 .hint .key { display: inline-block; margin-top: 4px; color: var(--ink); font-weight: 700; }
-.assume { margin: -4px 0 14px; padding: 8px 12px; border-left: 4px solid var(--warn); background: var(--warn-soft); border-radius: 0 12px 12px 0; font-size: 15px; }
+.assume { margin: -4px 0 14px; padding: 8px 12px; border-left: 4px solid var(--kin); background: var(--kin-soft); border-radius: 0 14px 14px 0; font-size: 15px; }
 
 /* 3. 三個方案 */
 .plans { display: flex; flex-direction: column; gap: 12px; }
-.plan { background: var(--surface); border: 1px solid var(--line); border-radius: 24px; box-shadow: var(--shadow); padding: 14px 16px; display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; align-items: center; }
+.plan { background: var(--surface); border: 2px solid var(--stroke); border-radius: var(--wobble); box-shadow: 3px 3px 0 var(--line); padding: 14px 16px; display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; align-items: center; }
 .plan h3 { grid-column: 1 / -1; margin: 0 0 2px; font-family: var(--font-display); font-size: 20px; letter-spacing: .04em; }
 .plan p { margin: 0; font-size: 15px; }
 .family { display: flex; align-items: flex-end; }
@@ -49,11 +49,11 @@
 .js .reveal.in .plan:nth-child(2) circle[class^="d-"] { transition-delay: .2s; } .js .reveal.in .plan:nth-child(3) circle[class^="d-"] { transition-delay: .4s; }
 
 /* 4. 計算 */
-.calc { background: var(--surface); border: 1px solid var(--line); border-radius: 24px; box-shadow: var(--shadow); padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+.calc { background: var(--surface); border: 2px solid var(--stroke); border-radius: var(--wobble2); box-shadow: 3px 3px 0 var(--line); padding: 16px; display: flex; flex-direction: column; gap: 14px; }
 .stepper { display: grid; grid-template-columns: 1fr 56px 46px 56px; align-items: center; gap: 6px; }
 .stepper .lbl { font-weight: 700; font-size: 18px; }
 .stepper .lbl small { display: block; font-weight: 400; font-size: 13px; color: var(--muted); }
-.stepper button { height: 56px; border-radius: 50%; border: 0; background: var(--shu-soft); color: var(--shu); font-size: 26px; font-weight: 700; cursor: pointer; transition: transform .1s ease; }
+.stepper button { height: 56px; border-radius: 48% 52% 50% 50% / 52% 48% 52% 48%; border: 2px solid var(--stroke); background: var(--kin-soft); color: var(--ink); font-size: 26px; font-weight: 700; cursor: pointer; transition: transform .1s ease; }
 .stepper button:active { transform: scale(.92); }
 .stepper button:disabled { opacity: .35; cursor: default; }
 .stepper output { text-align: center; font-family: var(--font-display); font-size: 30px; font-weight: 700; font-variant-numeric: tabular-nums; }
@@ -67,19 +67,19 @@
 .fill-share { background: linear-gradient(90deg, var(--teach), var(--misc)); }
 .bar-row.best .bar-num small { color: var(--misc); font-weight: 700; }
 .bar-row.over .bar-num b { color: var(--warn); }
-.bars-head { margin: 4px 0 0; padding: 10px 12px; background: var(--ai-soft); border-radius: 12px; font-size: 16px; }
-.notice { background: var(--warn-soft); border-radius: 12px; padding: 10px 12px; font-size: 15px; }
+.bars-head { margin: 4px 0 0; padding: 10px 12px; background: var(--kin-soft); border-radius: var(--wobble2); font-size: 16px; }
+.notice { background: var(--warn-soft); border-radius: var(--wobble2); padding: 10px 12px; font-size: 15px; }
 .notice ul { margin: 4px 0 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 4px; }
 
 /* 5. 怎樣選出 */
 .flow { list-style: none; margin: 0; padding: 0; counter-reset: s; display: flex; flex-direction: column; }
 .flow li { counter-increment: s; position: relative; padding: 0 0 18px 48px; display: flex; flex-direction: column; }
-.flow li::before { content: counter(s); position: absolute; left: 0; top: -2px; width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--ai); color: var(--ai); background: var(--surface);
+.flow li::before { content: counter(s); position: absolute; left: 0; top: -2px; width: 34px; height: 34px; border-radius: 48% 52% 50% 50% / 52% 48% 52% 48%; border: 2px solid var(--ai); color: var(--ai); background: var(--surface);
   display: grid; place-items: center; font-weight: 700; font-family: var(--font-display); }
 .flow li:last-child::before { background: var(--ai); color: var(--paper); }
-.flow li:not(:last-child)::after { content: ""; position: absolute; left: 16px; top: 34px; bottom: 0; width: 2px; background: repeating-linear-gradient(var(--line) 0 4px, transparent 4px 8px); }
+.flow li:not(:last-child)::after { content: ""; position: absolute; left: 16px; top: 34px; bottom: 0; width: 2px; background: repeating-linear-gradient(var(--stroke) 0 4px, transparent 4px 8px); }
 .flow span { color: var(--muted); font-size: 15px; }
-.pledge { margin: 4px 0 0; background: var(--shu-soft); border-radius: 14px; padding: 14px; border-left: 4px solid var(--shu); }
+.pledge { margin: 4px 0 0; background: var(--shu-soft); border-radius: var(--wobble); padding: 14px; border: 2px dashed var(--shu); }
 
 /* 6. 細節 */
 details { margin-bottom: 10px; }
@@ -88,6 +88,6 @@ details p, details .formula, details table { margin: 0 16px 14px; }
 details table { width: calc(100% - 32px); font-size: 15px; border-collapse: collapse; }
 details td { padding: 4px; vertical-align: top; }
 .sym { font-weight: 700; width: 2em; font-family: var(--font-display); }
-.formula { background: var(--ai-soft); border-radius: 12px; padding: 8px 12px; font-variant-numeric: tabular-nums; }
+.formula { background: var(--ai-soft); border-radius: var(--wobble2); padding: 8px 12px; font-variant-numeric: tabular-nums; }
 .formula p { margin: 4px 0; }
 .fine.warn { color: var(--warn); font-weight: 700; }

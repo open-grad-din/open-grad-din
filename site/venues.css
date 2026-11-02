@@ -2,19 +2,19 @@
 section { gap: 0; }
 /* 名單漏斗 */
 .funnel { display: flex; flex-direction: column; align-items: stretch; }
-.step { background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: 14px 16px; text-align: center; }
+.step { background: var(--surface); border: 2px solid var(--stroke); border-radius: var(--wobble); padding: 14px 16px; text-align: center; }
 .step b { display: block; font-family: var(--font-display); font-size: 34px; line-height: 1.2; font-variant-numeric: tabular-nums; }
 .step span { font-size: 15px; color: var(--muted); }
-.step.final { background: linear-gradient(130deg, var(--shu), var(--ai)); border-color: transparent; color: var(--paper); }
+.step.final { background: var(--ai); border-color: var(--ai); color: var(--paper); box-shadow: 3px 3px 0 var(--line); }
 .step.final span { color: var(--paper); opacity: .9; }
 .cut { display: flex; flex-direction: column; align-items: center; padding: 8px 0; color: var(--muted); font-size: 14px; }
 .cut .arrow { font-size: 22px; line-height: 1; color: var(--shu); }
 .cut ul { list-style: none; margin: 6px 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
-.cut li { color: var(--shu); border: 1px solid currentColor; border-radius: 999px; padding: 1px 10px; font-size: 14px; }
-.history { background: var(--ai-soft); border-radius: 14px; padding: 12px 14px; font-size: 15px; margin: 14px 0 0; }
+.cut li { color: var(--shu); border: 1.5px solid currentColor; border-radius: 999px; padding: 1px 10px; font-size: 14px; }
+.history { background: var(--sage-soft); border-radius: var(--wobble2); padding: 12px 14px; font-size: 15px; margin: 14px 0 0; }
 .notes { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 16px; }
-.notes li { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px 12px 44px; position: relative; }
-.notes li::before { content: "✿"; position: absolute; left: 14px; top: 11px; font-family: var(--font-display); font-weight: 800; color: var(--shu); }
+.notes li { background: var(--surface); border: 2px solid var(--stroke); border-radius: var(--wobble2); padding: 12px 14px 12px 44px; position: relative; }
+.notes li::before { content: "✓"; position: absolute; left: 14px; top: 11px; font-weight: 800; color: var(--sage); }
 
 
 /* 分頁 */
@@ -30,7 +30,8 @@ section { gap: 0; }
 
 /* 場地卡 */
 .cards { display: flex; flex-direction: column; gap: 16px; }
-.card { background: var(--surface); border: 1px solid var(--line); border-radius: 26px; box-shadow: var(--shadow); padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.card:nth-child(2n) { border-radius: var(--wobble2); }
+.card { background: var(--surface); border: 2px solid var(--stroke); border-radius: var(--wobble); box-shadow: 3px 3px 0 var(--line); padding: 16px; display: flex; flex-direction: column; gap: 12px; }
 .cards.anim .card { animation: up .55s cubic-bezier(.2, .7, .2, 1) both; }
 .cards.anim .card:nth-child(2) { animation-delay: .06s; } .cards.anim .card:nth-child(3) { animation-delay: .12s; } .cards.anim .card:nth-child(4) { animation-delay: .18s; }
 .cards.anim .card:nth-child(n+5) { animation-delay: .24s; }
@@ -44,10 +45,10 @@ section { gap: 0; }
 .menu-price b { font-family: var(--font-display); color: var(--ink); font-size: 24px; margin-left: 2px; }
 .range-note { font-size: 14px; color: var(--muted); margin: 0; font-variant-numeric: tabular-nums; }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.chips span { font-size: 13px; padding: 2px 10px; border-radius: 999px; background: var(--paper); border: 1px solid var(--line); }
+.chips span { font-size: 13px; padding: 2px 10px; border-radius: 999px; background: var(--kin-soft); border: 1.5px solid var(--stroke); }
 .gallery { display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: -16px; padding-inline: 16px; scroll-padding-inline: 16px; scrollbar-width: none; }
 .gallery::-webkit-scrollbar { display: none; }
-.shot { flex: 0 0 80%; margin: 0; position: relative; border-radius: 18px; overflow: hidden; scroll-snap-align: start; aspect-ratio: 4 / 3; max-width: 100%; background: var(--paper); }
+.shot { flex: 0 0 80%; margin: 0; position: relative; border-radius: var(--wobble2); border: 2px solid var(--stroke); overflow: hidden; scroll-snap-align: start; aspect-ratio: 4 / 3; max-width: 100%; background: var(--paper); }
 .shot svg, .shot img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .shot figcaption { position: absolute; left: 8px; bottom: 8px; font-size: 12px; padding: 1px 8px; border-radius: 999px; background: var(--surface); color: var(--muted); }
 .gal-wrap { position: relative; }
@@ -57,7 +58,7 @@ section { gap: 0; }
 .gal-btn.prev { left: -6px; } .gal-btn.next { right: -6px; }
 @media (hover: hover) and (pointer: fine) { .gal-btn { display: block; } }
 .quote { font-size: 13px; color: var(--muted); }
-.link { font-size: 14px; font-weight: 700; color: var(--ai); white-space: nowrap; text-decoration: none; border: 1.5px solid var(--ai); border-radius: 999px; padding: 6px 12px; flex: none; }
+.link { font-size: 14px; font-weight: 700; color: var(--ai); white-space: nowrap; text-decoration: none; border: 2px solid var(--ai); border-radius: 999px; padding: 6px 12px; flex: none; }
 .link.none { color: var(--muted); border-color: var(--line); font-weight: 400; }
 
 details { padding: 4px 16px; }

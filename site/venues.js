@@ -19,11 +19,11 @@
     TABLES += '<circle cx="' + (40 + (i % 3) * 60) + '" cy="' + (48 + Math.floor(i / 3) * 36) + '" r="13"/>';
   }
   function placeholder(i, name) {
-    var hue = [340, 265, 20][i % 3];
+    var hue = [205, 42, 120][i % 3];
     return '<figure class="shot"><svg viewBox="0 0 200 150" role="img" aria-label="' + esc(name) + ' 示範圖片 ' + (i + 1) + '">' +
-      '<rect width="200" height="150" fill="hsl(' + hue + ' 45% 86%)"/>' +
-      '<rect width="200" height="22" fill="hsl(' + hue + ' 40% 76%)"/>' +
-      '<g fill="hsl(' + hue + ' 60% 97%)">' + TABLES + '</g></svg>' +
+      '<rect width="200" height="150" fill="hsl(' + hue + ' 28% 84%)"/>' +
+      '<rect width="200" height="22" fill="hsl(' + hue + ' 28% 70%)"/>' +
+      '<g fill="hsl(' + hue + ' 40% 97%)">' + TABLES + '</g></svg>' +
       '<figcaption>示範圖片 ' + (i + 1) + '</figcaption></figure>';
   }
   function galleryHTML(v) {
