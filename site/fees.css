@@ -162,6 +162,7 @@ details td { padding: 4px; vertical-align: top; }
 
 /* 第二層：場地列表（頂部黏住：人數＋欄名） */
 .list-h { margin: 16px 0 10px; font-size: 19px; }
+.list-h::after { display: none; }
 .list { display: flex; flex-direction: column; gap: 10px; }
 .row { background: var(--surface); border: 2px solid var(--stroke); border-radius: var(--wobble2); box-shadow: 3px 3px 0 var(--line); padding: 8px 14px 10px; }
 .row:nth-child(2n) { border-radius: var(--wobble); }
