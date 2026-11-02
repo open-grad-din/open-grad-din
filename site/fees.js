@@ -100,7 +100,7 @@
     var total = parts.reduce(function (s, p) { return s + p[1]; }, 0);
     var box = document.getElementById("stack");
     parts.forEach(function (p) {
-      var seg = el("span", p[0] === "meal" ? "" : money(p[1]), p[0]);
+      var seg = el("span", p[0] === "meal" ? "餐費（視乎場地）" : money(p[1]), p[0]);
       seg.style.flexGrow = String(p[1] / total);
       box.appendChild(seg);
     });
