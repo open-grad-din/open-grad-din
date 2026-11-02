@@ -31,7 +31,7 @@ window.OGD_FEES = {
   // 場地及每位餐費 F：場地也是投票決定，所以每個場地各列一次。
   venues: [
     { name: "場地甲", perHead: 780, source: "示範報價" },
-    { name: "場地乙", perHead: 880, source: "示範報價" }
+    { name: "場地乙", perHead: 880, source: "示範報價" }  // perHead 要用加服務費後的每人實價；中式按每桌 12 位計
   ],
 
   // 家庭例子：n = 出席人數（包括畢業生）。

@@ -43,6 +43,8 @@
       "人數多於平均的家庭，方案 ③ 最便宜；方案 ② 在兩者中間。平均人數的家庭三個方案差不多。" +
       "差額只在老師餐費及雜費，自己家的餐費三個方案都一樣。";
 
+    document.getElementById("cap-note").textContent =
+      "每位超過 " + money(P.budgetPerHead.max) + "（之前投票定的上限）的格會以紅色顯示。";
     var box = document.getElementById("venues");
     P.venues.forEach(function (v) {
       var F = v.perHead;
@@ -57,7 +59,7 @@
         var tr = el("tr");
         tr.appendChild(el("td", ex.label));
         PLANS.map(function (f) { return f(ex.n, F, S, M, G, N); }).forEach(function (x) {
-          var td = el("td");
+          var td = el("td", undefined, x / ex.n > P.budgetPerHead.max ? "over" : "");
           td.appendChild(el("span", money(round10(x))));
           td.appendChild(el("small", "每位 " + money(round10(x / ex.n))));
           tr.appendChild(td);
@@ -76,7 +78,7 @@
 
     var rows = [
       ["n", "你家出席人數（包括畢業生）", "見上表"],
-      ["F", "每位餐費（視乎場地）", P.venues.map(function (v) { return v.name + " " + money(v.perHead); }).join("；")],
+      ["F", "每位餐費（已含服務費的實價，視乎場地）", P.venues.map(function (v) { return v.name + " " + money(v.perHead); }).join("；")],
       ["S", "老師人數", S + "（" + P.staff.source + "）"],
       ["M", "雜費", "預計 " + money(M) + "（" + P.incidentals.source + "）"],
       ["G", "出席畢業生人數", "預計 " + G + "（" + P.graduates.source + "）"],
