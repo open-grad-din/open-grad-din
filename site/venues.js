@@ -86,7 +86,7 @@
   function count(type) { return V.filter(function (v) { return v.type === type; }).length; }
 
   // ---- 狀態：你家人數、現在捲到哪個菜式 ----
-  var state = { adults: 2, kids: 1, active: null };
+  var state = { adults: 1, kids: 1, active: null };
   var LIMITS = { adults: [1, 6], kids: [1, 4] };
 
   function renderTiles() {
