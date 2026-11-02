@@ -183,3 +183,5 @@ details td { padding: 4px; vertical-align: top; }
 /* 三揀一：標題、提醒、例子、方案之間留多些空間 */
 #plan-h { margin-bottom: 18px; }
 .vote-cue + .hint { margin-bottom: 18px; line-height: 1.7; }
+/* 計算機頁：頁首說明與人數列靠近一點 */
+.page-head + #venues { margin-top: -20px; }
