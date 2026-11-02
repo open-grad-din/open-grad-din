@@ -2,36 +2,67 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="robots" content="noindex, nofollow">
-  <title>Open Grad Din — K3 畢業晚宴</title>
+  <title>K3 畢業晚宴</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div class="wrap">
+  <p id="demo-banner" class="draft" hidden>示範版：以下所有數字、名字及日期都是假資料，不是真實資料。</p>
+
   <header>
-    <h1>K3 畢業晚宴</h1>
-    <p class="sub">2027 年 7 月 2 日</p>
-    <p id="demo-banner" class="banner" hidden>示範版：以下全部是假資料，不是真實名單。</p>
+    <span class="eyebrow">學之園凱帆校 · K3 四班</span>
+    <h1>K3 畢業晚宴<br>2027 年 7 月 2 日</h1>
+    <p class="why">為孩子辦一個畢業晚宴，全級家長看同一份資料。</p>
+    <p class="by" id="by"></p>
   </header>
 
-  <main>
-    <section>
-      <h2>已確認名單</h2>
-      <p class="note">只計算統籌已核實付款的家庭。已報名但未核實的不計入任何數字。</p>
-      <p id="status" class="note">載入中…</p>
-      <div id="summary"></div>
-      <div id="classes"></div>
-    </section>
-  </main>
+  <p id="error" class="draft" role="alert" hidden></p>
+
+  <section aria-labelledby="now-h" id="now-section" hidden>
+    <h2 id="now-h">現在要做甚麼</h2>
+    <div class="now">
+      <p class="stage" id="stage"></p>
+      <p class="deadline" id="deadline" hidden></p>
+      <a class="btn" id="action" hidden></a>
+      <p class="btn-note" id="action-note" hidden></p>
+      <ol class="steps" id="steps" aria-label="整體進度"></ol>
+    </div>
+  </section>
+
+  <section aria-labelledby="prog-h" id="prog-section" hidden>
+    <h2 id="prog-h">全級進度</h2>
+    <p class="big"><span id="verified"></span> <small id="verified-of"></small></p>
+    <div class="bar" id="bar" role="img"><span id="bar-fill"></span></div>
+    <p class="fine">只計收款人已對照銀行紀錄核實的報名。已填表但未付款的，不計入任何數字或票數。</p>
+  </section>
+
+  <section aria-labelledby="pay-h" id="pay-section" hidden>
+    <h2 id="pay-h">收款人</h2>
+    <ul class="payee" id="payees"></ul>
+    <p class="fine" id="payee-rule">付給哪位收款人按學號決定，與班別無關：學號除以 4，餘 1 付 A 班財務，餘 2 付 B 班財務，餘 3 付 C 班財務，整除付 D 班財務。收款人的名字及 FPS 只在報名表格內顯示，填了學號就只會看到你那一位。其他人叫你轉帳都不要理會。</p>
+  </section>
+
+  <section aria-labelledby="idx-h" id="idx-section" hidden>
+    <h2 id="idx-h">正式資訊</h2>
+    <ul class="index" id="index"></ul>
+    <p class="official">正式資訊只在這一頁。WhatsApp 群組或任何人轉述的內容，如與這裏不同，以這裏為準。</p>
+  </section>
 
   <footer>
-    <p>資料來源：<a id="source-link" href="#"></a></p>
-    <p>網頁版本：<a id="commit-link" href="#">__COMMIT_SHORT__</a>
-      （<a href="https://github.com/open-grad-din/open-grad-din">原始碼</a>）</p>
+    <span id="status" role="status">載入中…</span>
+    <span>資料來源（統籌的 Google Sheet 公開分頁，只有總數，沒有名字）：</span>
+    <span><a id="src-summary"></a></span>
+    <span><a id="src-info"></a></span>
+    <span>網頁版本 <a id="commit-link">__COMMIT_SHORT__</a> ·
+      <a href="https://github.com/open-grad-din/open-grad-din">原始碼</a> ·
+      <a href="https://github.com/open-grad-din/open-grad-din/commits/main">網頁改動紀錄</a></span>
   </footer>
+</div>
 
-  <script>window.OGD_COMMIT = "__COMMIT__";</script>
-  <script src="config.js"></script>
-  <script src="app.js"></script>
+<script>window.OGD_COMMIT = "__COMMIT__";</script>
+<script src="config.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
