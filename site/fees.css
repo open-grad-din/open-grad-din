@@ -53,7 +53,7 @@
 /* 3. 場地：你家人數＋分頁（捲動時黏在頂部） */
 .dock { position: sticky; top: 0; z-index: 3; margin: 0 -18px; padding: 8px 18px 8px; border-bottom: 2px solid var(--line); padding-top: max(14px, env(safe-area-inset-top, 0px));
   background: color-mix(in srgb, var(--paper) 97%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
-.fam { display: flex; align-items: center; justify-content: space-around; gap: 4px 8px; flex-wrap: wrap; background: var(--surface); border: 2px solid var(--stroke); border-radius: var(--wobble2); box-shadow: 3px 3px 0 var(--line); padding: 6px 10px; }
+.fam { display: flex; align-items: center; justify-content: space-around; gap: 4px 8px; flex-wrap: wrap; background: var(--surface); border: 2px solid var(--stroke); border-radius: var(--wobble2); box-shadow: 3px 3px 0 var(--line); padding: 12px 10px; }
 .stepper { display: grid; grid-template-columns: auto 34px 24px 34px; align-items: center; gap: 3px; }
 .stepper .lbl { font-weight: 700; font-size: 14px; margin-right: 2px; white-space: nowrap; }
 .stepper button { height: 34px; border-radius: 48% 52% 50% 50% / 52% 48% 52% 48%; border: 2px solid var(--stroke); background: var(--kin-soft); color: var(--ink); font-size: 20px; line-height: 1; font-weight: 700; cursor: pointer; transition: transform .1s ease; padding: 0; }
