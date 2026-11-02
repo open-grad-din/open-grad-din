@@ -7,7 +7,6 @@
   --ai: #5e7f9b; --ai-soft: #e6edf2; --shu: #c8603f; --shu-fg: #ffffff; --shu-soft: #f6e3da; --shu-deep: #a94a2c;
   --kin: #d7a53d; --kin-soft: #f7ecd3; --sage: #86a48a; --sage-soft: #e5ede4; --warn: #9a4a1f; --warn-soft: #f6e8dc;
   --bg: var(--paper); --fg: var(--ink); --accent: var(--ai); --accent-soft: var(--ai-soft);
-  --nudge: #00918a; --nudge-soft: #dff0ee; /* Ken 指定的全站強調／active 色（2026-11-02） */
   --action: var(--shu); --action-fg: var(--shu-fg);
   --font-display: "OGD Maru", "Huninn", "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Yuanti TC", "PingFang TC", "Noto Sans TC", sans-serif;
   --font-body: "PingFang TC", "Noto Sans TC", "Noto Sans CJK TC", "Microsoft JhengHei", system-ui, sans-serif;
@@ -21,7 +20,7 @@
   :root {
     --paper: #1f1c19; --surface: #292521; --ink: #efe8dd; --muted: #aaa196; --line: #3a342e; --stroke: #4e463e;
     --ai: #8fb0cb; --ai-soft: #243039; --shu: #e58563; --shu-fg: #2a1208; --shu-soft: #3c251c; --shu-deep: #c86a49;
-    --kin: #e2b85f; --kin-soft: #3a3020; --sage: #9fbca2; --sage-soft: #263026; --warn: #f0a878; --warn-soft: #3a2719; --nudge: #3fb3aa; --nudge-soft: #1d3331; color-scheme: dark;
+    --kin: #e2b85f; --kin-soft: #3a3020; --sage: #9fbca2; --sage-soft: #263026; --warn: #f0a878; --warn-soft: #3a2719; color-scheme: dark;
     --tape: repeating-linear-gradient(135deg, rgba(226, 184, 95, .45) 0 6px, rgba(226, 184, 95, .28) 6px 12px);
   }
 }
@@ -148,9 +147,9 @@ h1 .ch { display: inline-block; }
 
 
 /* ---- 正式資訊 ---- */
-.official { margin: 0; font-size: 15px; line-height: 1.7; display: flex; gap: 12px; align-items: flex-start; background: var(--nudge-soft); border-radius: var(--wobble2); padding: 14px 16px; }
+.official { margin: 0; font-size: 15px; line-height: 1.7; display: flex; gap: 12px; align-items: flex-start; background: var(--shu-soft); border-radius: var(--wobble2); padding: 14px 16px; }
 #idx-section { margin-top: -8px; }
-.official::before { content: "正"; flex: none; width: 32px; height: 32px; display: grid; place-items: center; border: 2px solid var(--nudge); color: var(--nudge); background: var(--surface); border-radius: 48% 52% 50% 50% / 52% 48% 52% 48%; font-family: var(--font-display); font-weight: 700; font-size: 16px; transform: rotate(-8deg); margin-top: 2px; }
+.official::before { content: "正"; flex: none; width: 32px; height: 32px; display: grid; place-items: center; border: 2px solid var(--shu); color: var(--shu); background: var(--shu-soft); border-radius: 48% 52% 50% 50% / 52% 48% 52% 48%; font-family: var(--font-display); font-weight: 700; font-size: 16px; transform: rotate(-8deg); margin-top: 2px; }
 
 /* ---- 頁底 ---- */
 footer { font-size: 13px; color: var(--muted); display: flex; flex-direction: column; gap: 4px; word-break: break-all; border-top: 2px dashed var(--line); padding-top: 16px; }
