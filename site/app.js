@@ -204,36 +204,6 @@
     if (ui) ui.whenSeen(dots.hidden ? num : dots, go); else go();
   }
 
-  function renderPayees(payees, info, now) {
-    var limit = wholeNumber(info["未核實上限日數"] || "");
-    var list = document.getElementById("payees");
-    payees.forEach(function (p) {
-      var li = el("li");
-      li.appendChild(el("span", "收款人（" + p.name + "）", "who"));
-      var got = el("span", undefined, "got");
-      got.appendChild(el("b", String(p.verified)));
-      got.appendChild(document.createTextNode("筆已核實"));
-      li.appendChild(got);
-      var waitText = "未核實 " + p.pending + " 筆", slow = false;
-      if (p.pending > 0) {
-        var d = daysSince(p.oldest, now);
-        if (d !== null) {
-          waitText += " · 最長等了 " + d + " 日";
-          slow = limit !== null && d > limit;
-        }
-      } else {
-        waitText = "全部已核實，沒有人在等";
-      }
-      li.appendChild(el("span", waitText, "wait" + (p.pending > 0 ? " has" : "") + (slow ? " slow" : "")));
-      list.appendChild(li);
-    });
-    if (limit !== null) {
-      document.getElementById("payee-rule").appendChild(document.createTextNode(
-        "超過 " + limit + " 日未核實，可把 FPS 收據交統籌處理。"));
-    }
-    document.getElementById("pay-section").hidden = false;
-  }
-
   function renderIndex(info) {
     var items = [
       ["正式通告", "通告連結", info["通告日期"] || ""],
@@ -297,7 +267,6 @@
       renderHeader(info);
       renderNow(info, now);
       renderProgress(payees, info);
-      renderPayees(payees, info, now);
       renderIndex(info);
       status.textContent = "資料讀取時間：" + now.toLocaleString("zh-HK", { timeZone: "Asia/Hong_Kong" });
     })

@@ -132,26 +132,6 @@ h1 .ch { display: inline-block; }
 .key i.v { background: var(--ai); border-color: var(--ai); }
 .key i.p { border: 2px dashed var(--shu); }
 
-/* ---- 收款人（摺疊，一般家長不用看） ---- */
-.fold { padding: 0 16px; }
-.fold summary .sec-h { margin: 0; font-size: 20px; }
-.fold > :not(summary) { margin-top: 0; }
-.fold .fine { margin: 2px 0 12px; }
-.fold .payee { margin-bottom: 14px; }
-.fold .rule { margin-bottom: 14px; }
-.payee { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
-.payee li { background: var(--surface); border: 2px solid var(--stroke); border-radius: var(--wobble); box-shadow: 3px 3px 0 var(--line); padding: 14px 16px; display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: center; }
-.payee li:nth-child(2n) { border-radius: var(--wobble2); }
-.payee .who { font-weight: 700; min-width: 0; }
-.payee .got { text-align: right; font-size: 14px; color: var(--muted); white-space: nowrap; }
-.payee .got b { font-family: var(--font-display); font-size: 28px; color: var(--ai); font-variant-numeric: tabular-nums; margin-right: 2px; }
-.payee .wait { grid-column: 1 / -1; font-size: 15px; color: var(--muted); display: flex; align-items: center; gap: 8px; }
-.payee .wait::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--line); flex: none; }
-.payee .wait.has::before { background: var(--shu); }
-.payee .wait.slow { color: var(--warn); font-weight: 700; }
-.payee .wait.slow::before { background: var(--warn); animation: blink 1.6s ease-in-out infinite; }
-@keyframes blink { 50% { opacity: .2; } }
-.rule { margin: 12px 0 0; font-size: 15px; background: var(--sage-soft); border-radius: var(--wobble2); padding: 12px 14px; }
 
 /* ---- 資料怎樣來 ---- */
 .route { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
