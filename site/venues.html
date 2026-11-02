@@ -37,16 +37,18 @@
           <button type="button" data-d="1" aria-label="小朋友加一">＋</button>
         </div>
       </div>
-    </div>
 
-    <!-- 第一層：三個方案的分別（和場地幾乎無關） -->
-    <div class="strip">
-      <div class="tiles" id="tiles" role="group" aria-label="三個方案，按一個可只看該方案的總數"></div>
-      <p class="strip-key"><span class="dotkey"><i class="dot teach"></i>老師餐　<i class="dot misc"></i>雜費</span></p>
+      <!-- 第一層：三個方案的分別（和場地幾乎無關）；與人數一起黏在頂部 -->
+      <div class="strip">
+        <div class="tiles" id="tiles" role="group" aria-label="三個方案，按一個可只看該方案的總數"></div>
+        <p class="strip-key"><span class="dotkey"><i class="dot teach"></i>老師餐　<i class="dot misc"></i>雜費</span></p>
+      </div>
+
+      <!-- 第二層的欄頭 -->
+      <div class="cols" aria-hidden="true"><span>場地 · 每位餐費</span><span id="col-total">你家總數</span></div>
     </div>
 
     <!-- 第二層：候選場地，一行一間，按你家人數即時計總數 -->
-    <div class="cols" aria-hidden="true"><span>場地 · 每位餐費</span><span id="col-total">你家總數</span></div>
     <p class="shuffle-note">為公平起見，每次打開這一頁，場地次序都隨機排列，排得前不代表推薦。按場地名可看相片、報價及官方連結。</p>
     <div class="list" id="list"></div>
     <div class="notice">
