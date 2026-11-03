@@ -33,9 +33,7 @@
 .legend li { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 8px; }
 .legend small { color: var(--muted); font-size: 14px; }
 .card-h { margin: 0 0 10px; text-align: center; font-family: var(--font-display); font-size: 18px; letter-spacing: .03em; text-wrap: balance; }
-.legend .op { flex: none; width: 1em; margin-left: -1.4em; text-align: center; color: var(--muted); font-weight: 700; }
-.legend { padding-left: 1.4em; }
-.legend li.sum { margin-top: 2px; padding-top: 8px; border-top: 2px dashed var(--line); font-size: 17px; }
+
 .note { margin: 14px 0 0; background: var(--sage-soft); border-radius: var(--wobble2); padding: 12px 14px; font-size: 15px; }
 .hint { margin: 0 0 12px; color: var(--muted); font-size: 15px; }
 .hint .key { display: inline-block; margin-top: 4px; color: var(--ink); font-weight: 700; }

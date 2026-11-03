@@ -57,7 +57,6 @@
     });
     box.appendChild(s);
     box.setAttribute("aria-label", "每位付的總數：大部分是自己的餐費，其餘是老師餐及雜費");
-    document.getElementById("cap-sum").textContent = money(CAP);
     document.getElementById("teach-note").textContent = S + " 位老師和職員的餐費";
   }
 
