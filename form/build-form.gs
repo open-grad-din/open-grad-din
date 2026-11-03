@@ -16,6 +16,11 @@
  * 建立後要在 Form 內人手完成（Apps Script 做不到）：
  *   - Settings → Responses → Send responders a copy of their response：Always
  *   - 「場地」題 → 右下 ⋮ → Shuffle option order（隨機排列選項）
+ *   - 上方調色盤圖示（Customize theme）→ Color → ＋ → 輸入 00918a（與網站同一主題色）
+ *
+ * 場地選項（VENUES）必須與網站「我家要付多少」頁（site/venues-params.js）一致：每個菜式一個選項，
+ * 金額是頁面顯示的「場地餐飲費每位約」。改名單時兩邊一起改，form/check-venues.js 會在部署時檢查。
+ * 三個方案的人形圖（PLANS_IMAGE）直接截自網站「費用」頁，製作方法見 tools/form-image/。
  *
  * PROTOTYPE = true：原型。標題加「原型，請勿填寫」，收款人資料全部是佔位字，只可以用假資料試填。
  * 正式版必須由統籌在她自己的 Google 帳戶執行：把 PROTOTYPE 改為 false，填入 PAYEES 的真資料及 DEADLINE_DAYS。
@@ -26,7 +31,7 @@
  */
 
 var PROTOTYPE = true;
-var VERSION = "表格第 1 版 · 〔日期〕";
+var VERSION = "表格第 1 版 · 2026 年 11 月 3 日";
 var DEPOSIT = 550;
 var DEADLINE_DAYS = "〔X〕";   // 提交後多少日內轉帳，由籌委會決定，例如 "3"
 
@@ -35,20 +40,29 @@ var PAYEES = {
   C: { label: "收款人（C 班財務）", name: "〔C 班財務名字〕", fps: "〔FPS ID 或電話〕", classes: ["K3C", "K3D"] }
 };
 
+var SITE = "https://open-grad-din.github.io/open-grad-din/";
+var PLANS_IMAGE = SITE + "form/plans.png";
+
+// 場地：每個菜式一個選項，寫法「場地 · 級別 · 菜式 · 每位約 $X」，與網站「我家要付多少」頁一致。
 var VENUES = [
-  "唯港薈（尖東）每位約 $758",
-  "康得思酒店（旺角）每位約 $537",
-  "美麗華酒店（尖沙咀）每位約 $600–635",
-  "千禧新世界香港酒店（尖東）每位約 $680",
-  "麗思卡爾頓（西九龍）每位約 $825",
-  "嘉里酒店（紅磡）每位約 $825",
-  "九龍海逸君綽酒店（紅磡）每位約 $669",
-  "海月（煌府）（中港城）每位約 $528",
-  "囍薈（尖沙咀）每位約 $549",
-  "彩福皇宴（尖東）每位約 $540",
-  "沙田美心皇宮（沙田大會堂）每位約 $490",
-  "中環美心皇宮（中環大會堂）每位約 $728"
+  "康得思酒店 · 5 星酒店 · 自助餐 · 每位約 $537",
+  "唯港薈 · 5 星酒店 · 自助餐 · 每位約 $758",
+  "唯港薈 · 5 星酒店 · 自助餐（午餐菜單・晚上供應） · 每位約 $638",
+  "美麗華酒店 · 5 星酒店 · 中式筵席 · 每位約 $600",
+  "美麗華酒店 · 5 星酒店 · 自助餐 · 每位約 $635",
+  "千禧新世界香港酒店 · 5 星酒店 · 自助餐 · 每位約 $680",
+  "麗思卡爾頓 · 5 星酒店 · 自助餐 · 每位約 $825",
+  "嘉里酒店 · 5 星酒店 · 自助餐 · 每位約 $825",
+  "九龍海逸君綽酒店 · 5 星酒店 · 自助餐 · 每位約 $669",
+  "海月（煌府） · 酒樓 · 中式筵席 · 每位約 $528",
+  "囍薈 · 酒樓 · 中式筵席 · 每位約 $549",
+  "彩福皇宴 · 酒樓 · 中式筵席 · 每位約 $540",
+  "沙田美心皇宮 · 酒樓 · 中式筵席 · 每位約 $490",
+  "中環美心皇宮 · 酒樓 · 中式筵席 · 每位約 $728"
 ];
+
+// 勝出規則：照抄網站「費用」頁（site/fees-params.js 的 winRule、tieRule）。
+var WIN_RULE = "場地和分擔方案各自計票，票數最多的勝出。如最高票數相同，則交由學校在最高票的選項中決定。";
 
 // 題目名稱。onSubmit 用這些名稱找答案，改題目時要一併改這裏。
 var T = {
@@ -81,9 +95,11 @@ function buildForm() {
     "無論哪個場地及方案勝出，都不會超過每位 $1,100。",
     "",
     "三步完成：① 投票 ② 填資料 ③ 轉帳訂金。",
-    "未看收費計法及場地？先看：",
-    "收費計法 https://open-grad-din.github.io/open-grad-din/fees.html",
-    "場地及你家要付多少（計算機） https://open-grad-din.github.io/open-grad-din/venues.html",
+    "未看網站？先看：",
+    "費用 " + SITE + "fees.html",
+    "我家要付多少 " + SITE + "venues.html",
+    "",
+    "勝出規則：" + WIN_RULE,
     "",
     "資料只用於這次晚宴，帳目公布後一個月內刪除。你的投票只有你的收款人，及籌委會負責各班的班代（或其接手人）看得到；網上只公布總票數。",
     "只有付款核實後，報名及投票才計算。",
@@ -110,24 +126,27 @@ function buildForm() {
   form.addSectionHeaderItem().setTitle("第 1 頁：投票").setHelpText("每位畢業生一票。");
 
   var venue = form.addMultipleChoiceItem().setTitle(T.venue)
-    .setHelpText("每位餐費已含加一，只供參考，以場地書面確認為準。選項次序每人不同。")
+    .setHelpText("場地餐飲費每位約數，與網站「我家要付多少」相同，已含加一，以場地書面確認為準。" +
+      "同一場地有不同菜式的，每個菜式一個選項。選項次序每人不同。")
     .setRequired(true);
   venue.setChoices(VENUES.map(function (v) { return venue.createChoice(v); }));
 
+  // 三個方案的人形圖，截自網站「費用」頁。讀不到圖（例如網站暫時停了）仍會建立表格，只是少了圖。
+  try {
+    form.addImageItem().setTitle("三個分擔方案（以一家 2 大 1 小為例）")
+      .setHelpText("點點在誰身上，就由誰分擔。")
+      .setImage(UrlFetchApp.fetch(PLANS_IMAGE).getBlob())
+      .setAlignment(FormApp.Alignment.CENTER);
+  } catch (e) { Logger.log("注意：未能載入方案圖 " + PLANS_IMAGE + "，請人手加入。"); }
+
   var plan = form.addMultipleChoiceItem().setTitle(T.plan)
-    .setHelpText("之前已投票定每位 $900 至 $1,100，上限 $1,100。以下是每位總數（餐費加老師餐及雜費分擔），" +
-      "金額會隨場地上落，但三個方案誰貴誰平不變。\n" +
-      "假設數字：各場地平均每位餐費 $830、老師及職員 35 位、雜費 $16,856（2025 年實際，不計 LED wall）、100 個家庭共 300 人。")
+    .setHelpText("詳細見網站「費用」；你家實際要付多少，見「我家要付多少」。")
     .setRequired(true);
-  plan.setChoices([
-    plan.createChoice("方案 1 按人頭：大小同價。例：不論幾多人，每位約 $980"),
-    plan.createChoice("方案 2 雜費按人頭：老師餐由每個家庭平分。例：2 人家庭每位約 $1,030、3 人 $980、4 人 $960"),
-    plan.createChoice("方案 3 按家庭：每個家庭分擔一樣。例：2 人家庭每位約 $1,060、3 人 $980、4 人 $940")
-  ]);
+  plan.setChoiceValues(["① 按人頭", "② 雜費按人頭", "③ 按家庭"]);
 
   form.addCheckboxItem().setTitle(T.use)
     .setHelpText("只作指引，交負責的組別參考。學校希望雜費以節約為原則。")
-    .setChoiceValues(["場地佈置", "舞台、燈光及音響", "節目及表演", "相片及回憶影片", "紀念品", "沒有特別意見"])
+    .setChoiceValues(["佈置", "節目", "影片", "紀念品", "物資", "沒有特別意見"])   // 與網站「費用」頁「雜費」一項相同
     .setValidation(FormApp.createCheckboxValidation().requireSelectAtMost(2).setHelpText("最多揀 2 項").build())
     .setRequired(true);
 
@@ -160,7 +179,7 @@ function buildForm() {
   form.addCheckboxItem().setTitle(T.agree)
     .setChoiceValues([
       "訂金每位 " + money(DEPOSIT) + "，一經提交不會退回。如活動取消，退款視乎場地的條款，籌委會會盡力另擇日子舉辦",
-      "無論哪個方案及場地勝出，我都會按結果付尾數",
+      "無論哪個方案及場地勝出（勝出規則見表格開頭），我都會按結果付尾數",
       "我的收款人及籌委會負責各班的班代（或其接手人）看得到我的投票；網上只公布總票數"
     ])
     .setValidation(FormApp.createCheckboxValidation().requireSelectExactly(3).setHelpText("三項都要剔").build())
@@ -214,7 +233,7 @@ function buildForm() {
   Logger.log("表格編輯連結：" + form.getEditUrl());
   Logger.log("表格填寫連結：" + form.getPublishedUrl());
   Logger.log("回應試算表：" + ss.getUrl());
-  Logger.log("還要人手設定：Send responders a copy → Always；場地題 Shuffle option order。");
+  Logger.log("還要人手設定：Send responders a copy → Always；場地題 Shuffle option order；主題色 #00918a。");
 }
 
 // 每次有人提交：寄付款指示電郵

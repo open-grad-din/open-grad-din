@@ -31,6 +31,10 @@ jobs:
           sed -i "s/__COMMIT_SHORT__/${GITHUB_SHA:0:7}/g; s/__COMMIT__/${GITHUB_SHA}/g" site/*.html
           for f in site/*.html; do grep -q "${GITHUB_SHA}" "$f"; done
 
+      # 報名表格的場地選項及勝出規則必須與網站相同，不一致就不部署。
+      - name: 對照報名表格與網站
+        run: node form/check-venues.js
+
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
