@@ -202,7 +202,7 @@ function buildForm() {
         amounts.join(" · "),
         "",
         "轉帳備註：班別＋學號＋學生名",
-        "例：K3A 18 Grady（假設）",
+        "例：" + p.classes[0] + " 18 Grady（假設）",
         "",
         "提交後你會收到「付款指示」電郵，寫明準確金額。請在提交後 " + DEADLINE_DAYS + " 日內轉帳。"
       ].join("\n"))
