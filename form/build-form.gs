@@ -35,13 +35,13 @@ var VERSION = "表格第 1 版 · 2026 年 11 月 3 日";
 var DEPOSIT = 550;
 var DEADLINE_DAYS = "〔X〕";   // 提交後多少日內轉帳，由籌委會決定，例如 "3"
 
-// 收款人：每班一位（2026-11-03 籌委會決定）。method 是 "FPS" 或 "PayMe"；acct 是 FPS ID／電話或 PayMe 電話。
-// 名字及號碼只可以由統籌在正式版填寫，不可寫入 repo（repo 公開，紀錄永遠留存）。
+// 收款人：每班一位（2026-11-03 籌委會決定），表格只寫電話，不寫收款人名字。method 是 "FPS" 或 "PayMe"。
+// 電話只可以由統籌在正式版填寫，不可寫入 repo（repo 公開，紀錄永遠留存）。
 var PAYEES = {
-  A: { label: "收款人（A 班財務）", name: "〔A 班財務名字〕", method: "FPS",   acct: "〔電話〕", classes: ["K3A"] },
-  B: { label: "收款人（B 班財務）", name: "〔B 班財務名字〕", method: "PayMe", acct: "〔電話〕", classes: ["K3B"] },
-  C: { label: "收款人（C 班財務）", name: "〔C 班財務名字〕", method: "PayMe", acct: "〔電話〕", classes: ["K3C"] },
-  D: { label: "收款人（D 班財務）", name: "〔D 班財務名字〕", method: "PayMe", acct: "〔電話〕", classes: ["K3D"] }
+  A: { method: "FPS",   acct: "〔電話〕", classes: ["K3A"] },
+  B: { method: "PayMe", acct: "〔電話〕", classes: ["K3B"] },
+  C: { method: "PayMe", acct: "〔電話〕", classes: ["K3C"] },
+  D: { method: "PayMe", acct: "〔電話〕", classes: ["K3D"] }
 };
 var PAYEE_KEYS = ["A", "B", "C", "D"];
 
@@ -197,11 +197,10 @@ function buildForm() {
     var amounts = [];
     for (var n = 2; n <= 8; n++) amounts.push(n + " 位 " + money(n * DEPOSIT));
     pages[k] = form.addPageBreakItem()
-      .setTitle("付訂金給" + p.label)
+      .setTitle("付訂金給收款人")
       .setHelpText([
         "只付給這裏寫的收款人。其他人叫你轉帳都不要理會。",
         "",
-        "收款人：" + p.name,
         p.method + "：" + p.acct,
         "金額：" + money(DEPOSIT) + " × 總人數（大人 + 小朋友）",
         amounts.join(" · "),
@@ -213,7 +212,7 @@ function buildForm() {
       ].join("\n"))
       .setGoToPage(FormApp.PageNavigationType.SUBMIT);
     form.addCheckboxItem().setTitle(T.pay)
-      .setChoiceValues(["轉帳到 " + p.label + " " + p.name + "，" + p.method + " " + p.acct + "，備註寫班別＋學號＋學生名"])
+      .setChoiceValues(["轉帳到收款人 " + p.method + " " + p.acct + "，備註寫班別＋學號＋學生名"])
       .setRequired(true);
   });
 
@@ -263,7 +262,6 @@ function onSubmit(e) {
     "我們已收到 " + cls + " " + no + " 號的報名及投票。還差一步：請轉帳訂金。",
     "",
     "金額：" + money(total * DEPOSIT) + "（大人 " + adults + " 位 + 小朋友 " + kids + " 位 = " + total + " 位 × " + money(DEPOSIT) + "）",
-    "收款人：" + p.label + " " + p.name,
     p.method + "：" + p.acct,
     "轉帳備註：" + note,
     "期限：提交後 " + DEADLINE_DAYS + " 日內",
