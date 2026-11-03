@@ -152,7 +152,27 @@
       "實際平均人數要報名截止才知道，差距會隨之改變。";
     document.getElementById("assume-line").textContent =
       "假設老師和職員 " + S + " 位、雜費約 " + money(M) + "、出席畢業生 " + G + " 位、出席總人數 " + N + " 位（包括畢業生）。頂部三格顯示你捲到的那個菜式下，你家在三個方案的總開支（自己的餐費加分擔的老師餐和雜費）。";
+    renderExample();
     C.commitLink();
+  }
+
+  // 計算例子（Ken 2026-11-03）：用名單上一個場地、一家 2 大 1 小，把三條算式逐步計一次，數字全部讀 params，與頂部三格一致。
+  function renderExample() {
+    var box = document.getElementById("example"); if (!box) return;
+    var v = V.filter(function (x) { return x.name === "康得思酒店"; })[0] || V[0], m = v.menus[0];
+    var F = mid(m), n = 3, own = n * F, teach = S * F, pool = teach + M, t = totals(n, F);
+    var $ = function (x) { return money(x); };
+    var lines = [
+      "例子：" + v.name + "（" + m.name + "，每位 " + $(F) + "），一家 2 大 1 小，即 n = " + n + "。",
+      "其他數字：老師和職員 S = " + S + "、雜費 M = " + $(M) + "、出席畢業生 G = " + G + "、出席總人數 N = " + N + "。",
+      "自己的餐費：" + n + " × " + $(F) + " = " + $(own),
+      "老師餐：" + S + " × " + $(F) + " = " + $(teach) + "；加雜費共 " + $(pool),
+      "<b>① 按人頭</b>：" + $(own) + " + " + n + " × " + $(pool) + " ÷ " + N + " = <b>" + $(t[0]) + "</b>",
+      "<b>② 雜費按人頭</b>：" + $(own) + " + " + $(teach) + " ÷ " + G + " + " + n + " × " + $(M) + " ÷ " + N + " = <b>" + $(t[1]) + "</b>",
+      "<b>③ 按家庭</b>：" + $(own) + " + " + $(pool) + " ÷ " + G + " = <b>" + $(t[2]) + "</b>",
+      "最後四捨五入至元。換其他場地，把 " + $(F) + " 換成該菜式的每位餐費；換其他人數，把 n 換成你家出席人數（包括畢業生）。"
+    ];
+    box.innerHTML = lines.map(function (l) { return "<p>" + l + "</p>"; }).join("");
   }
 
   renderText();
