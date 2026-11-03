@@ -6,12 +6,14 @@
  *   2. 建立「提交表格」觸發器（buildForm 會自動做）。
  *   3. onSubmit：每次有人提交，自動寄一封「付款指示」電郵，寫明準確金額、收款人及轉帳備註。
  *
- * 用法：
- *   1. 打開 https://script.google.com ，按 ☰ → New project。
- *   2. 刪除原有內容，貼上這整個檔案，按 Ctrl+S 儲存。
- *   3. 上方下拉選單選 buildForm，按 ▷ Run，按 Allow 授權。
- *   4. 按 Execution log，會看到表格編輯連結、填寫連結及試算表連結。
- *   5. 只執行一次。再執行會另外建立一張新表格。
+ * 用法（正式版由統籌在自己的 Google 帳戶做）：
+ *   1. 打開 https://script.google.com ，按 New project。
+ *   2. 刪除原有內容，貼上這整個檔案。
+ *   3. 正式版：把下面 PROTOTYPE 改為 false，在 PAYEES 四行把〔電話〕換成收款電話，按 Ctrl+S 儲存。
+ *      （未填電話就執行，程式會停下並提示，不會建立表格。）
+ *   4. 上方下拉選單選 buildForm，按 ▷ Run，按 Allow 授權。
+ *   5. 按 Execution log，會看到表格編輯連結、填寫連結及試算表連結。
+ *   6. 只執行一次。再執行會另外建立一張新表格。
  *
  * 建立後要在 Form 內人手完成（Apps Script 做不到）：
  *   - Settings → Responses → Send responders a copy of their response：Always
@@ -95,6 +97,11 @@ function payeeOf(cls) {
 }
 
 function buildForm() {
+  if (!PROTOTYPE) {
+    PAYEE_KEYS.forEach(function (k) {
+      if (/〔|〕/.test(PAYEES[k].acct)) throw new Error("正式版：請先在 PAYEES 填入 K3" + k + " 收款人的電話（現在仍是〔電話〕），然後再執行。");
+    });
+  }
   var title = (PROTOTYPE ? "【原型，請勿填寫】" : "") + "K3 畢業晚宴報名、投票及訂金";
   var form = FormApp.create(title);
 
