@@ -12,38 +12,6 @@
   // 方案一律「編號＋名字」一起寫（Ken 2026-11-02：只寫編號會混亂）。
   var NAMES = PLAN_NAMES;
 
-  // ---- 場地相片及官方連結，按場地名彈出視窗 ----
-  var TABLES = "";
-  for (var i = 0; i < 9; i++) {
-    TABLES += '<circle cx="' + (40 + (i % 3) * 60) + '" cy="' + (48 + Math.floor(i / 3) * 36) + '" r="13"/>';
-  }
-  function placeholder(i, name) {
-    var hue = [205, 42, 120][i % 3];
-    return '<figure class="shot"><svg viewBox="0 0 200 150" role="img" aria-label="' + esc(name) + ' 示範圖片 ' + (i + 1) + '">' +
-      '<rect width="200" height="150" fill="hsl(' + hue + ' 22% 84%)"/>' +
-      '<rect width="200" height="22" fill="hsl(' + hue + ' 22% 70%)"/>' +
-      '<g fill="hsl(' + hue + ' 30% 97%)">' + TABLES + '</g></svg>' +
-      '<figcaption>示範圖片 ' + (i + 1) + '</figcaption></figure>';
-  }
-  function galleryHTML(v) {
-    var items = (v.photos && v.photos.length)
-      ? v.photos.map(function (p) {
-          return '<figure class="shot"><img src="' + esc(p.src) + '" alt="' + esc(p.alt || v.name) + '" loading="lazy"></figure>';
-        })
-      : [0, 1, 2].map(function (i) { return placeholder(i, v.name); });
-    return '<div class="gal-wrap"><div class="gallery" tabindex="0" aria-label="' + esc(v.name) + ' 場地相片，可左右掃">' + items.join("") + '</div>' +
-      '<button class="gal-btn prev" aria-label="上一張" data-dir="-1">‹</button>' +
-      '<button class="gal-btn next" aria-label="下一張" data-dir="1">›</button></div>' +
-      '<p class="dots" aria-live="polite">' + items.map(function (_, i) { return '<i' + (i ? "" : ' class="on"') + '></i>'; }).join("") + '</p>';
-  }
-  // 按場地名彈出視窗：只有相片及官方網站連結（Ken 2026-11-02）。
-  function popHTML(v) {
-    var link = v.url
-      ? '<a class="link" href="' + esc(v.url) + '" target="_blank" rel="noopener">官方網站 ↗</a>'
-      : '<span class="link none">官方連結待補</span>';
-    return galleryHTML(v) + '<div class="pop-foot">' + link + '</div>';
-  }
-
   // ---- 一行一間 ----
   function menuRowHTML(m) {
     return '<div class="mrow" data-f="' + mid(m) + '">' +
@@ -54,10 +22,13 @@
   }
   function rowHTML(v, i) {
     return '<article class="row">' +
-      '<button type="button" class="row-head" data-i="' + i + '" aria-haspopup="dialog">' +
+      '<div class="row-head">' +
         '<span class="tag ' + v.type + '">' + (v.grade ? esc(v.grade) : "") + TYPE[v.type] + '</span>' +
         '<span class="name">' + esc(v.name) + '</span>' +
-        '<span class="chev" aria-hidden="true">相片 ›</span></button>' +
+        // 不設相片彈出視窗，直接連去官網（Ken 2026-11-03）
+        (v.url ? '<a class="link site" href="' + esc(v.url) + '" target="_blank" rel="noopener" aria-label="' + esc(v.name) + ' 官方網站（新分頁）">官網 ↗</a>'
+               : '<span class="link none">官網待補</span>') +
+      '</div>' +
       v.menus.map(menuRowHTML).join("") +
       '</article>';
   }
@@ -163,46 +134,6 @@
 
     var list = document.getElementById("list");
     list.innerHTML = ORDER.map(rowHTML).join("");
-    var pop = document.getElementById("venue-pop"), popBody = document.getElementById("pop-body"), lastHead = null;
-    list.addEventListener("click", function (e) {
-      // 整個場地卡都可按（Ken 2026-11-02），不只場地名
-      var row = e.target.closest(".row"); if (!row) return;
-      var head = row.querySelector(".row-head");
-      var v = ORDER[Number(head.getAttribute("data-i"))];
-      document.getElementById("pop-h").innerHTML = '<span class="tag ' + v.type + '">' + (v.grade ? esc(v.grade) : "") + TYPE[v.type] + '</span>' + esc(v.name);
-      popBody.innerHTML = popHTML(v);
-      lastHead = head;
-      if (pop.showModal) pop.showModal(); else pop.setAttribute("open", "");
-      pop.focus(); // 對焦面板本身，不讓 × 掣一打開就出現對焦框（手機上會見到紅框）
-    });
-    function closePop() { if (pop.close) pop.close(); else pop.removeAttribute("open"); }
-    pop.addEventListener("click", function (e) {
-      if (e.target === pop || e.target.closest(".pop-x")) { closePop(); return; } // 按外面灰色位或 × 關閉
-      var b = e.target.closest(".gal-btn"); if (!b) return;
-      var g = b.parentElement.querySelector(".gallery");
-      g.scrollBy({ left: Number(b.dataset.dir) * g.querySelector(".shot").offsetWidth, behavior: "smooth" });
-    });
-    // 掃相片時更新圓點
-    popBody.addEventListener("scroll", function (e) {
-      var g = e.target; if (!g.classList || !g.classList.contains("gallery")) return;
-      var shot = g.querySelector(".shot"); if (!shot) return;
-      var gap = parseFloat(getComputedStyle(g).columnGap) || 0;
-      var idx = Math.round(g.scrollLeft / (shot.offsetWidth + gap)), dots = popBody.querySelectorAll(".dots i");
-      Array.prototype.forEach.call(dots, function (d, i) { d.classList.toggle("on", i === idx); });
-    }, true);
-    pop.addEventListener("close", function () { popBody.innerHTML = ""; if (lastHead) lastHead.focus(); });
-    // 相片：電腦用左右箭咀或按住拖動；手機用手指掃。
-    var drag = null;
-    pop.addEventListener("pointerdown", function (e) {
-      var g = e.target.closest(".gallery"); if (!g || e.pointerType !== "mouse") return;
-      drag = { g: g, x: e.clientX, left: g.scrollLeft }; g.classList.add("dragging"); e.preventDefault();
-    });
-    window.addEventListener("pointermove", function (e) { if (drag) drag.g.scrollLeft = drag.left - (e.clientX - drag.x); });
-    window.addEventListener("pointerup", function () {
-      if (!drag) return;
-      var g = drag.g, w = g.querySelector(".shot").offsetWidth + (parseFloat(getComputedStyle(g).columnGap) || 0);
-      g.classList.remove("dragging"); g.scrollTo({ left: Math.round(g.scrollLeft / w) * w, behavior: "smooth" }); drag = null;
-    });
   }
 
   function renderText() {
