@@ -35,7 +35,7 @@
 
 - 純靜態網頁（`site/`），經 GitHub Actions 從 `main` 部署到 GitHub Pages。沒有後端、沒有資料庫、沒有密碼或密鑰。
 - 資料來源設定在 [`site/config.js`](site/config.js)，兩個連結都是 Google 試算表「發佈到網上」的 CSV：
-  - `summaryCsvUrl`（收款人分頁），第一行必須是：`收款人,已核實,未核實,最早未核實提交日期`。每位收款人一行；收款人寫「A 班財務」等；日期格式 `YYYY-MM-DD`。網頁只把各行加總，不逐位收款人顯示。示範：[`site/data/demo-summary.csv`](site/data/demo-summary.csv)。
+  - `summaryCsvUrl`（收款人分頁），第一行必須是：`收款人,已核實,未核實,最早未核實提交日期`。每位收款人一行（每班一位）；收款人寫「K3A 收款人」等；日期格式 `YYYY-MM-DD`。網頁只把各行加總，不逐位收款人顯示。示範：[`site/data/demo-summary.csv`](site/data/demo-summary.csv)。
   - `infoCsvUrl`（首頁文字分頁），第一行是 `項目,內容`，每行一項，例如現階段、截止時間（`YYYY-MM-DD HH:MM`）、各文件連結（只接受 https）。每頁底部導覽的「報名」tab 讀 `報名表格連結` 一行，必須是 Google 表格網址才會在新分頁打開；未填時按下會提示「報名尚未開始」。示範：[`site/data/demo-info.csv`](site/data/demo-info.csv)。
   - 「現階段」必須是以下其中一項：籌委會公布規則、報名、投票及交訂金、公布投票結果、收尾數、晚宴。
 - 收費頁 [`site/fees.html`](site/fees.html)：每位上限、錢用在哪、三個分擔方案圖解、怎樣選出及細節。數字全部在 [`site/fees-params.js`](site/fees-params.js)，每項寫明來源，由籌委會通過。報名表格內的例子金額必須照抄網站。

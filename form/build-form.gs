@@ -35,10 +35,15 @@ var VERSION = "表格第 1 版 · 2026 年 11 月 3 日";
 var DEPOSIT = 550;
 var DEADLINE_DAYS = "〔X〕";   // 提交後多少日內轉帳，由籌委會決定，例如 "3"
 
+// 收款人：每班一位（2026-11-03 籌委會決定），表格只寫電話，不寫收款人名字。method 是 "FPS" 或 "PayMe"。
+// 電話只可以由統籌在正式版填寫，不可寫入 repo（repo 公開，紀錄永遠留存）。
 var PAYEES = {
-  A: { label: "收款人（A 班財務）", name: "〔A 班財務名字〕", fps: "〔FPS ID 或電話〕", classes: ["K3A", "K3B"] },
-  C: { label: "收款人（C 班財務）", name: "〔C 班財務名字〕", fps: "〔FPS ID 或電話〕", classes: ["K3C", "K3D"] }
+  A: { method: "FPS",   acct: "〔電話〕", classes: ["K3A"] },
+  B: { method: "PayMe", acct: "〔電話〕", classes: ["K3B"] },
+  C: { method: "PayMe", acct: "〔電話〕", classes: ["K3C"] },
+  D: { method: "PayMe", acct: "〔電話〕", classes: ["K3D"] }
 };
+var PAYEE_KEYS = ["A", "B", "C", "D"];
 
 var SITE = "https://open-grad-din.github.io/open-grad-din/";
 var PLANS_IMAGE = SITE + "form/plans.png";
@@ -97,7 +102,7 @@ function buildForm() {
     "三步完成：① 投票 ② 填資料 ③ 轉帳訂金。",
     "未看網站？先看：",
     "費用 " + SITE + "fees.html",
-    "我家要付多少 " + SITE + "venues.html",
+    "我家要付多少？ " + SITE + "venues.html",
     "",
     "勝出規則：" + WIN_RULE,
     "",
@@ -126,7 +131,7 @@ function buildForm() {
   form.addSectionHeaderItem().setTitle("第 1 頁：投票").setHelpText("每位畢業生一票。");
 
   var venue = form.addMultipleChoiceItem().setTitle(T.venue)
-    .setHelpText("場地餐飲費每位約數，與網站「我家要付多少」相同，已含加一，以場地書面確認為準。" +
+    .setHelpText("場地餐飲費每位約數，與網站「我家要付多少？」相同，已含加一，以場地書面確認為準。" +
       "同一場地有不同菜式的，每個菜式一個選項。選項次序每人不同。")
     .setRequired(true);
   venue.setChoices(VENUES.map(function (v) { return venue.createChoice(v); }));
@@ -140,7 +145,7 @@ function buildForm() {
   } catch (e) { Logger.log("注意：未能載入方案圖 " + PLANS_IMAGE + "，請人手加入。"); }
 
   var plan = form.addMultipleChoiceItem().setTitle(T.plan)
-    .setHelpText("詳細見網站「費用」；你家實際要付多少，見「我家要付多少」。")
+    .setHelpText("詳細見網站「費用」；你家實際要付多少，見「我家要付多少？」。")
     .setRequired(true);
   plan.setChoiceValues(["① 按人頭", "② 雜費按人頭", "③ 按家庭"]);
 
@@ -152,10 +157,10 @@ function buildForm() {
 
   // ---- 第 2 頁：資料及確認 ----
   form.addPageBreakItem().setTitle("第 2 頁：你的資料及確認")
-    .setHelpText("提交後不能自己修改。要改人數，請聯絡統籌。");
+    .setHelpText("提交後不能自己修改。人數只可以加，不可以減；要加人數，請聯絡統籌，視乎場地能否容納。");
 
   var cls = form.addListItem().setTitle(T.cls)
-    .setHelpText("A、B 班付給 A 班財務；C、D 班付給 C 班財務。")
+    .setHelpText("每班各自付給該班的收款人。")
     .setRequired(true);
 
   form.addTextItem().setTitle(T.no)
@@ -178,7 +183,7 @@ function buildForm() {
 
   form.addCheckboxItem().setTitle(T.agree)
     .setChoiceValues([
-      "訂金每位 " + money(DEPOSIT) + "，一經提交不會退回。如活動取消，退款視乎場地的條款，籌委會會盡力另擇日子舉辦",
+      "訂金每位 " + money(DEPOSIT) + "，一經提交不會退回。如遇不可抗力的情況要取消晚宴，能否退款視乎場地條款而定；籌委會會盡可能另擇日子舉辦",
       "無論哪個方案及場地勝出（勝出規則見表格開頭），我都會按結果付尾數及出席。我知道每位總費用不會超出之前投票決定的範圍（上限 $1,100）",
       "籌委會成員看得到我的投票內容，以確保點票公平公正；全級家長只會看到總票數，不會公開投票內容。籌委會成員須確保投票內容不會外流"
     ])
@@ -187,34 +192,33 @@ function buildForm() {
 
   // ---- 第 3 頁：收款人（按班別只看到一個） ----
   var pages = {};
-  ["A", "C"].forEach(function (k) {
+  PAYEE_KEYS.forEach(function (k) {
     var p = PAYEES[k];
     var amounts = [];
     for (var n = 2; n <= 8; n++) amounts.push(n + " 位 " + money(n * DEPOSIT));
     pages[k] = form.addPageBreakItem()
-      .setTitle("付訂金給" + p.label)
+      .setTitle("付訂金給收款人")
       .setHelpText([
         "只付給這裏寫的收款人。其他人叫你轉帳都不要理會。",
         "",
-        "收款人：" + p.name,
-        "FPS：" + p.fps,
+        p.method + "：" + p.acct,
         "金額：" + money(DEPOSIT) + " × 總人數（大人 + 小朋友）",
         amounts.join(" · "),
         "",
         "轉帳備註：班別＋學號＋學生名",
-        "例：K3A 18 Grady（假設）",
+        "例：" + p.classes[0] + " 18 Grady（假設）",
         "",
         "提交後你會收到「付款指示」電郵，寫明準確金額。請在提交後 " + DEADLINE_DAYS + " 日內轉帳。"
       ].join("\n"))
       .setGoToPage(FormApp.PageNavigationType.SUBMIT);
     form.addCheckboxItem().setTitle(T.pay)
-      .setChoiceValues(["轉帳到 " + p.label + " " + p.name + "，FPS " + p.fps + "，備註寫班別＋學號＋學生名"])
+      .setChoiceValues(["轉帳到收款人 " + p.method + " " + p.acct + "，備註寫班別＋學號＋學生名"])
       .setRequired(true);
   });
 
   // 班別按答案跳到對應收款人
   var choices = [];
-  ["A", "C"].forEach(function (k) {
+  PAYEE_KEYS.forEach(function (k) {
     PAYEES[k].classes.forEach(function (c) { choices.push(cls.createChoice(c, pages[k])); });
   });
   choices.sort(function (a, b) { return a.getValue() < b.getValue() ? -1 : 1; });
@@ -258,13 +262,12 @@ function onSubmit(e) {
     "我們已收到 " + cls + " " + no + " 號的報名及投票。還差一步：請轉帳訂金。",
     "",
     "金額：" + money(total * DEPOSIT) + "（大人 " + adults + " 位 + 小朋友 " + kids + " 位 = " + total + " 位 × " + money(DEPOSIT) + "）",
-    "收款人：" + p.label + " " + p.name,
-    "FPS：" + p.fps,
+    p.method + "：" + p.acct,
     "轉帳備註：" + note,
     "期限：提交後 " + DEADLINE_DAYS + " 日內",
     "",
     "只付給以上收款人。其他人叫你轉帳都不要理會。",
-    "收款人會對照銀行紀錄核實你的付款，核實後你的報名及投票才會計算；如有問題，收款人會主動聯絡你。",
+    "收款人會對照轉帳紀錄核實你的付款，核實後你的報名及投票才會計算；如有問題，收款人會主動聯絡你。",
     "",
     "如人數有誤，請不要轉帳，先聯絡統籌更正。",
     "",
