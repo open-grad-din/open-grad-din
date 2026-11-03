@@ -32,6 +32,10 @@
 .legend { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
 .legend li { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 8px; }
 .legend small { color: var(--muted); font-size: 14px; }
+.card-h { margin: 0 0 10px; text-align: center; font-family: var(--font-display); font-size: 18px; letter-spacing: .03em; text-wrap: balance; }
+.legend .op { flex: none; width: 1em; margin-left: -1.4em; text-align: center; color: var(--muted); font-weight: 700; }
+.legend { padding-left: 1.4em; }
+.legend li.sum { margin-top: 2px; padding-top: 8px; border-top: 2px dashed var(--line); font-size: 17px; }
 .note { margin: 14px 0 0; background: var(--sage-soft); border-radius: var(--wobble2); padding: 12px 14px; font-size: 15px; }
 .hint { margin: 0 0 12px; color: var(--muted); font-size: 15px; }
 .hint .key { display: inline-block; margin-top: 4px; color: var(--ink); font-weight: 700; }
@@ -125,7 +129,7 @@ details td { padding: 4px; vertical-align: top; }
 /* 只有號碼時，號碼放在卡的左上角（與上限卡一樣），內容向上靠 */
 .sec-card { position: relative; }
 .sec-card > .sec-h.only-no { position: absolute; top: 14px; left: 14px; margin: 0; }
-.sec-card > .vh + .plate { margin-top: 0; }
+.sec-card > .vh + .plate, .sec-card > .card-h + .plate { margin-top: 0; }
 /* 章節卡頂部與上限卡相同的膠紙 */
 .sec-card::before { content: ""; position: absolute; top: -12px; left: 50%; width: 84px; height: 22px; transform: translateX(-50%) rotate(2deg); background: var(--tape); border-radius: 3px; }
 /* 提醒：報名時要投票揀方案 */

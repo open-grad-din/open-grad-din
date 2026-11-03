@@ -29,12 +29,13 @@
 
   <!-- 1. 錢用在哪 -->
   <section aria-labelledby="where-h" class="reveal sec-card">
-    <h2 class="vh" id="where-h">每位的錢用在哪</h2>
+    <h2 class="card-h" id="where-h">每位付的總數，由三部分組成</h2>
     <div class="plate" id="stack" role="img"></div>
     <ul class="legend">
       <li><i class="dot meal"></i>自己的餐費<small>視乎場地及所選餐飲</small></li>
-      <li><i class="dot teach"></i>老師餐<small id="teach-note"></small></li>
-      <li><i class="dot misc"></i>雜費<small>包含佈置、節目、影片、紀念品、物資等</small></li>
+      <li><span class="op" aria-hidden="true">＋</span><i class="dot teach"></i>老師餐<small id="teach-note"></small></li>
+      <li><span class="op" aria-hidden="true">＋</span><i class="dot misc"></i>雜費<small>包含佈置、節目、影片、紀念品、物資等</small></li>
+      <li class="sum"><span class="op" aria-hidden="true">＝</span><b>每位總數</b><small>最多 <span id="cap-sum"></span></small></li>
     </ul>
   </section>
 

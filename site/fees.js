@@ -49,11 +49,15 @@
       s.appendChild(arc);
       at += len;
     });
-    var t = svg("text", { x: 80, y: 86, "text-anchor": "middle", "class": "plate-t" });
-    t.textContent = "每位";
-    s.appendChild(t);
+    // 碟中間寫「每位總數」，表示整個圓 = 每位付的總數（Ken 2026-11-03）
+    [["每位", 76], ["總數", 96]].forEach(function (w) {
+      var t = svg("text", { x: 80, y: w[1], "text-anchor": "middle", "class": "plate-t" });
+      t.textContent = w[0];
+      s.appendChild(t);
+    });
     box.appendChild(s);
-    box.setAttribute("aria-label", "每位的錢大部分是自己的餐費，其餘是老師餐及雜費");
+    box.setAttribute("aria-label", "每位付的總數：大部分是自己的餐費，其餘是老師餐及雜費");
+    document.getElementById("cap-sum").textContent = money(CAP);
     document.getElementById("teach-note").textContent = S + " 位老師和職員的餐費";
   }
 
