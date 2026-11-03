@@ -83,7 +83,11 @@
 
   function readInfo(rows) {
     var info = {};
-    rows.slice(1).forEach(function (r) { if (r[0]) info[r[0]] = r[1] || ""; });
+    // 項目名稱前後的空格及冒號（「發出人：」）都不計，統籌在試算表多打了也照樣讀到。
+    rows.slice(1).forEach(function (r) {
+      var key = (r[0] || "").replace(/[\s:：]+$/, "").trim();
+      if (key) info[key] = (r[1] || "").trim();
+    });
     return info;
   }
 
