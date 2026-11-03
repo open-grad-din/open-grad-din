@@ -241,14 +241,18 @@
       a.href = abs; a.textContent = abs;
     });
     var commit = window.OGD_COMMIT || "";
-    var link = document.getElementById("commit-link");
-    if (/^[0-9a-f]{40}$/.test(commit)) {
-      link.href = "https://github.com/open-grad-din/open-grad-din/commit/" + commit;
-      link.textContent = commit.slice(0, 7);
-    } else {
-      link.removeAttribute("href");
-      link.textContent = "本地測試版（未經正式部署）";
-    }
+    // 頁底（已收起）及「想知多一點 › 資料由誰管理？」都顯示網站版本（2026-11-03 Ken：由費用及計算機頁底搬來）
+    ["commit-link", "faq-commit"].forEach(function (id) {
+      var link = document.getElementById(id);
+      if (!link) return;
+      if (/^[0-9a-f]{40}$/.test(commit)) {
+        link.href = "https://github.com/open-grad-din/open-grad-din/commit/" + commit;
+        link.textContent = commit.slice(0, 7);
+      } else {
+        link.removeAttribute("href");
+        link.textContent = "本地測試版（未經正式部署）";
+      }
+    });
   }
 
   function load(url) {
