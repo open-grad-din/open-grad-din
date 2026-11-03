@@ -97,7 +97,7 @@ function buildForm() {
     "三步完成：① 投票 ② 填資料 ③ 轉帳訂金。",
     "未看網站？先看：",
     "費用 " + SITE + "fees.html",
-    "我家要付多少 " + SITE + "venues.html",
+    "我家要付多少？ " + SITE + "venues.html",
     "",
     "勝出規則：" + WIN_RULE,
     "",
@@ -126,7 +126,7 @@ function buildForm() {
   form.addSectionHeaderItem().setTitle("第 1 頁：投票").setHelpText("每位畢業生一票。");
 
   var venue = form.addMultipleChoiceItem().setTitle(T.venue)
-    .setHelpText("場地餐飲費每位約數，與網站「我家要付多少」相同，已含加一，以場地書面確認為準。" +
+    .setHelpText("場地餐飲費每位約數，與網站「我家要付多少？」相同，已含加一，以場地書面確認為準。" +
       "同一場地有不同菜式的，每個菜式一個選項。選項次序每人不同。")
     .setRequired(true);
   venue.setChoices(VENUES.map(function (v) { return venue.createChoice(v); }));
@@ -140,7 +140,7 @@ function buildForm() {
   } catch (e) { Logger.log("注意：未能載入方案圖 " + PLANS_IMAGE + "，請人手加入。"); }
 
   var plan = form.addMultipleChoiceItem().setTitle(T.plan)
-    .setHelpText("詳細見網站「費用」；你家實際要付多少，見「我家要付多少」。")
+    .setHelpText("詳細見網站「費用」；你家實際要付多少，見「我家要付多少？」。")
     .setRequired(true);
   plan.setChoiceValues(["① 按人頭", "② 雜費按人頭", "③ 按家庭"]);
 
@@ -152,7 +152,7 @@ function buildForm() {
 
   // ---- 第 2 頁：資料及確認 ----
   form.addPageBreakItem().setTitle("第 2 頁：你的資料及確認")
-    .setHelpText("提交後不能自己修改。要改人數，請聯絡統籌。");
+    .setHelpText("提交後不能自己修改。人數只可以加，不可以減；要加人數，請聯絡統籌，視乎場地能否容納。");
 
   var cls = form.addListItem().setTitle(T.cls)
     .setHelpText("A、B 班付給 A 班財務；C、D 班付給 C 班財務。")
@@ -178,7 +178,7 @@ function buildForm() {
 
   form.addCheckboxItem().setTitle(T.agree)
     .setChoiceValues([
-      "訂金每位 " + money(DEPOSIT) + "，一經提交不會退回。如活動取消，退款視乎場地的條款，籌委會會盡力另擇日子舉辦",
+      "訂金每位 " + money(DEPOSIT) + "，一經提交不會退回。如遇不可抗力的情況要取消晚宴，能否退款視乎場地條款而定；籌委會會盡可能另擇日子舉辦",
       "無論哪個方案及場地勝出（勝出規則見表格開頭），我都會按結果付尾數及出席。我知道每位總費用不會超出之前投票決定的範圍（上限 $1,100）",
       "籌委會成員看得到我的投票內容，以確保點票公平公正；全級家長只會看到總票數，不會公開投票內容。籌委會成員須確保投票內容不會外流"
     ])
