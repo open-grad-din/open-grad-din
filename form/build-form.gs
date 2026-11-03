@@ -71,6 +71,9 @@ var WIN_RULE = "場地和分擔方案各自計票，票數最多的勝出。如�
 
 // 題目名稱。onSubmit 用這些名稱找答案，改題目時要一併改這裏。
 var T = {
+  attend: "你家會出席畢業晚宴嗎？",
+  why: "可以告訴我們為甚麼不出席嗎？",
+  comment: "還有其他意見嗎？",
   venue: "場地",
   plan: "老師餐及雜費怎樣分擔？",
   use: "雜費想優先用在哪方面？（最多揀 2 項）",
@@ -122,13 +125,18 @@ function buildForm() {
   form.setShowLinkToRespondAgain(false);
   form.setProgressBar(true);
   form.setShuffleQuestions(false);
+  // 提交後畫面對所有人都一樣（Google Form 不能按答案顯示不同訊息），所以分開寫出席及不出席。
   form.setConfirmationMessage(
-    "已提交，但還未完成。\n" +
-    "你會收到一封「付款指示」電郵，寫明你要轉帳的準確金額、收款人及轉帳備註。請照電郵轉帳。\n" +
+    "已提交。\n" +
+    "如你選了不出席：謝謝你告訴我們，不用再做甚麼。\n" +
+    "如你報名出席，還未完成：你會收到一封「付款指示」電郵，寫明你要轉帳的準確金額、收款人及轉帳備註。請照電郵轉帳。\n" +
     "收款人會核實你的付款，核實後你的報名及投票才會計算；如有問題，收款人會主動聯絡你。");
 
+  // ---- 開頭：會否出席。不出席跳到最後的「不出席」頁，之後直接提交，不會投票，亦不會收到付款指示。 ----
+  var attend = form.addMultipleChoiceItem().setTitle(T.attend).setRequired(true);
+
   // ---- 第 1 頁：投票 ----
-  form.addSectionHeaderItem().setTitle("第 1 頁：投票").setHelpText("每位畢業生一票。");
+  var votePage = form.addPageBreakItem().setTitle("第 1 頁：投票").setHelpText("每位畢業生一票。");
 
   var venue = form.addMultipleChoiceItem().setTitle(T.venue)
     .setHelpText("場地餐飲費每位約數，與網站「我家要付多少？」相同，已含加一，以場地書面確認為準。" +
@@ -190,6 +198,9 @@ function buildForm() {
     .setValidation(FormApp.createCheckboxValidation().requireSelectExactly(3).setHelpText("三項都要剔").build())
     .setRequired(true);
 
+  // 選填意見放在第 2 頁最後（第 3 頁有四個收款人版本，放在那裏會變成四個欄位）。
+  form.addParagraphTextItem().setTitle(T.comment).setHelpText("選填。只有籌委會看到。");
+
   // ---- 第 3 頁：收款人（按班別只看到一個） ----
   var pages = {};
   PAYEE_KEYS.forEach(function (k) {
@@ -224,6 +235,13 @@ function buildForm() {
   choices.sort(function (a, b) { return a.getValue() < b.getValue() ? -1 : 1; });
   cls.setChoices(choices);
 
+  // ---- 不出席（只有答「不會」才看到） ----
+  var noPage = form.addPageBreakItem().setTitle("不出席")
+    .setHelpText("謝謝你告訴我們。按「提交」就完成，不用付款。")
+    .setGoToPage(FormApp.PageNavigationType.SUBMIT);
+  form.addParagraphTextItem().setTitle(T.why).setHelpText("選填。只有籌委會看到，用來改善以後的安排。");
+  attend.setChoices([attend.createChoice("會出席", votePage), attend.createChoice("不會出席", noPage)]);
+
   // ---- 回應試算表 ----
   var ss = SpreadsheetApp.create((PROTOTYPE ? "【原型】" : "") + "K3 畢業晚宴回應");
   form.setDestination(FormApp.DestinationType.SPREADSHEET, ss.getId());
@@ -245,6 +263,8 @@ function onSubmit(e) {
   var r = e.response;
   var a = {};
   r.getItemResponses().forEach(function (ir) { a[ir.getItem().getTitle()] = ir.getResponse(); });
+
+  if (a[T.attend] !== "會出席") return;   // 不出席：不用付款，不寄付款指示
 
   var to = r.getRespondentEmail();
   if (!to) { Logger.log("沒有電郵，略過"); return; }
