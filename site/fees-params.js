@@ -26,8 +26,8 @@ window.OGD_FEES = {
   incidentals: { value: 16856, source: "2025 年實際雜費 $25,356，以節約為原則，先不計 LED wall $8,500（是否設置未決定）" },
 
   // 預計出席畢業生 G 及預計出席總人數 N（包括畢業生）。只用來估算；實際按截止時的核實人數計。
-  graduates: { value: 100, source: "示範數字" },
-  attendees: { value: 300, source: "示範數字（假設平均每家 3 人）" },
+  graduates: { value: 105, source: "2026 年 10 月 28 日籌委會公布的初步報名人數（未核實）" },
+  attendees: { value: 304, source: "2026 年 10 月 28 日籌委會公布的初步報名人數（未核實，約 190 位大人、114 位小朋友，即平均每家約 2.9 人）" },
 
   // 每位餐費 F 視乎場地，寫在 venues-params.js（場地名單及報價只有一份）。
 
