@@ -75,36 +75,35 @@
   <section aria-labelledby="more-h" class="reveal more">
     <h2 class="sec-h" id="more-h">想知多一點</h2>
     <details>
-      <summary>候選名單怎樣來</summary>
+      <summary>場地名單怎樣來？篩走了哪些？</summary>
+      <p id="history"></p>
       <p id="funnel-text"></p>
+      <ul id="excluded"></ul>
     </details>
     <details>
       <summary>場地為甚麼這樣排？</summary>
       <p>為公平起見，每次打開這一頁，場地次序都隨機排列，排得前不代表推薦。按「官網」可看場地官方網站。</p>
     </details>
     <details>
-      <summary>以往的畢業晚宴在哪裏辦</summary>
-      <p id="history"></p>
-    </details>
-    <details>
-      <summary>已篩走的場地及原因</summary>
-      <ul id="excluded"></ul>
-    </details>
-    <details>
       <summary>為甚麼 2 大 1 小，三個方案差不多？</summary>
       <p id="avg-line"></p>
     </details>
     <details>
-      <summary>金額怎樣算</summary>
+      <summary>金額怎樣算？（公式及例子）</summary>
       <ul>
         <li>每位餐費已計入 10% 服務費（酒樓報價已含加一）。中式筵席按每席 12 位計。</li>
         <li>有價錢範圍的場地（例如酒樓不同菜式、酒店預計加價），用範圍的中位數計。</li>
         <li id="assume-line"></li>
         <li>老師餐按同一場地的每位餐費計。</li>
       </ul>
-    </details>
-    <details>
-      <summary>計算例子：算式逐步計一次</summary>
+      <p><b>公式</b>（n = 你家出席人數）：</p>
+      <div class="formula">
+        <p><b>①</b> n × F + n × (S × F + M) ÷ N</p>
+        <p><b>②</b> n × F + S × F ÷ G + n × M ÷ N</p>
+        <p><b>③</b> n × F + (S × F + M) ÷ G</p>
+      </div>
+      <table class="vars"><tbody id="vars"></tbody></table>
+      <p class="fine">收費數字及來源寫在 fees-params.js，場地名單及報價寫在 venues-params.js，任何改動都有公開紀錄。</p>
       <div class="formula" id="example"></div>
     </details>
   </section>

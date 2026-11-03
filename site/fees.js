@@ -64,30 +64,11 @@
     C.banner("demo-banner");
     document.getElementById("cap").textContent = money(CAP);
     document.getElementById("cap-range").textContent = money(CAP);
-    Array.prototype.forEach.call(document.querySelectorAll(".deposit"), function (s) { s.textContent = String(P.depositPerHead); });
-    document.getElementById("win-line").textContent =
-      (P.winRule || "勝出規則待籌委會決定，會在開放報名前公布。") + "所有家庭都按勝出的場地及方案付尾數，包括投了其他選項的家庭。";
-    document.getElementById("tie-line").textContent = P.tieRule || "待籌委會決定，會在開放報名前公布。";
     document.getElementById("mcap-line").textContent =
       "雜費設有上限：即使人數最少的家庭（1 大 1 小），無論哪個場地、哪個方案勝出，每位都不會超過 " + money(CAP) +
       "。名單上每個場地都按報價範圍的最高價檢查過。實際雜費如會超出，籌委會刪減雜費項目，不會向家長多收。截止後按實際人數計算這個上限並公布。";
     document.getElementById("what-line").textContent =
-      "老師餐：" + S + " 位老師和職員。其他雜費：參考" + P.incidentals.source + "，約 " + money(M) + "。";
-    var rows = [
-      ["n", "你家出席人數（包括畢業生）"],
-      ["F", "每位餐費：視乎場地，見計算機的場地列表（已計入服務費）"],
-      ["S", "老師和職員人數：" + S + "（" + P.staff.source + "）"],
-      ["M", "雜費：預計 " + money(M) + "（" + P.incidentals.source + "）"],
-      ["G", "出席畢業生：預計 " + G + "（" + P.graduates.source + "）"],
-      ["N", "出席總人數：預計 " + N + "（" + P.attendees.source + "）"]
-    ];
-    var vars = document.getElementById("vars");
-    rows.forEach(function (r) {
-      var tr = el("tr");
-      tr.appendChild(el("td", r[0], "sym"));
-      tr.appendChild(el("td", r[1]));
-      vars.appendChild(tr);
-    });
+      "老師餐：" + S + " 位老師和職員。其他雜費：參考 " + P.incidentals.source + "，約 " + money(M) + "。";
     C.commitLink();
   }
 

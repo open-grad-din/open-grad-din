@@ -287,4 +287,13 @@
 
   // 給測試用。
   window.OGD_TEST = { parseCsv: parseCsv, daysSince: daysSince, formatDeadline: formatDeadline, safeUrl: safeUrl };
+
+  // 「想知多一點」的投票及訂金答案（2026-11-03 由費用頁搬來），數字及規則讀 fees-params.js，與費用頁同一來源。
+  (function () {
+    var P = window.OGD_FEES; if (!P) return;
+    Array.prototype.forEach.call(document.querySelectorAll(".deposit"), function (s) { s.textContent = String(P.depositPerHead); });
+    var w = document.getElementById("win-line"), t = document.getElementById("tie-line");
+    if (w) w.textContent = (P.winRule || "勝出規則待籌委會決定，會在開放報名前公布。") + "所有家庭都按勝出的場地及方案付尾數，包括投了其他選項的家庭。";
+    if (t) t.textContent = P.tieRule || "平手處理待籌委會決定，會在開放報名前公布。";
+  })();
 })();

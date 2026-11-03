@@ -141,8 +141,8 @@
     document.getElementById("history").textContent = VP.history;
     document.getElementById("funnel-text").textContent =
       "籌委會委員先收集了" + VP.collected + "酒店和酒樓，再篩走" + VP.excludeReasons.join("、") + "的場地，剩下 " + V.length +
-      " 間：" + count("hotel") + " 間酒店、" + count("rest") + " 間酒樓。篩走了哪些場地，見下面「已篩走的場地及原因」。" +
-      (VP.gradeNote ? VP.gradeNote : "");
+      " 間：" + count("hotel") + " 間酒店、" + count("rest") + " 間酒樓。" +
+      (VP.gradeNote ? VP.gradeNote : "") + "篩走的場地及原因如下：";
     document.getElementById("excluded").innerHTML = VP.excluded.map(function (r) { return "<li>" + esc(r) + "</li>"; }).join("");
     var avg = Math.round(N / G * 10) / 10, avgTxt = (avg % 1 ? "約 " : "") + avg;
     document.getElementById("avg-line").textContent =
@@ -151,7 +151,23 @@
       "「雜費按人頭」亦一樣，所以 2 大 1 小的家庭三個方案差不多。人數多過平均的家庭，「按家庭」較省；人數少過平均的（例如 1 大 1 小），「按人頭」較省。" +
       "實際平均人數要報名截止才知道，差距會隨之改變。";
     document.getElementById("assume-line").textContent =
-      "假設老師和職員 " + S + " 位、雜費約 " + money(M) + "、出席畢業生 " + G + " 位、出席總人數 " + N + " 位（包括畢業生）。人數來自 " + C.P.graduates.source + "。頂部三格顯示你捲到的那個菜式下，你家在三個方案的總開支（自己的餐費加分擔的老師餐和雜費）。";
+      "頂部三格顯示你捲到的那個菜式下，你家在三個方案的總開支（自己的餐費加分擔的老師餐和雜費）。下面公式用到的數字及來源見表。";
+    // 公式變數表（2026-11-03 由費用頁搬來，與公式及例子放在一起）
+    var rows = [
+      ["n", "你家出席人數（包括畢業生）"],
+      ["F", "每位餐費：視乎場地，見上面場地列表（已計入服務費）"],
+      ["S", "老師和職員人數：" + S + "（" + C.P.staff.source + "）"],
+      ["M", "雜費：預計 " + money(M) + "（" + C.P.incidentals.source + "）"],
+      ["G", "出席畢業生：預計 " + G + "（" + C.P.graduates.source + "）"],
+      ["N", "出席總人數：預計 " + N + "（" + C.P.attendees.source + "）"]
+    ];
+    var vars = document.getElementById("vars");
+    rows.forEach(function (r) {
+      var tr = C.el("tr");
+      tr.appendChild(C.el("td", r[0], "sym"));
+      tr.appendChild(C.el("td", r[1]));
+      vars.appendChild(tr);
+    });
     renderExample();
     C.commitLink();
   }
@@ -171,8 +187,7 @@
       "<b>② 雜費按人頭</b>：" + $(own) + " + " + $(teach) + " ÷ " + G + " + " + n + " × " + $(M) + " ÷ " + N + " = <b>" + $(t[1]) + "</b>",
       "<b>③ 按家庭</b>：" + $(own) + " + " + $(pool) + " ÷ " + G + " = <b>" + $(t[2]) + "</b>",
       "最後四捨五入至元。換其他場地，把 " + $(F) + " 換成該菜式的每位餐費；換其他人數，把 n 換成你家出席人數（包括畢業生）。",
-      "<small>備註：出席畢業生 G 及出席總人數 N 來自 " + C.P.attendees.source + "；老師和職員 S：" + C.P.staff.source +
-        "；雜費 M：" + C.P.incidentals.source + "；每位餐費 F：場地報價，已計入服務費。截止後按已核實人數重新計算。</small>"
+      "<small>備註：S、M、G、N 的數字及來源見上表；截止後按已核實人數重新計算。</small>"
     ];
     box.innerHTML = lines.map(function (l) { return "<p>" + l + "</p>"; }).join("");
   }
