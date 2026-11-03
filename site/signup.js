@@ -58,7 +58,7 @@
     .then(function (res) { if (!res.ok) throw new Error(res.status); return res.text(); })
     .then(function (text) {
       var info = {};
-      parseCsv(text).forEach(function (r) { if (r.length >= 2) info[r[0].trim()] = r[1].trim(); });
+      parseCsv(text).forEach(function (r) { if (r.length >= 2) info[r[0].replace(/[\s:：]+$/, "").trim()] = r[1].trim(); });
       var url = info["報名表格連結"] || "";
       if (isGoogleForm(url)) {
         Array.prototype.forEach.call(tabs, function (a) {
