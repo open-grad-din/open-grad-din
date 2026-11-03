@@ -78,8 +78,8 @@
       ["F", "每位餐費：視乎場地，見計算機的場地列表（已計入服務費）"],
       ["S", "老師和職員人數：" + S + "（" + P.staff.source + "）"],
       ["M", "雜費：預計 " + money(M) + "（" + P.incidentals.source + "）"],
-      ["G", "出席畢業生：預計 " + G],
-      ["N", "出席總人數：預計 " + N]
+      ["G", "出席畢業生：預計 " + G + "（" + P.graduates.source + "）"],
+      ["N", "出席總人數：預計 " + N + "（" + P.attendees.source + "）"]
     ];
     var vars = document.getElementById("vars");
     rows.forEach(function (r) {
