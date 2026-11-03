@@ -205,7 +205,7 @@ summary::after { content: "＋"; color: var(--shu); font-weight: 700; font-size:
 details[open] summary::after { transform: rotate(45deg); }
 details { margin-bottom: 10px; }
 summary { padding: 14px 16px; }
-details p { margin: 0 16px 14px; }
+details p, details p.fine { margin: 0 16px 14px; }
 details > ul, details > ol { margin: 0 16px 14px; padding-left: 1.4em; display: flex; flex-direction: column; gap: 4px; }
 
 @media (prefers-reduced-motion: reduce) {
