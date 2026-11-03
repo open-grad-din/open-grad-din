@@ -33,7 +33,7 @@
 var PROTOTYPE = true;
 var VERSION = "表格第 1 版 · 2026 年 11 月 3 日";
 var DEPOSIT = 550;
-var DEADLINE_DAYS = "〔X〕";   // 提交後多少日內轉帳，由籌委會決定，例如 "3"
+var DEADLINE_DAYS = "2";      // 提交後多少日內轉帳（2026-11-03 決定）
 
 // 收款人：每班一位（2026-11-03 籌委會決定），表格只寫電話，不寫收款人名字。method 是 "FPS" 或 "PayMe"。
 // 電話只可以由統籌在正式版填寫，不可寫入 repo（repo 公開，紀錄永遠留存）。
