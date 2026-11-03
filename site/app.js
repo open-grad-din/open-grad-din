@@ -292,6 +292,11 @@
   (function () {
     var P = window.OGD_FEES; if (!P) return;
     Array.prototype.forEach.call(document.querySelectorAll(".deposit"), function (s) { s.textContent = String(P.depositPerHead); });
+    var fmt = function (n) { return Number(n).toLocaleString("en-US"); };
+    if (P.budgetPerHead) {
+      Array.prototype.forEach.call(document.querySelectorAll(".bmin"), function (s) { s.textContent = fmt(P.budgetPerHead.min); });
+      Array.prototype.forEach.call(document.querySelectorAll(".bmax"), function (s) { s.textContent = fmt(P.budgetPerHead.max); });
+    }
     var w = document.getElementById("win-line"), t = document.getElementById("tie-line");
     if (w) w.textContent = (P.winRule || "勝出規則待籌委會決定，會在開放報名前公布。") + "所有家庭都按勝出的場地及方案付尾數，包括投了其他選項的家庭。";
     if (t) t.textContent = P.tieRule || "平手處理待籌委會決定，會在開放報名前公布。";
