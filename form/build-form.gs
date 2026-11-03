@@ -31,7 +31,7 @@
  */
 
 var PROTOTYPE = true;
-var VERSION = "表格第 2 版 · 〔日期〕";
+var VERSION = "表格第 1 版 · 2026 年 11 月 3 日";
 var DEPOSIT = 550;
 var DEADLINE_DAYS = "〔X〕";   // 提交後多少日內轉帳，由籌委會決定，例如 "3"
 
@@ -62,7 +62,7 @@ var VENUES = [
 ];
 
 // 勝出規則：照抄網站「費用」頁（site/fees-params.js 的 winRule、tieRule）。
-var WIN_RULE = "場地和分擔方案各自計票，票數最多的勝出。如最高票數相同，交由學校在最高票的選項中決定。";
+var WIN_RULE = "場地和分擔方案各自計票，票數最多的勝出。如最高票數相同，則交由學校在最高票的選項中決定。";
 
 // 題目名稱。onSubmit 用這些名稱找答案，改題目時要一併改這裏。
 var T = {
