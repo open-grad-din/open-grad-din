@@ -20,7 +20,9 @@ window.OGD_VENUES = {
       menus: [{ name: "自助餐", F: 537, quote: "每位 $488 另加一" }],
       chips: ["汽水、凍橙汁任飲 2 小時", "免費 LED 屏"], photos: [] },
     { type: "hotel", name: "唯港薈", grade: "5 星", gradeSrc: "https://www.expedia.com/Kowloon-Hotels-Hotel-ICON.h4247437.Hotel-Information", where: "尖東", url: "https://www.hotel-icon.com/zh-tw/",
-      menus: [{ name: "自助餐", F: 758, quote: "每位 $758，已含加一" }],
+      menus: [{ name: "自助餐", F: 758, quote: "每位 $758，已含加一" },
+              // 2026-11-03 Ken 提供：用午餐菜單每位 $580 另加一（$638）
+              { name: "自助餐（午餐菜單）", F: 638, quote: "每位 $580 另加一" }],
       chips: ["橙汁 2 小時", "即影即有相攤", "標誌展示", "哈根達斯"], photos: [] },
     { type: "hotel", name: "美麗華酒店", grade: "5 星", gradeSrc: "https://www.expedia.com/Kowloon-Hotels-The-Mira-Hong-Kong-Hotel.h20879.Hotel-Information", where: "尖沙咀", url: "https://www.themirahotel.com/hong-kong/tc/",
       menus: [{ name: "中式筵席", F: 600, quote: "每圍 $7,200 淨價（12 位，已含加一）" },
