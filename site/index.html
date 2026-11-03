@@ -98,6 +98,49 @@
     <span class="to-calc-go" aria-hidden="true">費用 →</span>
   </a>
 
+  <section aria-labelledby="more-h" class="reveal more">
+    <h2 class="sec-h" id="more-h">想知多一點</h2>
+    <details>
+      <summary>現在我要做甚麼？</summary>
+      <p>之前大家已經投票，決定晚宴每位費用在 $<span class="bmin">900</span> 至 $<span class="bmax">1,100</span> 之間。最後按實際成本收費，每位不會超過 $<span class="bmax">1,100</span>。</p>
+      <p>現在只需在截止前填一張報名表格，一次過做三件事：</p>
+      <ol>
+        <li>填你家出席人數（大人、小朋友）</li>
+        <li>投票：揀場地，以及揀老師餐和雜費的分擔方式（三揀一）</li>
+        <li>按表格指示付訂金，每位 $<span class="deposit"></span></li>
+      </ol>
+      <p>收款人會核實你的付款，核實後你的票才會計算；如有問題，收款人會主動聯絡你。報名表格在底部「報名」；想先比較各場地你家要付多少，可以用「計算機」。</p>
+    </details>
+    <details>
+      <summary>怎樣投票？怎樣決定結果？</summary>
+      <p>場地和分擔方案在同一張報名表一起投，每位畢業生一票。只計已核實付款的票，沒有付款的票不計。</p>
+      <p id="win-line"></p>
+      <p id="tie-line"></p>
+      <p><b>付訂金，即表示你同意服從投票結果：</b>無論哪個場地、哪個方案勝出，都按結果付尾數。</p>
+    </details>
+    <details>
+      <summary>訂金多少？可以退回嗎？</summary>
+      <p>每位 $<span class="deposit"></span>，無論哪個場地、哪個方案都一樣。</p>
+      <p>訂金一經提交，不會退回。如遇不可抗力的情況要取消晚宴，能否退款視乎場地條款而定；籌委會會盡可能另擇日子舉辦。</p>
+    </details>
+    <details>
+      <summary>遲了報名或想改人數？</summary>
+      <p><b>遲報名</b>：要視乎場地能否容納更多家庭。方向上可以，但不能保證一定有位，所以請盡量在截止前報名。</p>
+      <p><b>更改人數</b>：只可以加，不可以減。加人同樣要視乎場地能否容納，不能保證一定有位。</p>
+    </details>
+    <details>
+      <summary>資料由誰管理？</summary>
+      <p>報名表格（Google Form）及報名資料由籌委會管理。費用直接付給收款人，不經這個網站或任何系統收取。</p>
+      <p>網站只負責顯示。所有數字、來源及每次改動都公開，任何人都可以核對：</p>
+      <ul>
+        <li><a href="https://github.com/open-grad-din/open-grad-din/blob/main/site/fees-params.js">收費數字及來源</a></li>
+        <li><a href="https://github.com/open-grad-din/open-grad-din/blob/main/site/venues-params.js">場地資料及來源</a></li>
+        <li><a href="https://github.com/open-grad-din/open-grad-din/commits/main/site">改動紀錄</a></li>
+      </ul>
+      <p class="fine">現時網站版本：<a id="faq-commit"></a></p>
+    </details>
+  </section>
+
   <!-- 2026-11-02 Ken：頁底（發出人、資料讀取時間、資料來源、網頁版本）暫時收起，日後再決定放在哪裏。拿走 hidden 即可還原。 -->
   <footer hidden>
     <span id="by"></span>
@@ -122,6 +165,7 @@
 
 <script>window.OGD_COMMIT = "__COMMIT__";</script>
 <script src="config.js?v=__COMMIT_SHORT__"></script>
+<script src="fees-params.js?v=__COMMIT_SHORT__"></script>
 <script src="signup.js?v=__COMMIT_SHORT__"></script>
 <script src="ui.js?v=__COMMIT_SHORT__"></script>
 <script src="app.js?v=__COMMIT_SHORT__"></script>

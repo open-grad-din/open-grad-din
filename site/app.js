@@ -241,14 +241,18 @@
       a.href = abs; a.textContent = abs;
     });
     var commit = window.OGD_COMMIT || "";
-    var link = document.getElementById("commit-link");
-    if (/^[0-9a-f]{40}$/.test(commit)) {
-      link.href = "https://github.com/open-grad-din/open-grad-din/commit/" + commit;
-      link.textContent = commit.slice(0, 7);
-    } else {
-      link.removeAttribute("href");
-      link.textContent = "本地測試版（未經正式部署）";
-    }
+    // 頁底（已收起）及「想知多一點 › 資料由誰管理？」都顯示網站版本（2026-11-03 Ken：由費用及計算機頁底搬來）
+    ["commit-link", "faq-commit"].forEach(function (id) {
+      var link = document.getElementById(id);
+      if (!link) return;
+      if (/^[0-9a-f]{40}$/.test(commit)) {
+        link.href = "https://github.com/open-grad-din/open-grad-din/commit/" + commit;
+        link.textContent = commit.slice(0, 7);
+      } else {
+        link.removeAttribute("href");
+        link.textContent = "本地測試版（未經正式部署）";
+      }
+    });
   }
 
   function load(url) {
@@ -287,4 +291,18 @@
 
   // 給測試用。
   window.OGD_TEST = { parseCsv: parseCsv, daysSince: daysSince, formatDeadline: formatDeadline, safeUrl: safeUrl };
+
+  // 「想知多一點」的投票及訂金答案（2026-11-03 由費用頁搬來），數字及規則讀 fees-params.js，與費用頁同一來源。
+  (function () {
+    var P = window.OGD_FEES; if (!P) return;
+    Array.prototype.forEach.call(document.querySelectorAll(".deposit"), function (s) { s.textContent = String(P.depositPerHead); });
+    var fmt = function (n) { return Number(n).toLocaleString("en-US"); };
+    if (P.budgetPerHead) {
+      Array.prototype.forEach.call(document.querySelectorAll(".bmin"), function (s) { s.textContent = fmt(P.budgetPerHead.min); });
+      Array.prototype.forEach.call(document.querySelectorAll(".bmax"), function (s) { s.textContent = fmt(P.budgetPerHead.max); });
+    }
+    var w = document.getElementById("win-line"), t = document.getElementById("tie-line");
+    if (w) w.textContent = (P.winRule || "勝出規則待籌委會決定，會在開放報名前公布。") + "所有家庭都按勝出的場地及方案付尾數，包括投了其他選項的家庭。";
+    if (t) t.textContent = P.tieRule || "平手處理待籌委會決定，會在開放報名前公布。";
+  })();
 })();

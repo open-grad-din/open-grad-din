@@ -12,38 +12,6 @@
   // 方案一律「編號＋名字」一起寫（Ken 2026-11-02：只寫編號會混亂）。
   var NAMES = PLAN_NAMES;
 
-  // ---- 場地相片及官方連結，按場地名彈出視窗 ----
-  var TABLES = "";
-  for (var i = 0; i < 9; i++) {
-    TABLES += '<circle cx="' + (40 + (i % 3) * 60) + '" cy="' + (48 + Math.floor(i / 3) * 36) + '" r="13"/>';
-  }
-  function placeholder(i, name) {
-    var hue = [205, 42, 120][i % 3];
-    return '<figure class="shot"><svg viewBox="0 0 200 150" role="img" aria-label="' + esc(name) + ' 示範圖片 ' + (i + 1) + '">' +
-      '<rect width="200" height="150" fill="hsl(' + hue + ' 22% 84%)"/>' +
-      '<rect width="200" height="22" fill="hsl(' + hue + ' 22% 70%)"/>' +
-      '<g fill="hsl(' + hue + ' 30% 97%)">' + TABLES + '</g></svg>' +
-      '<figcaption>示範圖片 ' + (i + 1) + '</figcaption></figure>';
-  }
-  function galleryHTML(v) {
-    var items = (v.photos && v.photos.length)
-      ? v.photos.map(function (p) {
-          return '<figure class="shot"><img src="' + esc(p.src) + '" alt="' + esc(p.alt || v.name) + '" loading="lazy"></figure>';
-        })
-      : [0, 1, 2].map(function (i) { return placeholder(i, v.name); });
-    return '<div class="gal-wrap"><div class="gallery" tabindex="0" aria-label="' + esc(v.name) + ' 場地相片，可左右掃">' + items.join("") + '</div>' +
-      '<button class="gal-btn prev" aria-label="上一張" data-dir="-1">‹</button>' +
-      '<button class="gal-btn next" aria-label="下一張" data-dir="1">›</button></div>' +
-      '<p class="dots" aria-live="polite">' + items.map(function (_, i) { return '<i' + (i ? "" : ' class="on"') + '></i>'; }).join("") + '</p>';
-  }
-  // 按場地名彈出視窗：只有相片及官方網站連結（Ken 2026-11-02）。
-  function popHTML(v) {
-    var link = v.url
-      ? '<a class="link" href="' + esc(v.url) + '" target="_blank" rel="noopener">官方網站 ↗</a>'
-      : '<span class="link none">官方連結待補</span>';
-    return galleryHTML(v) + '<div class="pop-foot">' + link + '</div>';
-  }
-
   // ---- 一行一間 ----
   function menuRowHTML(m) {
     return '<div class="mrow" data-f="' + mid(m) + '">' +
@@ -54,10 +22,13 @@
   }
   function rowHTML(v, i) {
     return '<article class="row">' +
-      '<button type="button" class="row-head" data-i="' + i + '" aria-haspopup="dialog">' +
+      '<div class="row-head">' +
         '<span class="tag ' + v.type + '">' + (v.grade ? esc(v.grade) : "") + TYPE[v.type] + '</span>' +
         '<span class="name">' + esc(v.name) + '</span>' +
-        '<span class="chev" aria-hidden="true">相片 ›</span></button>' +
+        // 不設相片彈出視窗，直接連去官網（Ken 2026-11-03）
+        (v.url ? '<a class="link site" href="' + esc(v.url) + '" target="_blank" rel="noopener" aria-label="' + esc(v.name) + ' 官方網站（新分頁）">官網 ↗</a>'
+               : '<span class="link none">官網待補</span>') +
+      '</div>' +
       v.menus.map(menuRowHTML).join("") +
       '</article>';
   }
@@ -163,46 +134,6 @@
 
     var list = document.getElementById("list");
     list.innerHTML = ORDER.map(rowHTML).join("");
-    var pop = document.getElementById("venue-pop"), popBody = document.getElementById("pop-body"), lastHead = null;
-    list.addEventListener("click", function (e) {
-      // 整個場地卡都可按（Ken 2026-11-02），不只場地名
-      var row = e.target.closest(".row"); if (!row) return;
-      var head = row.querySelector(".row-head");
-      var v = ORDER[Number(head.getAttribute("data-i"))];
-      document.getElementById("pop-h").innerHTML = '<span class="tag ' + v.type + '">' + (v.grade ? esc(v.grade) : "") + TYPE[v.type] + '</span>' + esc(v.name);
-      popBody.innerHTML = popHTML(v);
-      lastHead = head;
-      if (pop.showModal) pop.showModal(); else pop.setAttribute("open", "");
-      pop.focus(); // 對焦面板本身，不讓 × 掣一打開就出現對焦框（手機上會見到紅框）
-    });
-    function closePop() { if (pop.close) pop.close(); else pop.removeAttribute("open"); }
-    pop.addEventListener("click", function (e) {
-      if (e.target === pop || e.target.closest(".pop-x")) { closePop(); return; } // 按外面灰色位或 × 關閉
-      var b = e.target.closest(".gal-btn"); if (!b) return;
-      var g = b.parentElement.querySelector(".gallery");
-      g.scrollBy({ left: Number(b.dataset.dir) * g.querySelector(".shot").offsetWidth, behavior: "smooth" });
-    });
-    // 掃相片時更新圓點
-    popBody.addEventListener("scroll", function (e) {
-      var g = e.target; if (!g.classList || !g.classList.contains("gallery")) return;
-      var shot = g.querySelector(".shot"); if (!shot) return;
-      var gap = parseFloat(getComputedStyle(g).columnGap) || 0;
-      var idx = Math.round(g.scrollLeft / (shot.offsetWidth + gap)), dots = popBody.querySelectorAll(".dots i");
-      Array.prototype.forEach.call(dots, function (d, i) { d.classList.toggle("on", i === idx); });
-    }, true);
-    pop.addEventListener("close", function () { popBody.innerHTML = ""; if (lastHead) lastHead.focus(); });
-    // 相片：電腦用左右箭咀或按住拖動；手機用手指掃。
-    var drag = null;
-    pop.addEventListener("pointerdown", function (e) {
-      var g = e.target.closest(".gallery"); if (!g || e.pointerType !== "mouse") return;
-      drag = { g: g, x: e.clientX, left: g.scrollLeft }; g.classList.add("dragging"); e.preventDefault();
-    });
-    window.addEventListener("pointermove", function (e) { if (drag) drag.g.scrollLeft = drag.left - (e.clientX - drag.x); });
-    window.addEventListener("pointerup", function () {
-      if (!drag) return;
-      var g = drag.g, w = g.querySelector(".shot").offsetWidth + (parseFloat(getComputedStyle(g).columnGap) || 0);
-      g.classList.remove("dragging"); g.scrollTo({ left: Math.round(g.scrollLeft / w) * w, behavior: "smooth" }); drag = null;
-    });
   }
 
   function renderText() {
@@ -210,8 +141,8 @@
     document.getElementById("history").textContent = VP.history;
     document.getElementById("funnel-text").textContent =
       "籌委會委員先收集了" + VP.collected + "酒店和酒樓，再篩走" + VP.excludeReasons.join("、") + "的場地，剩下 " + V.length +
-      " 間：" + count("hotel") + " 間酒店、" + count("rest") + " 間酒樓。篩走了哪些場地，見下面「已篩走的場地及原因」。" +
-      (VP.gradeNote ? VP.gradeNote : "");
+      " 間：" + count("hotel") + " 間酒店、" + count("rest") + " 間酒樓。" +
+      (VP.gradeNote ? VP.gradeNote : "") + "篩走的場地及原因如下：";
     document.getElementById("excluded").innerHTML = VP.excluded.map(function (r) { return "<li>" + esc(r) + "</li>"; }).join("");
     var avg = Math.round(N / G * 10) / 10, avgTxt = (avg % 1 ? "約 " : "") + avg;
     document.getElementById("avg-line").textContent =
@@ -220,8 +151,45 @@
       "「雜費按人頭」亦一樣，所以 2 大 1 小的家庭三個方案差不多。人數多過平均的家庭，「按家庭」較省；人數少過平均的（例如 1 大 1 小），「按人頭」較省。" +
       "實際平均人數要報名截止才知道，差距會隨之改變。";
     document.getElementById("assume-line").textContent =
-      "假設老師和職員 " + S + " 位、雜費約 " + money(M) + "、出席畢業生 " + G + " 位、出席總人數 " + N + " 位（包括畢業生）。頂部三格顯示你捲到的那個菜式下，你家在三個方案的總開支（自己的餐費加分擔的老師餐和雜費）。";
+      "頂部三格顯示你捲到的那個菜式下，你家在三個方案的總開支（自己的餐費加分擔的老師餐和雜費）。下面公式用到的數字及來源見表。";
+    // 公式變數表（2026-11-03 由費用頁搬來，與公式及例子放在一起）
+    var rows = [
+      ["n", "你家出席人數（包括畢業生）"],
+      ["F", "每位餐費：視乎場地，見上面場地列表（已計入服務費）"],
+      ["S", "老師和職員人數：" + S + "（" + C.P.staff.source + "）"],
+      ["M", "雜費：預計 " + money(M) + "（" + C.P.incidentals.source + "）"],
+      ["G", "出席畢業生：預計 " + G + "（" + C.P.graduates.source + "）"],
+      ["N", "出席總人數：預計 " + N + "（" + C.P.attendees.source + "）"]
+    ];
+    var vars = document.getElementById("vars");
+    rows.forEach(function (r) {
+      var tr = C.el("tr");
+      tr.appendChild(C.el("td", r[0], "sym"));
+      tr.appendChild(C.el("td", r[1]));
+      vars.appendChild(tr);
+    });
+    renderExample();
     C.commitLink();
+  }
+
+  // 計算例子（Ken 2026-11-03）：用名單上一個場地、一家 2 大 1 小，把三條算式逐步計一次，數字全部讀 params，與頂部三格一致。
+  function renderExample() {
+    var box = document.getElementById("example"); if (!box) return;
+    var v = V.filter(function (x) { return x.name === "康得思酒店"; })[0] || V[0], m = v.menus[0];
+    var F = mid(m), n = 3, own = n * F, teach = S * F, pool = teach + M, t = totals(n, F);
+    var $ = function (x) { return money(x); };
+    var lines = [
+      "例子：" + v.name + "（" + m.name + "，每位 " + $(F) + "），一家 2 大 1 小，即 n = " + n + "。",
+      "其他數字：老師和職員 S = " + S + "、雜費 M = " + $(M) + "、出席畢業生 G = " + G + "、出席總人數 N = " + N + "。",
+      "自己的餐費：" + n + " × " + $(F) + " = " + $(own),
+      "老師餐：" + S + " × " + $(F) + " = " + $(teach) + "；加雜費共 " + $(pool),
+      "<b>① 按人頭</b>：" + $(own) + " + " + n + " × " + $(pool) + " ÷ " + N + " = <b>" + $(t[0]) + "</b>",
+      "<b>② 雜費按人頭</b>：" + $(own) + " + " + $(teach) + " ÷ " + G + " + " + n + " × " + $(M) + " ÷ " + N + " = <b>" + $(t[1]) + "</b>",
+      "<b>③ 按家庭</b>：" + $(own) + " + " + $(pool) + " ÷ " + G + " = <b>" + $(t[2]) + "</b>",
+      "最後四捨五入至元。換其他場地，把 " + $(F) + " 換成該菜式的每位餐費；換其他人數，把 n 換成你家出席人數（包括畢業生）。",
+      "<small>備註：S、M、G、N 的數字及來源見上表；截止後按已核實人數重新計算。</small>"
+    ];
+    box.innerHTML = lines.map(function (l) { return "<p>" + l + "</p>"; }).join("");
   }
 
   renderText();

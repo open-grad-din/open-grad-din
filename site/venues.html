@@ -32,7 +32,7 @@
 
   <header class="page-head">
     <span class="eyebrow">K3 畢業晚宴 · 計算機</span>
-    <h1 class="page-h">我家要付多少</h1>
+    <h1 class="page-h">我家要付多少？</h1>
   </header>
 
   <section aria-labelledby="h-list" id="venues">
@@ -65,57 +65,49 @@
     <div class="notice">
       <b>注意事項</b>
       <ul>
-        <li>估算：用場地報價及 2025 年畢業晚宴的雜費（減去今屆不設的 LED wall）計算。實際金額要報名截止、知道出席人數後才確定，屆時會公布。</li>
+        <li>估算：用場地報價及 2025 年畢業晚宴的雜費（以節約為原則，先不計 LED wall）計算。實際金額要報名截止、知道出席人數後才確定，屆時會公布。</li>
         <li>報價僅供參考，實際價錢及檔期以場地書面確認為準。</li>
       </ul>
     </div>
   </section>
 
-  <dialog id="venue-pop" class="pop" aria-labelledby="pop-h" tabindex="-1">
-    <div class="pop-top"><h3 id="pop-h"></h3><button type="button" class="pop-x" aria-label="關閉">×</button></div>
-    <div id="pop-body"></div>
-  </dialog>
 
   <section aria-labelledby="more-h" class="reveal more">
     <h2 class="sec-h" id="more-h">想知多一點</h2>
     <details>
-      <summary>候選名單怎樣來</summary>
+      <summary>場地名單怎樣來？篩走了哪些？</summary>
+      <p id="history"></p>
       <p id="funnel-text"></p>
+      <ul id="excluded"></ul>
     </details>
     <details>
       <summary>場地為甚麼這樣排？</summary>
-      <p>為公平起見，每次打開這一頁，場地次序都隨機排列，排得前不代表推薦。按場地名可看相片及官方網站連結。</p>
-    </details>
-    <details>
-      <summary>以往的畢業晚宴在哪裏辦</summary>
-      <p id="history"></p>
-    </details>
-    <details>
-      <summary>已篩走的場地及原因</summary>
-      <ul id="excluded"></ul>
+      <p>為公平起見，每次打開這一頁，場地次序都隨機排列，排得前不代表推薦。按「官網」可看場地官方網站。</p>
     </details>
     <details>
       <summary>為甚麼 2 大 1 小，三個方案差不多？</summary>
       <p id="avg-line"></p>
     </details>
     <details>
-      <summary>金額怎樣算</summary>
+      <summary>金額怎樣算？（公式及例子）</summary>
       <ul>
         <li>每位餐費已計入 10% 服務費（酒樓報價已含加一）。中式筵席按每席 12 位計。</li>
         <li>有價錢範圍的場地（例如酒樓不同菜式、酒店預計加價），用範圍的中位數計。</li>
         <li id="assume-line"></li>
         <li>老師餐按同一場地的每位餐費計。</li>
       </ul>
+      <p><b>公式</b>（n = 你家出席人數）：</p>
+      <div class="formula">
+        <p><b>①</b> n × F + n × (S × F + M) ÷ N</p>
+        <p><b>②</b> n × F + S × F ÷ G + n × M ÷ N</p>
+        <p><b>③</b> n × F + (S × F + M) ÷ G</p>
+      </div>
+      <table class="vars"><tbody id="vars"></tbody></table>
+      <div class="formula" id="example"></div>
     </details>
   </section>
 
 
-  <footer>
-    <span><span class="ver">本頁版本 <a id="commit-link">__COMMIT_SHORT__</a></span> ·
-      <a href="https://github.com/open-grad-din/open-grad-din/blob/main/site/fees-params.js">收費數字及來源</a> ·
-      <a href="https://github.com/open-grad-din/open-grad-din/blob/main/site/venues-params.js">場地資料及來源</a> ·
-      <a href="https://github.com/open-grad-din/open-grad-din/commits/main/site">改動紀錄</a></span>
-  </footer>
 </div>
 
 <div class="tabbar">

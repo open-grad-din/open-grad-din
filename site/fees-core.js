@@ -38,7 +38,7 @@
   VP.venues.forEach(function (v) { v.menus.forEach(function (m) { MENUS.push(m); }); });
   var FAVG = MENUS.reduce(function (s, m) { return s + mid(m); }, 0) / MENUS.length;
 
-  function totals(n, F) { return PLANS.map(function (f) { return round10(f(n, F, S, M, G, N)); }); }
+  function totals(n, F) { return PLANS.map(function (f) { return Math.round(f(n, F, S, M, G, N)); }); } // 四捨五入至元（Ken 2026-11-03）
 
   // 某每位餐費下，任何家庭人數、任何方案，每位最貴是多少。
   function worstPerHead(F) {
