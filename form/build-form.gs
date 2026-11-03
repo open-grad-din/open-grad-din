@@ -73,6 +73,7 @@ var WIN_RULE = "場地和分擔方案各自計票，票數最多的勝出。如�
 var T = {
   attend: "你家會出席畢業晚宴嗎？",
   why: "可以告訴我們為甚麼不出席嗎？",
+  comment: "還有其他意見嗎？",
   venue: "場地",
   plan: "老師餐及雜費怎樣分擔？",
   use: "雜費想優先用在哪方面？（最多揀 2 項）",
@@ -196,6 +197,9 @@ function buildForm() {
     ])
     .setValidation(FormApp.createCheckboxValidation().requireSelectExactly(3).setHelpText("三項都要剔").build())
     .setRequired(true);
+
+  // 選填意見放在第 2 頁最後（第 3 頁有四個收款人版本，放在那裏會變成四個欄位）。
+  form.addParagraphTextItem().setTitle(T.comment).setHelpText("選填。只有籌委會看到。");
 
   // ---- 第 3 頁：收款人（按班別只看到一個） ----
   var pages = {};
