@@ -113,7 +113,7 @@
     skip = box.querySelector(".thanks-skip");
     skip.addEventListener("click", end);
     box.querySelector(".thanks-again").addEventListener("click", play);
-    go.addEventListener("click", function () { setTimeout(close, 300); });
+    go.addEventListener("click", close); // 立即收起；連結照樣在新分頁打開
     box.addEventListener("keydown", function (e) {
       if (e.key === "Escape") close();
       if (e.key === "Tab") { // 焦點留在動畫內
@@ -163,7 +163,6 @@
   function close() {
     clear();
     box.classList.remove("open");
-    document.documentElement.classList.remove("thanks-lock");
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
 
@@ -175,9 +174,14 @@
     lastFocus = document.activeElement;
     go.href = url;
     box.classList.add("open");
-    document.documentElement.classList.add("thanks-lock");
     if (still) end(); else play();
   }
+
+  // 播放期間按底部「首頁」「費用」「計算機」：是目前這一頁就直接收起動畫，其他頁照常前往。
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest(".tabbar a[aria-current]");
+    if (a && box && box.classList.contains("open")) { e.preventDefault(); close(); }
+  });
 
   window.OGD_THANKS = { open: open };
 })();
