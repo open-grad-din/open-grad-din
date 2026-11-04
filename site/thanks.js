@@ -80,12 +80,13 @@
     } }
   ];
 
-  var box, svg, cap, endCard, go, skip, timers = [], idx = -1, lastFocus;
+  var box, svg, cap, endCard, go, skip, timers = [], idx = -1, lastFocus, keys;
 
   function build() {
     box = document.createElement("div");
     box.className = "thanks";
     box.setAttribute("role", "dialog");
+    box.tabIndex = -1;
     box.setAttribute("aria-modal", "true");
     box.setAttribute("aria-label", "報名之前：多謝老師，多謝學校");
     box.innerHTML =
@@ -124,6 +125,9 @@
     });
   }
 
+  // 用鍵盤打開時才把焦點放在按鈕（會見到外框）；用手指或滑鼠時焦點放在整個畫面，按鈕不會出現外框。
+  function focusOn(btn) { (keys ? btn : box).focus({ preventScroll: true }); }
+
   function clear() { timers.forEach(clearTimeout); timers = []; }
 
   function show(i) {
@@ -142,7 +146,7 @@
     endCard.hidden = true;
     skip.hidden = false;
     show(0);
-    skip.focus();
+    focusOn(skip);
   }
 
   function end() {
@@ -153,7 +157,7 @@
     skip.hidden = true;
     endCard.hidden = false;
     box.classList.add("ended");
-    go.focus();
+    focusOn(go);
   }
 
   function close() {
@@ -164,7 +168,9 @@
   }
 
   // url：已核對過的 Google 表格網址（由 signup.js 傳入）。
-  function open(url) {
+  // fromKeyboard：家長是否用鍵盤按「報名」。
+  function open(url, fromKeyboard) {
+    keys = !!fromKeyboard;
     if (!box) build();
     lastFocus = document.activeElement;
     go.href = url;
