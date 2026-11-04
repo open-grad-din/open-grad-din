@@ -35,7 +35,7 @@
 var PROTOTYPE = true;
 var VERSION = "表格第 1 版 · 2026 年 11 月 3 日";
 var DEPOSIT = 550;
-var DEADLINE_DAYS = "2";      // 提交後多少日內轉帳（2026-11-03 決定）
+var DEADLINE_DAYS = "2";      // 提交後多少日內轉帳（2026-11-03 決定）；但最遲截止時間 11 月 9 日 22:00（2026-11-04 Ken：截止連收訂金）
 
 // 收款人：每班一位（2026-11-03 籌委會決定），表格只寫電話，不寫收款人名字。method 是 "FPS" 或 "PayMe"。
 // 電話只可以由統籌在正式版填寫，不可寫入 repo（repo 公開，紀錄永遠留存）。
@@ -228,7 +228,7 @@ function buildForm() {
         "",
         "轉帳後請截圖，WhatsApp 給收款人（" + p.acct + "）。截圖要看到金額、日期及轉帳備註（班別＋學號＋學生名）。",
         "",
-        "提交後你會收到「付款指示」電郵，寫明準確金額。請在提交後 " + DEADLINE_DAYS + " 日內轉帳。"
+        "提交後你會收到「付款指示」電郵，寫明準確金額。請在提交後 " + DEADLINE_DAYS + " 日內轉帳，最遲 11 月 9 日（星期一）晚上 10 時。"
       ].join("\n"))
       .setGoToPage(FormApp.PageNavigationType.SUBMIT);
     form.addCheckboxItem().setTitle(T.pay)
@@ -293,7 +293,7 @@ function onSubmit(e) {
     "金額：" + money(total * DEPOSIT) + "（大人 " + adults + " 位 + 小朋友 " + kids + " 位 = " + total + " 位 × " + money(DEPOSIT) + "）",
     p.method + "：" + p.acct,
     "轉帳備註：" + note,
-    "期限：提交後 " + DEADLINE_DAYS + " 日內",
+    "期限：提交後 " + DEADLINE_DAYS + " 日內，最遲 11 月 9 日（星期一）晚上 10 時",
     "轉帳後：請截圖，WhatsApp 給收款人 " + p.acct + "。截圖要看到金額、日期及轉帳備註（" + note + "）。",
     "",
     "只付給以上收款人。其他人叫你轉帳都不要理會。",
