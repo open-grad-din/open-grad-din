@@ -136,7 +136,7 @@ function buildForm() {
   form.setConfirmationMessage(
     "已提交。\n" +
     "如你選了不出席：謝謝你告訴我們，不用再做甚麼。\n" +
-    "如你報名出席，還未完成：你會收到一封「付款指示」電郵，寫明你要轉帳的準確金額、收款人及轉帳備註。請照電郵轉帳。\n" +
+    "如你報名出席，還未完成：你會收到一封「付款指示」電郵，寫明你要轉帳的準確金額、收款人及轉帳備註。請照電郵轉帳，轉帳後截圖 WhatsApp 給收款人。\n" +
     "收款人會核實你的付款，核實後你的報名及投票才會計算；如有問題，收款人會主動聯絡你。");
 
   // ---- 開頭：會否出席。不出席跳到最後的「不出席」頁，之後直接提交，不會投票，亦不會收到付款指示。 ----
@@ -226,11 +226,13 @@ function buildForm() {
         "轉帳備註：班別＋學號＋學生名",
         "例：K3E 18 Grady（假設）",
         "",
+        "轉帳後請截圖，WhatsApp 給收款人（" + p.acct + "）。截圖要看到金額、日期及轉帳備註（班別＋學號＋學生名）。",
+        "",
         "提交後你會收到「付款指示」電郵，寫明準確金額。請在提交後 " + DEADLINE_DAYS + " 日內轉帳。"
       ].join("\n"))
       .setGoToPage(FormApp.PageNavigationType.SUBMIT);
     form.addCheckboxItem().setTitle(T.pay)
-      .setChoiceValues(["轉帳到收款人 " + p.method + " " + p.acct + "，備註寫班別＋學號＋學生名"])
+      .setChoiceValues(["轉帳到收款人 " + p.method + " " + p.acct + "，備註寫班別＋學號＋學生名，轉帳後截圖 WhatsApp 給收款人"])
       .setRequired(true);
   });
 
@@ -292,6 +294,7 @@ function onSubmit(e) {
     p.method + "：" + p.acct,
     "轉帳備註：" + note,
     "期限：提交後 " + DEADLINE_DAYS + " 日內",
+    "轉帳後：請截圖，WhatsApp 給收款人 " + p.acct + "。截圖要看到金額、日期及轉帳備註（" + note + "）。",
     "",
     "只付給以上收款人。其他人叫你轉帳都不要理會。",
     "收款人會對照轉帳紀錄核實你的付款，核實後你的報名及投票才會計算；如有問題，收款人會主動聯絡你。",
