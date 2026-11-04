@@ -74,7 +74,7 @@ var WIN_RULE = "場地和分擔方案各自計票，票數最多的勝出。如�
 // 題目名稱。onSubmit 用這些名稱找答案，改題目時要一併改這裏。
 var T = {
   attend: "你家會出席畢業晚宴嗎？",
-  why: "可以告訴我們為甚麼不出席嗎？",
+  why: "有甚麼原因或意見想告訴籌委會嗎？",
   comment: "還有其他意見嗎？",
   venue: "場地",
   plan: "老師餐及雜費怎樣分擔？",
@@ -117,7 +117,7 @@ function buildForm() {
     "勝出規則：" + WIN_RULE,
     "",
     "資料只用於這次晚宴，帳目公布後一個月內刪除。你的投票只有籌委會成員看得到，用來確保點票公平公正；全級家長只會看到總票數。",
-    "只有付款核實後，報名及投票才計算。",
+    "場地和分擔方案由出席的家庭投票決定，因為晚宴費用由出席的家庭分擔。交訂金後，你的一票就會計算。",
     "如 Google 登入失敗，請用 Chrome 或 Safari 打開連結。",
     "",
     VERSION
@@ -137,7 +137,7 @@ function buildForm() {
     "已提交。\n" +
     "如你選了不出席：謝謝你告訴我們，不用再做甚麼。\n" +
     "如你報名出席，還未完成：你會收到一封「付款指示」電郵，寫明你要轉帳的準確金額、收款人及轉帳備註。請照電郵轉帳，轉帳後截圖 WhatsApp 給收款人。\n" +
-    "收款人會核實你的付款，核實後你的報名及投票才會計算；如有問題，收款人會主動聯絡你。");
+    "收款人會核實你的付款；如有問題，收款人會主動聯絡你。");
 
   // ---- 開頭：會否出席。不出席跳到最後的「不出席」頁，之後直接提交，不會投票，亦不會收到付款指示。 ----
   var attend = form.addMultipleChoiceItem().setTitle(T.attend).setRequired(true);
@@ -248,7 +248,7 @@ function buildForm() {
   var noPage = form.addPageBreakItem().setTitle("不出席")
     .setHelpText("謝謝你告訴我們。按「提交」就完成，不用付款。")
     .setGoToPage(FormApp.PageNavigationType.SUBMIT);
-  form.addParagraphTextItem().setTitle(T.why).setHelpText("選填。只有籌委會看到，用來改善以後的安排。");
+  form.addParagraphTextItem().setTitle(T.why).setHelpText("選填。只有籌委會看到。");
   attend.setChoices([attend.createChoice("會出席", votePage), attend.createChoice("不會出席", noPage)]);
 
   // ---- 回應試算表 ----
@@ -297,7 +297,7 @@ function onSubmit(e) {
     "轉帳後：請截圖，WhatsApp 給收款人 " + p.acct + "。截圖要看到金額、日期及轉帳備註（" + note + "）。",
     "",
     "只付給以上收款人。其他人叫你轉帳都不要理會。",
-    "收款人會對照轉帳紀錄核實你的付款，核實後你的報名及投票才會計算；如有問題，收款人會主動聯絡你。",
+    "收款人會對照轉帳紀錄核實你的付款；如有問題，收款人會主動聯絡你。",
     "",
     "如人數有誤，請不要轉帳，先聯絡統籌更正。",
     "",
