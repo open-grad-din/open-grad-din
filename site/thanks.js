@@ -113,7 +113,7 @@
     skip = box.querySelector(".thanks-skip");
     skip.addEventListener("click", end);
     box.querySelector(".thanks-again").addEventListener("click", play);
-    go.addEventListener("click", function () { setTimeout(close, 300); });
+    go.addEventListener("click", close); // 立即收起；連結照樣在新分頁打開
     box.addEventListener("keydown", function (e) {
       if (e.key === "Escape") close();
       if (e.key === "Tab") { // 焦點留在動畫內
@@ -163,7 +163,6 @@
   function close() {
     clear();
     box.classList.remove("open");
-    document.documentElement.classList.remove("thanks-lock");
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
 
@@ -175,7 +174,6 @@
     lastFocus = document.activeElement;
     go.href = url;
     box.classList.add("open");
-    document.documentElement.classList.add("thanks-lock");
     if (still) end(); else play();
   }
 
