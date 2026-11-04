@@ -18,8 +18,8 @@
     opt = opt || {};
     var s = '<g class="kid" transform="translate(' + (x - 94) + " " + (y - 122) + ')">';
     if (opt.bag) s += '<path class="fill kin-soft" d="M75 78 h-8 q-4 0 -4 4 v18 q0 4 4 4 h8 z"/>' + ln("M75 78 h-8 q-4 0 -4 4 v18 q0 4 4 4 h8");
-    if (opt.cap) s += '<g class="cap">' + ln("M70 37 L94 25 L118 37 L94 45 Z") + ln("M118 37 L121 52") + dot(121, 54, 3, "fl") + "</g>";
-    s += ln("M77 52 a17 17 0 1 0 34 0") + ln("M77 52 q4 -12 17 -8 q13 -4 17 8");
+    s += ln("M77 52 a17 17 0 1 0 34 0 a17 17 0 1 0 -34 0") + ln("M80 45 q7 6 14 2 q7 4 14 -2");
+    if (opt.cap) s += '<g class="cap"><path class="fill paper" d="M70 37 L94 25 L118 37 L94 45 Z"/>' + ln("M70 37 L94 25 L118 37 L94 45 Z") + ln("M118 37 L121 52") + dot(121, 54, 3, "fl") + "</g>";
     s += dot(88, 55, 2.2, "eye") + dot(100, 55, 2.2, "eye") + dot(82, 62, 3.5, "cheek") + dot(106, 62, 3.5, "cheek");
     s += ln("M89 63 q5 5 10 0");
     s += '<path class="fill ' + color + '" d="M79 74 q15 -8 30 0 v30 h-30 z"/>' + ln("M79 74 q15 -8 30 0 v30 h-30 z");
@@ -32,7 +32,7 @@
   function teacher(x, y, arms) {
     var s = '<g class="adult" transform="translate(' + x + " " + y + ')">';
     s += ln("M-15 -118 a15 15 0 1 0 30 0 a15 15 0 1 0 -30 0");
-    s += ln("M-15 -120 q2 -16 15 -15 q13 -1 15 15") + ln("M10 -134 a6 6 0 1 0 0.1 0");
+    s += ln("M-13 -125 q6 6 13 2 q7 4 13 -2") + ln("M10 -134 a6 6 0 1 0 0.1 0");
     s += dot(-5, -117, 2, "eye") + dot(5, -117, 2, "eye") + dot(-10, -110, 3, "cheek") + dot(10, -110, 3, "cheek");
     s += ln("M-4 -111 q4 4 8 0");
     s += '<path class="fill sage" d="M-12 -98 q12 -6 24 0 l10 66 h-44 z"/>' + ln("M-12 -98 q12 -6 24 0 l10 66 h-44 z");
@@ -43,22 +43,22 @@
 
   function star(x, y, i) { return '<path class="star" pathLength="1" style="--i:' + i + '" d="M' + x + " " + (y - 6) + " v12 M" + (x - 6) + " " + y + ' h12"/>'; }
   function note(x, y) { return '<g class="float">' + ln("M" + x + " " + y + " v-18 l12 -4 v18") + dot(x - 3, y, 3.5, "fl") + dot(x + 9, y - 4, 3.5, "fl") + "</g>"; }
-  function heart(x, y, s) {
-    return '<g class="beat" style="transform-origin:' + x + "px " + y + 'px"><path class="fill shu-soft" d="' + heartD(x, y, s) + '"/>' + ln(heartD(x, y, s), "red") + "</g>";
-  }
-  function heartD(x, y, s) {
-    return "M" + x + " " + (y + 12 * s) + " C" + (x - 22 * s) + " " + (y - 2 * s) + " " + (x - 14 * s) + " " + (y - 20 * s) + " " + x + " " + (y - 9 * s) +
-      " C" + (x + 14 * s) + " " + (y - 20 * s) + " " + (x + 22 * s) + " " + (y - 2 * s) + " " + x + " " + (y + 12 * s) + " Z";
-  }
-  function flower(x, y) {
-    return ln("M" + x + " " + y + " q2 -10 0 -20") + '<circle class="fill kin" cx="' + x + '" cy="' + (y - 24) + '" r="5"/>' + ln("M" + x + " " + (y - 29) + " a5 5 0 1 0 0.1 0");
+  // 一束花：(x, y) 是拿着花的手。
+  function bouquet(x, y) {
+    var s = '<g class="bouquet">';
+    [[-7, -12, "shu-soft"], [0, -17, "kin"], [7, -12, "sage"]].forEach(function (f) {
+      s += ln("M" + x + " " + y + " L" + (x + f[0]) + " " + (y + f[1] + 4));
+      s += '<circle class="fill solid ' + f[2] + '" cx="' + (x + f[0]) + '" cy="' + (y + f[1]) + '" r="5"/>' + ln("M" + (x + f[0] - 5) + " " + (y + f[1]) + " a5 5 0 1 0 10 0 a5 5 0 1 0 -10 0");
+    });
+    s += '<path class="fill solid kin-soft" d="M' + (x - 7) + " " + (y - 4) + " L" + x + " " + (y + 10) + " L" + (x + 7) + " " + (y - 4) + ' Z"/>' + ln("M" + (x - 7) + " " + (y - 4) + " L" + x + " " + (y + 10) + " L" + (x + 7) + " " + (y - 4) + " Z");
+    return s + "</g>";
   }
 
   // 每一幕：字幕、畫面、停留毫秒。
   var scenes = [
-    { say: "三年前，他們第一次上學。", ms: 3800, art: function () {
+    { say: "那一年，他們第一次上學。", ms: 3800, art: function () {
       return ln("M150 200 v-86 l60 -38 l60 38 v86") + ln("M196 200 v-34 h28 v34") + ln("M168 128 h18 v16 h-18 z M234 128 h18 v16 h-18 z") +
-        ln("M210 76 v-30") + '<path class="fill kin" d="M210 46 l20 7 l-20 7 z"/>' + ln("M210 46 l20 7 l-20 7") +
+        ln("M210 76 v-30") + ln("M296 200 v-36") + '<circle class="fill sage" cx="296" cy="146" r="20"/>' + ln("M276 146 a20 20 0 1 0 40 0 a20 20 0 1 0 -40 0") + ln("M296 176 l-7 -9 M296 182 l8 -11") + '<path class="fill kin" d="M210 46 l20 7 l-20 7 z"/>' + ln("M210 46 l20 7 l-20 7") +
         ln("M20 200 h280", "ground") + kid(96, 200, "ai", { bag: true, arms: "M79 84 q-8 8 -10 18 M109 84 q8 8 10 18" }) + star(40, 60, 0) + star(290, 40, 1);
     } },
     { say: "老師牽着小手，陪他們寫字、唱歌、交朋友。", ms: 4400, art: function () {
@@ -74,9 +74,9 @@
     } },
     { say: "這一晚，一起多謝老師，多謝學校。", ms: 4400, art: function () {
       return ln("M20 200 h280", "ground") + teacher(160, 200, "M-12 -92 q-14 10 -20 26 M12 -92 q14 10 20 26") +
-        kid(84, 200, "kin", { cap: true, arms: "M79 84 q-6 10 -6 18 M109 84 q10 -4 16 -14" }) + flower(112, 170) +
-        kid(236, 200, "sage", { cap: true, arms: "M79 84 q-10 -4 -16 -14 M109 84 q6 10 6 18" }) + flower(208, 170) +
-        heart(160, 44, 1.3) + star(50, 50, 0) + star(276, 40, 1);
+        kid(84, 200, "kin", { cap: true, arms: "M79 84 q-6 10 -6 18 M109 84 q10 -4 16 -14" }) + bouquet(115, 148) +
+        kid(236, 200, "sage", { cap: true, arms: "M79 84 q-10 -4 -16 -14 M109 84 q6 10 6 18" }) + bouquet(205, 148) +
+        star(50, 50, 0) + star(160, 28, 1) + star(276, 40, 2);
     } }
   ];
 
@@ -96,8 +96,9 @@
       "</div>" +
       '<div class="thanks-end" hidden>' +
         '<svg class="thanks-kids" viewBox="0 0 320 150" aria-hidden="true">' + (n = 0, "") +
-          kid(84, 140, "kin", { cap: true }) + kid(160, 140, "ai", { cap: true }) + kid(236, 140, "sage", { cap: true }) +
-          ln("M109 102 q13 8 26 0") + ln("M185 102 q13 8 26 0") + heart(160, 18, 0.8) + "</svg>" +
+          [[84, "kin"], [160, "ai"], [236, "sage"]].map(function (k) {
+            return kid(k[0], 140, k[1], { cap: true, arms: "M79 84 q6 10 13 14 M109 84 q-6 10 -13 14" }) + bouquet(k[0], 114);
+          }).join("") + "</svg>" +
         '<p class="thanks-h">多謝老師<br>多謝學校</p>' +
         '<p class="thanks-sub">K3 畢業晚宴 · 2027 年 7 月 2 日</p>' +
         '<a class="btn thanks-go" target="_blank" rel="noopener">開始報名</a>' +

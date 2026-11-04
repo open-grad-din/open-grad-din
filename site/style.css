@@ -236,10 +236,10 @@ details > ul, details > ol { margin: 0 16px 14px; padding-left: 1.4em; display: 
 .thanks-scene.on { display: block; animation: fade .5s ease both; }
 .thanks .ln { fill: none; stroke: var(--ink); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
 .thanks .ln.ground { stroke: var(--stroke); stroke-width: 2.5; }
-.thanks .ln.red { stroke: var(--shu); }
 .thanks .fl, .thanks .eye { fill: var(--ink); }
 .thanks .cheek { fill: var(--shu-soft); }
-.thanks .fill { opacity: .35; } .thanks .fill.kin-soft, .thanks .fill.shu-soft { opacity: 1; }
+.thanks .fill { opacity: .35; } .thanks .fill.kin-soft, .thanks .fill.shu-soft, .thanks .fill.paper, .thanks .fill.solid { opacity: 1; }
+.thanks .paper { fill: var(--paper); }
 .thanks .ai { fill: var(--ai); } .thanks .kin { fill: var(--kin); } .thanks .sage { fill: var(--sage); }
 .thanks .kin-soft { fill: var(--kin-soft); } .thanks .shu-soft { fill: var(--shu-soft); }
 .thanks .star { fill: none; stroke: var(--kin); stroke-width: 2.5; stroke-linecap: round; transform-box: fill-box; transform-origin: center; }
@@ -248,10 +248,8 @@ details > ul, details > ol { margin: 0 16px 14px; padding-left: 1.4em; display: 
 .thanks-scene.on .star { animation: fade .4s ease 1.2s both, twinkle 2.2s ease-in-out calc(1.4s + var(--i) * .4s) infinite; }
 .thanks-scene.on .float { animation: float 2.4s ease-in-out 1s infinite; }
 .thanks-scene.on .toss { animation: hop .9s cubic-bezier(.3, .7, .4, 1) 1.6s 2 both; }
-.thanks .beat { animation: beat 1.6s ease-in-out 1.4s infinite; }
 @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 @keyframes hop { 0%, 100% { transform: translateY(0); } 40% { transform: translateY(-14px); } }
-@keyframes beat { 0%, 100% { transform: scale(1); } 15% { transform: scale(1.12); } 30% { transform: scale(1); } 45% { transform: scale(1.08); } }
 .thanks-say { min-height: 3.2em; margin: 18px 0 0; font-family: var(--font-display); font-size: 23px; line-height: 1.5; letter-spacing: .04em; max-width: 16em; text-wrap: balance; }
 .thanks-say.on { animation: up .7s cubic-bezier(.2, .7, .2, 1) .5s both; }
 .thanks-end { width: min(100%, 400px); display: flex; flex-direction: column; align-items: center; gap: 8px; }
