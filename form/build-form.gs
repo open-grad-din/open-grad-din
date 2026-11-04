@@ -33,7 +33,7 @@
  */
 
 var PROTOTYPE = true;
-var VERSION = "表格第 1 版 · 2026 年 11 月 5 日";
+var VERSION = "表格第 2 版 · 2026 年 11 月 5 日";
 var DEPOSIT = 550;
 var DEADLINE_DAYS = "2";      // 提交後多少日內轉帳（2026-11-03 決定）；但最遲截止時間 11 月 9 日 22:00（2026-11-04 Ken：截止連收訂金）
 
