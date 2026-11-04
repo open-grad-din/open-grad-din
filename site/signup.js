@@ -24,6 +24,8 @@
   function hold(e) {
     if (this.dataset.ready) {
       if (window.OGD_CONFIG.isDemo) say("示範版：這是原型表格，只可以填假資料，請不要轉帳。");
+      // 先播「多謝老師」短動畫，最後一幕由家長按「開始報名」才打開表格（thanks.js）。
+      if (window.OGD_THANKS) { e.preventDefault(); window.OGD_THANKS.open(this.href); }
       return;
     }
     e.preventDefault();

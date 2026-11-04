@@ -222,3 +222,47 @@ details > ul, details > ol { margin: 0 16px 14px; padding-left: 1.4em; display: 
 .to-calc small { display: block; font-size: 14px; color: var(--muted); }
 .to-calc-go { flex: none; font-weight: 700; color: var(--shu-fg); background: var(--shu); border-radius: 999px; padding: 8px 14px; font-size: 15px; box-shadow: 2px 2px 0 var(--shu-deep); }
 .to-calc:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--line); }
+
+/* ---- 「報名」前的短動畫（thanks.js）：多謝老師，多謝學校 ---- */
+.thanks-lock, .thanks-lock body { overflow: hidden; }
+.thanks { position: fixed; inset: 0; z-index: 40; display: none; flex-direction: column; align-items: center; justify-content: center;
+  padding: max(20px, env(safe-area-inset-top, 0px)) max(18px, env(safe-area-inset-right, 0px)) max(24px, env(safe-area-inset-bottom, 0px)) max(18px, env(safe-area-inset-left, 0px));
+  background: var(--paper); text-align: center; }
+.thanks.open { display: flex; animation: fade .4s ease both; }
+.thanks-skip { position: absolute; top: max(14px, env(safe-area-inset-top, 0px)); right: max(14px, env(safe-area-inset-right, 0px)); min-height: 44px; padding: 8px 16px;
+  font: inherit; font-size: 15px; font-weight: 700; color: var(--muted); background: var(--surface); border: 2px solid var(--stroke); border-radius: 999px; cursor: pointer; }
+.thanks-stage { position: relative; width: min(100%, 440px); display: flex; flex-direction: column; align-items: center; }
+.thanks-scene { display: none; width: 100%; height: auto; overflow: visible; }
+.thanks-scene.on { display: block; animation: fade .5s ease both; }
+.thanks .ln { fill: none; stroke: var(--ink); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.thanks .ln.ground { stroke: var(--stroke); stroke-width: 2.5; }
+.thanks .fl, .thanks .eye { fill: var(--ink); }
+.thanks .cheek { fill: var(--shu-soft); }
+.thanks .fill { opacity: .35; } .thanks .fill.kin-soft, .thanks .fill.shu-soft, .thanks .fill.paper, .thanks .fill.solid { opacity: 1; }
+.thanks .paper { fill: var(--paper); }
+.thanks .ai { fill: var(--ai); } .thanks .kin { fill: var(--kin); } .thanks .sage { fill: var(--sage); }
+.thanks .kin-soft { fill: var(--kin-soft); } .thanks .shu-soft { fill: var(--shu-soft); }
+.thanks .star { fill: none; stroke: var(--kin); stroke-width: 2.5; stroke-linecap: round; transform-box: fill-box; transform-origin: center; }
+.thanks-scene.on .ln { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw .9s ease-out var(--d, 0s) both; }
+.thanks-scene.on .fill, .thanks-scene.on .fl, .thanks-scene.on .eye, .thanks-scene.on .cheek { animation: fade .6s ease 1.2s both; }
+.thanks-scene.on .star { animation: fade .4s ease 1.2s both, twinkle 2.2s ease-in-out calc(1.4s + var(--i) * .4s) infinite; }
+.thanks-scene.on .float { animation: float 2.4s ease-in-out 1s infinite; }
+.thanks-scene.on .toss { animation: hop .9s cubic-bezier(.3, .7, .4, 1) 1.6s 2 both; }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes hop { 0%, 100% { transform: translateY(0); } 40% { transform: translateY(-14px); } }
+.thanks-say { min-height: 3.2em; margin: 18px 0 0; font-family: var(--font-display); font-size: 23px; line-height: 1.5; letter-spacing: .04em; max-width: 16em; text-wrap: balance; }
+.thanks-say.on { animation: up .6s cubic-bezier(.2, .7, .2, 1) .3s both; }
+.thanks-end { width: min(100%, 400px); display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.ended .thanks-end { animation: up .7s cubic-bezier(.2, .7, .2, 1) both; }
+.thanks-kids { width: min(100%, 300px); height: auto; overflow: visible; }
+/* 最後一頁：三個小朋友輪流跳一跳、左右搖，花和帽穗跟着擺 */
+.ended .cheer { animation: cheer 1.8s ease-in-out calc(var(--i) * .3s) infinite; }
+.ended .cheer .bouquet { transform-box: fill-box; transform-origin: 50% 100%; animation: swing 1.8s ease-in-out calc(var(--i) * .3s) infinite; }
+.ended .cheer .cap { transform-box: fill-box; transform-origin: 50% 50%; animation: tilt 1.8s ease-in-out calc(var(--i) * .3s) infinite; }
+.ended .thanks-kids .star { animation: twinkle 2.2s ease-in-out calc(var(--i) * .5s) infinite; }
+@keyframes cheer { 0%, 100% { transform: translateY(0) rotate(0); } 20% { transform: translateY(-10px) rotate(-4deg); } 40% { transform: translateY(0) rotate(0); } 70% { transform: translateY(-3px) rotate(4deg); } }
+@keyframes tilt { 0%, 100% { transform: rotate(0); } 20% { transform: rotate(-8deg); } 70% { transform: rotate(6deg); } }
+.thanks-h { margin: 8px 0 0; font-family: var(--font-display); font-size: 38px; line-height: 1.3; letter-spacing: .12em; font-weight: 700; }
+.thanks-sub { margin: 0 0 14px; color: var(--muted); font-size: 15px; }
+.thanks-go { align-self: stretch; }
+.thanks-again { margin-top: 6px; min-height: 44px; padding: 8px 16px; font: inherit; font-size: 15px; color: var(--ai); background: none; border: 0; text-decoration: underline; cursor: pointer; }
