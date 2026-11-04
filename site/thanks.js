@@ -177,5 +177,11 @@
     if (still) end(); else play();
   }
 
+  // 播放期間按底部「首頁」「費用」「計算機」：是目前這一頁就直接收起動畫，其他頁照常前往。
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest(".tabbar a[aria-current]");
+    if (a && box && box.classList.contains("open")) { e.preventDefault(); close(); }
+  });
+
   window.OGD_THANKS = { open: open };
 })();
