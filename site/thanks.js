@@ -1,4 +1,4 @@
-// 「報名」tab 打開表格之前的短動畫（約 16 秒）：提醒大家辦晚宴的初心是多謝老師和學校。
+// 「報名」tab 打開表格之前的短動畫（約 25 秒）：提醒大家辦晚宴的初心是多謝老師和學校。
 // 只是一段畫面，不讀取、不寫入任何資料；不講費用、方案或場地，以免影響投票。
 // 隨時可以按「略過」；最後一幕的「開始報名」由家長親手按，才打開表格（瀏覽器不會當作彈出視窗攔截）。
 // 設定了「減少動態效果」就直接顯示最後一幕。
@@ -56,23 +56,23 @@
 
   // 每一幕：字幕、畫面、停留毫秒。
   var scenes = [
-    { say: "那一年，他們第一次上學。", ms: 3800, art: function () {
+    { say: "那一年，他們第一次上學。", ms: 5800, art: function () {
       return ln("M150 200 v-86 l60 -38 l60 38 v86") + ln("M196 200 v-34 h28 v34") + ln("M168 128 h18 v16 h-18 z M234 128 h18 v16 h-18 z") +
         ln("M210 76 v-30") + ln("M296 200 v-36") + '<circle class="fill sage" cx="296" cy="146" r="20"/>' + ln("M276 146 a20 20 0 1 0 40 0 a20 20 0 1 0 -40 0") + ln("M296 176 l-7 -9 M296 182 l8 -11") + '<path class="fill kin" d="M210 46 l20 7 l-20 7 z"/>' + ln("M210 46 l20 7 l-20 7") +
         ln("M20 200 h280", "ground") + kid(96, 200, "ai", { bag: true, arms: "M79 84 q-8 8 -10 18 M109 84 q8 8 10 18" }) + star(40, 60, 0) + star(290, 40, 1);
     } },
-    { say: "老師牽着小手，陪他們寫字、唱歌、交朋友。", ms: 4400, art: function () {
+    { say: "老師牽着小手，陪他們寫字、唱歌、交朋友。", ms: 6800, art: function () {
       return ln("M20 200 h280", "ground") + teacher(130, 200, "M-12 -92 q-12 18 -14 36 M12 -92 q16 20 24 56") +
         kid(196, 200, "kin", { arms: "M79 84 q-8 0 -15 2 M109 84 q8 8 10 18" }) + note(240, 90) + note(70, 70) + star(270, 140, 2);
     } },
-    { say: "轉眼，他們要畢業了。", ms: 3600, art: function () {
+    { say: "轉眼，他們要畢業了。", ms: 5200, art: function () {
       return ln("M20 200 h280", "ground") + '<g class="toss">' +
         kid(84, 200, "kin", { cap: true, arms: "M79 84 q-10 -10 -12 -24 M109 84 q10 -10 12 -24" }) +
         kid(160, 200, "ai", { cap: true, arms: "M79 84 q-10 -10 -12 -24 M109 84 q10 -10 12 -24" }) +
         kid(236, 200, "sage", { cap: true, arms: "M79 84 q-10 -10 -12 -24 M109 84 q10 -10 12 -24" }) + "</g>" +
         star(40, 50, 0) + star(160, 30, 1) + star(282, 56, 2);
     } },
-    { say: "這一晚，一起多謝老師，多謝學校。", ms: 4400, art: function () {
+    { say: "這一晚，一起多謝老師，多謝學校。", ms: 6800, art: function () {
       return ln("M20 200 h280", "ground") + teacher(160, 200, "M-12 -92 q-14 10 -20 26 M12 -92 q14 10 20 26") +
         kid(84, 200, "kin", { cap: true, arms: "M79 84 q-6 10 -6 18 M109 84 q10 -4 16 -14" }) + bouquet(115, 148) +
         kid(236, 200, "sage", { cap: true, arms: "M79 84 q-10 -4 -16 -14 M109 84 q6 10 6 18" }) + bouquet(205, 148) +
@@ -97,8 +97,9 @@
       '<div class="thanks-end" hidden>' +
         '<svg class="thanks-kids" viewBox="0 0 320 150" aria-hidden="true">' + (n = 0, "") +
           [[84, "kin"], [160, "ai"], [236, "sage"]].map(function (k) {
-            return kid(k[0], 140, k[1], { cap: true, arms: "M79 84 q6 10 13 14 M109 84 q-6 10 -13 14" }) + bouquet(k[0], 114);
-          }).join("") + "</svg>" +
+            return '<g class="cheer" style="--i:' + (k[0] - 84) / 76 + ';transform-origin:' + k[0] + 'px 140px">' +
+              kid(k[0], 140, k[1], { cap: true, arms: "M79 84 q6 10 13 14 M109 84 q-6 10 -13 14" }) + bouquet(k[0], 114) + "</g>";
+          }).join("") + star(30, 40, 0) + star(290, 30, 1) + star(160, 4, 2) + "</svg>" +
         '<p class="thanks-h">多謝老師<br>多謝學校</p>' +
         '<p class="thanks-sub">K3 畢業晚宴 · 2027 年 7 月 2 日</p>' +
         '<a class="btn thanks-go" target="_blank" rel="noopener">開始報名</a>' +
