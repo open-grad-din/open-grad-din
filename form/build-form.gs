@@ -9,8 +9,8 @@
  * 用法（正式版由統籌在自己的 Google 帳戶做）：
  *   1. 打開 https://script.google.com ，按 New project。
  *   2. 刪除原有內容，貼上這整個檔案。
- *   3. 正式版：把下面 PROTOTYPE 改為 false，在 PAYEES 四行把〔電話〕換成收款電話，按 Ctrl+S 儲存。
- *      （未填電話就執行，程式會停下並提示，不會建立表格。）
+ *   3. 正式版：把下面 PROTOTYPE 改為 false，在 PAYEES 四行把〔電話〕換成收款電話、〔收款人名稱〕換成轉帳時顯示的收款人名稱，按 Ctrl+S 儲存。
+ *      （未填電話或名稱就執行，程式會停下並提示，不會建立表格。）
  *   4. 上方下拉選單選 buildForm，按 ▷ Run，按 Allow 授權。
  *   5. 按 Execution log，會看到表格編輯連結、填寫連結及試算表連結。
  *   6. 只執行一次。再執行會另外建立一張新表格。
@@ -37,13 +37,14 @@ var VERSION = "表格第 2 版 · 2026 年 11 月 5 日";
 var DEPOSIT = 550;
 var DEADLINE_DAYS = "2";      // 提交後多少日內轉帳（2026-11-03 決定）；但最遲截止時間 11 月 9 日 22:00（2026-11-04 Ken：截止連收訂金）
 
-// 收款人：每班一位（2026-11-03 籌委會決定），表格只寫電話，不寫收款人名字。method 是 "FPS" 或 "PayMe"。
-// 電話只可以由統籌在正式版填寫，不可寫入 repo（repo 公開，紀錄永遠留存）。
+// 收款人：每班一位（2026-11-03 籌委會決定）。method 是 "FPS" 或 "PayMe"。
+// name 是轉帳時 FPS／PayMe 確認畫面顯示的收款人名稱（遮蓋版，2026-11-05 Ken 決定加上），讓家長核對，防止冒充。
+// 電話及名稱只可以由統籌在正式版填寫，不可寫入 repo（repo 公開，紀錄永遠留存）。
 var PAYEES = {
-  A: { method: "FPS",   acct: "〔電話〕", classes: ["K3A"] },
-  B: { method: "PayMe", acct: "〔電話〕", classes: ["K3B"] },
-  C: { method: "PayMe", acct: "〔電話〕", classes: ["K3C"] },
-  D: { method: "PayMe", acct: "〔電話〕", classes: ["K3D"] }
+  A: { method: "FPS",   acct: "〔電話〕", name: "〔收款人名稱〕", classes: ["K3A"] },
+  B: { method: "PayMe", acct: "〔電話〕", name: "〔收款人名稱〕", classes: ["K3B"] },
+  C: { method: "PayMe", acct: "〔電話〕", name: "〔收款人名稱〕", classes: ["K3C"] },
+  D: { method: "PayMe", acct: "〔電話〕", name: "〔收款人名稱〕", classes: ["K3D"] }
 };
 var PAYEE_KEYS = ["A", "B", "C", "D"];
 
@@ -100,7 +101,7 @@ function payeeOf(cls) {
 function buildForm() {
   if (!PROTOTYPE) {
     PAYEE_KEYS.forEach(function (k) {
-      if (/〔|〕/.test(PAYEES[k].acct)) throw new Error("正式版：請先在 PAYEES 填入 K3" + k + " 收款人的電話（現在仍是〔電話〕），然後再執行。");
+      if (/〔|〕/.test(PAYEES[k].acct + PAYEES[k].name)) throw new Error("正式版：請先在 PAYEES 填入 K3" + k + " 收款人的電話及名稱（現在仍是〔電話〕或〔收款人名稱〕），然後再執行。");
     });
   }
   var title = (PROTOTYPE ? "【原型，請勿填寫】" : "") + "K3 畢業晚宴報名、投票及訂金";
@@ -225,6 +226,7 @@ function buildForm() {
         "只付給這裏寫的收款人。其他人叫你轉帳都不要理會。",
         "",
         p.method + "：" + p.acct,
+        "收款人名稱：" + p.name + "（轉帳前請核對；名稱不對，請不要轉帳，先聯絡統籌）",
         "金額：" + money(DEPOSIT) + " × 總人數（大人 + 小朋友）",
         amounts.join(" · "),
         "",
@@ -297,6 +299,7 @@ function onSubmit(e) {
     "",
     "金額：" + money(total * DEPOSIT) + "（大人 " + adults + " 位 + 小朋友 " + kids + " 位 = " + total + " 位 × " + money(DEPOSIT) + "）",
     p.method + "：" + p.acct,
+    "收款人名稱：" + p.name + "（轉帳前請核對；名稱不對，請不要轉帳，先聯絡統籌）",
     "轉帳備註：" + note,
     "期限：提交後 " + DEADLINE_DAYS + " 日內，最遲 11 月 9 日（星期一）晚上 10 時",
     "轉帳後：請截圖，WhatsApp 給收款人 " + p.acct + "。截圖要看到金額、日期及轉帳備註（" + note + "）。",
