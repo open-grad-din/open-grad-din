@@ -23,12 +23,14 @@
   function rowHTML(v, i) {
     return '<article class="row">' +
       '<div class="row-head">' +
-        '<span class="tag ' + v.type + '">' + (v.grade ? esc(v.grade) : "") + TYPE[v.type] + '</span>' +
-        // 地區（Ken 2026-11-05）：area 是頁面顯示的短地區；沒有就用 where。
-        '<span class="name">' + esc(v.name) + ((v.area || v.where) ? '<small class="area">' + esc(v.area || v.where) + '</small>' : '') + '</span>' +
-        // 不設相片彈出視窗，直接連去官網（Ken 2026-11-03）
-        (v.url ? '<a class="link site" href="' + esc(v.url) + '" target="_blank" rel="noopener" aria-label="' + esc(v.name) + ' 官方網站（新分頁）">官網 ↗</a>'
-               : '<span class="link none">官網待補</span>') +
+        // 第一行場地名，第二行酒店／酒樓 pill 及地區（Ken 2026-11-05）。area 是短地區；沒有就用 where。
+        '<span class="titles"><span class="nameline"><span class="name">' + esc(v.name) + '</span>' +
+          // 不設相片彈出視窗，直接連去官網（Ken 2026-11-03）；放在場地名同一行右邊（Ken 2026-11-05）
+          (v.url ? '<a class="link site" href="' + esc(v.url) + '" target="_blank" rel="noopener" aria-label="' + esc(v.name) + ' 官方網站（新分頁）">官網 ↗</a>'
+                 : '<span class="link none">官網待補</span>') + '</span>' +
+          '<span class="meta"><span class="tag ' + v.type + '">' + (v.grade ? esc(v.grade) : "") + TYPE[v.type] + '</span>' +
+          ((v.area || v.where) ? '<span class="area">' + esc(v.area || v.where) + '</span>' : '') +
+        '</span></span>' +
       '</div>' +
       v.menus.map(menuRowHTML).join("") +
       '</article>';
