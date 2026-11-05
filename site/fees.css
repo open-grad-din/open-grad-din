@@ -173,7 +173,9 @@ details td { padding: 4px; vertical-align: top; }
 /* 第一行場地名；第二行酒店／酒樓 pill 及地區（Ken 2026-11-05） */
 .row-head .meta { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
 .row-head .area { font-size: 13px; line-height: 1.3; color: var(--muted); }
-.row-head .meta .link { margin-left: auto; font-size: 13px; line-height: 1.3; padding: 1px 10px; border-width: 1.5px; }   /* 官網與第二行同高（Ken） */
+.row-head .nameline { display: flex; align-items: center; gap: 8px; }
+.row-head .nameline .name { flex: 1; min-width: 0; }
+.row-head .nameline .link { font-size: 13px; line-height: 1.3; padding: 1px 10px; border-width: 1.5px; }   /* 官網放場地名同一行，pill 縮細（Ken） */
 .row-head .meta .tag { padding: 0; border: 0; border-radius: 0; background: none; font-size: 13px; line-height: 1.3; }   /* 只留字體顏色，不用 pill（Ken） */
 .tag { flex: none; font-size: 12px; font-weight: 700; padding: 1px 8px; border-radius: 999px; border: 1.5px solid var(--stroke); color: var(--muted); background: var(--paper); }
 .tag.hotel { color: var(--ai); border-color: var(--ai); } .tag.rest { color: var(--sage); border-color: var(--sage); }
