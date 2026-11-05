@@ -7,9 +7,9 @@
   var config = window.OGD_CONFIG || {};
 
   // 流程的固定階段。資訊分頁的「現階段」必須是其中一項。
-  var STAGES = ["籌委會公布規則", "報名、投票及交訂金", "公布投票結果", "收尾數", "晚宴"];
+  var STAGES = ["籌委會公布規則", "投票", "公布投票結果", "報名及交訂金", "收尾數", "晚宴"];
   // 進度條上顯示的短名（最多 5 個字）；資訊分頁的「現階段」仍用上面的全名。
-  var STAGE_SHORT = ["公布規則", "報名交訂金", "公布結果", "收尾數", "晚宴"];
+  var STAGE_SHORT = ["公布規則", "投票", "公布結果", "交訂金", "收尾數", "晚宴"];
   var SUMMARY_COLUMNS = ["收款人", "已核實", "未核實", "最早未核實提交日期"];
 
   // 簡單 CSV 解析：支援引號內的逗號、換行及 "" 轉義。
@@ -202,6 +202,17 @@
   function renderProgress(payees, info) {
     var verified = payees.reduce(function (s, p) { return s + p.verified; }, 0);
     var pending = payees.reduce(function (s, p) { return s + p.pending; }, 0);
+    // 2026-11-05 投票與訂金分開：投票階段（及公布結果前）改為顯示已投票的畢業生人數，
+    // 數字讀資訊分頁「已投票」一行（統籌試算表公式：預計出席的回應中，不重複的班別＋學號數目）。
+    var votes = wholeNumber(info["已投票"] || "");
+    var voteMode = votes !== null && (info["現階段"] === "投票" || info["現階段"] === "公布投票結果");
+    if (voteMode) {
+      verified = votes; pending = 0;
+      document.getElementById("key-v").lastChild.textContent = "已投票";
+      document.getElementById("key-n").lastChild.textContent = "未投票";
+      document.getElementById("prog-note").textContent = "每粒點是一位已投票的畢業生，不分班別；同一學號只計一次。投票不用付款，報名及交訂金在投票結果公布後進行。";
+      document.getElementById("seal").innerHTML = "投<br>票";
+    }
     var grade = wholeNumber(info["全級人數"] || "");
     var num = document.getElementById("verified");
     document.getElementById("verified-of").textContent = grade ? "/" + grade + " 位畢業生" : " 位畢業生";
@@ -214,7 +225,8 @@
         if (i < verified + pending) { d.style.animationDelay = (i * 18) + "ms"; d.style.setProperty("--i", String(i)); }
         dots.appendChild(d);
       }
-      dots.setAttribute("aria-label", "全級約 " + grade + " 位畢業生，已核實 " + verified + " 位，等候核實 " + pending + " 位");
+      dots.setAttribute("aria-label", voteMode ? "全級約 " + grade + " 位畢業生，已投票 " + verified + " 位"
+        : "全級約 " + grade + " 位畢業生，已核實 " + verified + " 位，等候核實 " + pending + " 位");
     } else {
       dots.hidden = true;
     }
@@ -306,7 +318,7 @@
       Array.prototype.forEach.call(document.querySelectorAll(".bmax"), function (s) { s.textContent = fmt(P.budgetPerHead.max); });
     }
     var w = document.getElementById("win-line"), t = document.getElementById("tie-line");
-    if (w) w.textContent = (P.winRule || "勝出規則待籌委會決定，會在開放報名前公布。") + "所有家庭都按勝出的場地及方案付尾數，包括投了其他選項的家庭。";
+    if (w) w.textContent = (P.winRule || "勝出規則待籌委會決定，會在開放報名前公布。") + "勝出的場地及方案適用於所有出席的家庭，包括投了其他選項的家庭。";
     if (t) t.textContent = P.tieRule || "平手處理待籌委會決定，會在開放報名前公布。";
   })();
 })();

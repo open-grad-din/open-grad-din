@@ -1,6 +1,6 @@
-// 「報名」tab 打開表格之前的短動畫（約 25 秒）：提醒大家辦晚宴的初心是多謝老師和學校。
+// 「投票」tab 打開表格之前的短動畫（約 25 秒）：提醒大家辦晚宴的初心是多謝老師和學校。
 // 只是一段畫面，不讀取、不寫入任何資料；不講費用、方案或場地，以免影響投票。
-// 隨時可以按「略過」；最後一幕的「開始報名」由家長親手按，才打開表格（瀏覽器不會當作彈出視窗攔截）。
+// 隨時可以按「略過」；最後一幕的「開始投票」由家長親手按，才打開表格（瀏覽器不會當作彈出視窗攔截）。
 // 設定了「減少動態效果」就直接顯示最後一幕。
 (function () {
   "use strict";
@@ -88,7 +88,7 @@
     box.setAttribute("role", "dialog");
     box.tabIndex = -1;
     box.setAttribute("aria-modal", "true");
-    box.setAttribute("aria-label", "報名之前：多謝老師，多謝學校");
+    box.setAttribute("aria-label", "投票之前：多謝老師，多謝學校");
     box.innerHTML =
       '<button type="button" class="thanks-skip">略過 ›</button>' +
       '<div class="thanks-stage">' +
@@ -103,7 +103,7 @@
           }).join("") + star(30, 40, 0) + star(290, 30, 1) + star(160, 4, 2) + "</svg>" +
         '<p class="thanks-h">多謝老師<br>多謝學校</p>' +
         '<p class="thanks-sub">K3 畢業晚宴 · 2027 年 7 月 2 日</p>' +
-        '<a class="btn thanks-go" target="_blank" rel="noopener">開始報名</a>' +
+        '<a class="btn thanks-go" target="_blank" rel="noopener">開始投票</a>' +
         '<button type="button" class="thanks-again">重播</button>' +
       "</div>";
     document.body.appendChild(box);
@@ -168,14 +168,14 @@
   }
 
   // url：已核對過的 Google 表格網址（由 signup.js 傳入）。
-  // fromKeyboard：家長是否用鍵盤按「報名」。
+  // fromKeyboard：家長是否用鍵盤按「投票」。
   function open(url, fromKeyboard) {
     keys = !!fromKeyboard;
     if (!box) build();
     lastFocus = document.activeElement;
     go.href = url;
     box.classList.add("open");
-    document.documentElement.classList.add("thanks-on"); // 底部「報名」tab 變 active
+    document.documentElement.classList.add("thanks-on"); // 底部「投票」tab 變 active
     if (still) end(); else play();
   }
 

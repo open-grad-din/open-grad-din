@@ -1,11 +1,11 @@
-// 每頁底部導覽的「報名」tab（data-signup）。
+// 每頁底部導覽的「投票」tab（data-signup；第二階段報名時改回「報名」）。
 // 報名表格連結不寫在程式碼內，而是從統籌的 Google Sheet 公開分頁（infoCsvUrl 的「報名表格連結」一行）讀取，
 // 所以連結一定是統籌那張表格。連結必須是 Google 表格的網址，否則不會打開。
 // 讀到連結前、報名未開始或讀取失敗時，按 tab 會在畫面底部顯示原因，不會打開任何網址。
 (function () {
   var tabs = document.querySelectorAll("[data-signup]");
   if (!window.OGD_CONFIG || !tabs.length) return;
-  var msg = "報名連結載入中，請稍後再按一次。";
+  var msg = "表格連結載入中，請稍後再按一次。";
   var toast;
 
   function say(text) {
@@ -24,7 +24,7 @@
   function hold(e) {
     if (this.dataset.ready) {
       if (window.OGD_CONFIG.isDemo) say("示範版：這是原型表格，只可以填假資料，請不要轉帳。");
-      // 先播「多謝老師」短動畫，最後一幕由家長按「開始報名」才打開表格（thanks.js）。
+      // 先播「多謝老師」短動畫，最後一幕由家長按「開始投票」才打開表格（thanks.js）。
       if (window.OGD_THANKS) { e.preventDefault(); window.OGD_THANKS.open(this.href, e.detail === 0); }
       return;
     }
@@ -67,10 +67,10 @@
           a.href = url; a.target = "_blank"; a.rel = "noopener"; a.dataset.ready = "1";
         });
       } else {
-        msg = "報名尚未開始。開始時，按這裏就會打開報名表格。";
+        msg = "投票尚未開始。開始時，按這裏就會打開投票表格。";
       }
     })
     .catch(function () {
-      msg = "暫時未能載入報名連結，請稍後再試。";
+      msg = "暫時未能載入表格連結，請稍後再試。";
     });
 })();
