@@ -20,8 +20,9 @@ window.OGD_VENUES = {
       chips: ["汽水、凍橙汁任飲 2 小時", "免費 LED 屏"], photos: [] },
     { type: "hotel", name: "唯港薈", grade: "5 星", gradeSrc: "https://www.expedia.com/Kowloon-Hotels-Hotel-ICON.h4247437.Hotel-Information", where: "尖東", url: "https://www.hotel-icon.com/zh-tw/",
       menus: [{ name: "自助餐", F: 758, quote: "每位 $758，已含加一" },
-              // 2026-11-03 Ken 提供：用午餐自助餐菜單每位 $580 另加一（$638）；籌委回覆此菜單用在晚上，晚宴時間不變。
-              { name: "自助餐（午餐菜單・晚上供應）", F: 638, quote: "每位 $580 另加一；午餐自助餐菜單，晚上供應" }],
+              // 2026-11-03 Ken 提供：用午餐自助餐菜單；籌委回覆此菜單用在晚上，晚宴時間不變。
+              // 2026-11-05 Ken 更正：每位 $580 已包含加一（之前當作另加一，計成 $638）。
+              { name: "自助餐（午餐菜單・晚上供應）", F: 580, quote: "每位 $580，已含加一；午餐自助餐菜單，晚上供應" }],
       chips: ["橙汁 2 小時", "即影即有相攤", "標誌展示", "哈根達斯"], photos: [] },
     { type: "hotel", name: "美麗華酒店", grade: "5 星", gradeSrc: "https://www.expedia.com/Kowloon-Hotels-The-Mira-Hong-Kong-Hotel.h20879.Hotel-Information", where: "尖沙咀", url: "https://www.themirahotel.com/hong-kong/tc/",
       menus: [{ name: "中式筵席", F: 600, quote: "每圍 $7,200 淨價（12 位，已含加一）" },
