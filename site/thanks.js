@@ -72,7 +72,7 @@
         kid(236, 200, "sage", { cap: true, arms: "M79 84 q-10 -10 -12 -24 M109 84 q10 -10 12 -24" }) + "</g>" +
         star(40, 50, 0) + star(160, 30, 1) + star(282, 56, 2);
     } },
-    { say: "這一晚，一起多謝老師，多謝學校。", ms: 6800, art: function () {
+    { say: "這一晚，一起\n多謝老師，多謝學校。", ms: 6800, art: function () {
       return ln("M20 200 h280", "ground") + teacher(160, 200, "M-12 -92 q-14 10 -20 26 M12 -92 q14 10 20 26") +
         kid(84, 200, "kin", { cap: true, arms: "M79 84 q-6 10 -6 18 M109 84 q10 -4 16 -14" }) + bouquet(115, 148) +
         kid(236, 200, "sage", { cap: true, arms: "M79 84 q-10 -4 -16 -14 M109 84 q6 10 6 18" }) + bouquet(205, 148) +
