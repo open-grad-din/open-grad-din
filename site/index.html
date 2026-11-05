@@ -7,12 +7,12 @@
   <meta name="theme-color" content="#f8f4ec" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#1f1c19" media="(prefers-color-scheme: dark)">
   <title>K3 畢業晚宴</title>
-  <meta name="description" content="學之園凱帆校 K3 四班。報名、費用、我家要付多少，都在這裏。">
+  <meta name="description" content="學之園凱帆校 K3 四班。投票、費用、我家要付多少，都在這裏。">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="zh_HK">
   <meta property="og:site_name" content="K3 畢業晚宴">
   <meta property="og:title" content="K3 畢業晚宴 · 2027 年 7 月 2 日">
-  <meta property="og:description" content="學之園凱帆校 K3 四班。報名、費用、我家要付多少，都在這裏。">
+  <meta property="og:description" content="學之園凱帆校 K3 四班。投票、費用、我家要付多少，都在這裏。">
   <meta property="og:url" content="https://open-grad-din.github.io/open-grad-din/">
   <meta property="og:image" content="https://open-grad-din.github.io/open-grad-din/og.png?v=__COMMIT_SHORT__">
   <meta property="og:image:width" content="1200">
@@ -85,16 +85,16 @@
     </div>
     <div class="dots" id="dots" role="img"></div>
     <ul class="key">
-      <li><i class="v"></i>已核實付款</li>
+      <li id="key-v"><i class="v"></i>已核實付款</li>
       <li id="key-p"><i class="p"></i>已提交，等候核實</li>
-      <li><i></i>未報名</li>
+      <li id="key-n"><i></i>未報名</li>
     </ul>
-    <p class="fine">每粒點是一位畢業生，不分班別。收款人對照銀行紀錄核實付款後，就會填上顏色。</p>
+    <p class="fine" id="prog-note">每粒點是一位畢業生，不分班別。收款人對照銀行紀錄核實付款後，就會填上顏色。</p>
   </section>
 
   <!-- 去收費頁 -->
   <a class="to-calc reveal" href="fees.html">
-    <span><b>晚宴費用怎樣計？</b><small>每位上限、錢用在哪、報名時要投的三個分擔方案</small></span>
+    <span><b>晚宴費用怎樣計？</b><small>每位上限、錢用在哪、要投票的三個分擔方案</small></span>
     <span class="to-calc-go" aria-hidden="true">費用 →</span>
   </a>
 
@@ -103,34 +103,34 @@
     <details>
       <summary>現在我要做甚麼？</summary>
       <p>之前大家已經投票，決定晚宴每位費用在 $<span class="bmin">900</span> 至 $<span class="bmax">1,100</span> 之間。最後按實際成本收費，每位不會超過 $<span class="bmax">1,100</span>。</p>
-      <p>現在只需在截止前填一張報名表格並轉帳，一次過做三件事：</p>
+      <p>現在只需在截止前投票，不用付款：</p>
       <ol>
-        <li>填你家出席人數（大人、小朋友）</li>
-        <li>投票：揀場地，以及揀老師餐和雜費的分擔方式（三揀一）</li>
-        <li>按表格指示付訂金，每位 $<span class="deposit"></span></li>
+        <li>揀場地：最多揀 3 個你接受的場地</li>
+        <li>揀老師餐和雜費的分擔方式（三揀一）</li>
       </ol>
-      <p>收款人會核實你的付款；如有問題，收款人會主動聯絡你。報名表格在底部「報名」；想先比較各場地你家要付多少，可以用「計算機」。</p>
+      <p>投票表格在底部「投票」；想先比較各場地你家要付多少，可以用「計算機」。投票結果公布後，才報名及交訂金，到時會另行通知。</p>
     </details>
     <details>
       <summary>怎樣投票？怎樣決定結果？</summary>
-      <p>場地和分擔方案由出席的家庭投票決定，因為晚宴費用由出席的家庭分擔。投票在報名表格內一起完成，每位畢業生一票；交訂金後，你的一票就會計算。</p>
+      <p>場地和分擔方案由預計出席的家庭投票決定，因為晚宴費用由出席的家庭分擔。每位畢業生一票；同一學號有多於一份投票，籌委會會聯絡該家庭核實，只計一份。</p>
+      <p><b>場地最多揀 3 個：</b>剔你接受的場地，每個剔都一樣計。這樣即使大家心水不同，最多家庭接受的場地仍會勝出，票不會分散。</p>
       <p id="win-line"></p>
       <p id="tie-line"></p>
-      <p><b>付訂金，即表示你同意服從投票結果：</b>無論哪個場地、哪個方案勝出，都按結果付尾數。</p>
     </details>
     <details>
       <summary>訂金多少？可以退回嗎？</summary>
-      <p>每位 $<span class="deposit"></span>，無論哪個場地、哪個方案都一樣。</p>
+      <p>每位 $<span class="deposit"></span>，無論哪個場地、哪個方案都一樣。投票結果公布後，報名時才交。</p>
       <p>訂金一經提交，不會退回。如遇不可抗力的情況要取消晚宴，能否退款視乎場地條款而定；籌委會會盡可能另擇日子舉辦。</p>
     </details>
     <details>
-      <summary>遲了報名或想改人數？</summary>
+      <summary>遲了投票、報名或想改人數？</summary>
+      <p><b>遲了投票</b>：截止後的投票不會計算。</p>
       <p><b>遲報名</b>：要視乎場地能否容納更多家庭。方向上可以，但不能保證一定有位，所以請盡量在截止前報名。</p>
       <p><b>更改人數</b>：只可以加，不可以減。加人同樣要視乎場地能否容納，不能保證一定有位。</p>
     </details>
     <details>
       <summary>資料由誰管理？</summary>
-      <p>報名表格（Google Form）及報名資料由籌委會管理。費用直接付給收款人，不經這個網站或任何系統收取。</p>
+      <p>投票及報名表格（Google Form）及資料由籌委會管理。費用直接付給收款人，不經這個網站或任何系統收取。</p>
       <p>網站只負責顯示。所有數字、來源及每次改動都公開，任何人都可以核對：</p>
       <ul>
         <li><a href="https://github.com/open-grad-din/open-grad-din/blob/main/site/fees-params.js">收費數字及來源</a></li>
@@ -159,7 +159,7 @@
     <a href="./" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg>首頁</a>
     <a href="fees.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15 9.2c-.6-1-1.7-1.5-3-1.5-1.7 0-3 .9-3 2.2 0 3 6 1.6 6 4.4 0 1.3-1.3 2.2-3 2.2-1.4 0-2.6-.6-3.1-1.6M12 6v1.7M12 16.5V18"/></svg>費用</a>
     <a href="venues.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M8 7h8"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01M8.5 14.5h.01M12 14.5h.01M15.5 14.5h.01M8.5 18h.01M12 18h7.01" stroke-width="2.4"/></svg>計算機</a>
-    <a href="#" data-signup><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2.5"/><path d="M9 4V3h6v1"/><path d="M8.5 10.5l1.5 1.5 3-3M8.5 16h7"/></svg>報名</a>
+    <a href="#" data-signup><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2.5"/><path d="M9 4V3h6v1"/><path d="M8.5 10.5l1.5 1.5 3-3M8.5 16h7"/></svg>投票</a>
   </nav>
 </div>
 
