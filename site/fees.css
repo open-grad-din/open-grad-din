@@ -169,7 +169,8 @@ details td { padding: 4px; vertical-align: top; }
 .row:nth-child(2n) { border-radius: var(--wobble); }
 .row-head { width: 100%; display: flex; align-items: center; gap: 8px; padding: 6px 0; background: none; border: 0; font: inherit; color: var(--ink); text-align: left; }
 .row-head .name { flex: 1; min-width: 0; font-family: var(--font-display); font-size: 19px; line-height: 1.3; letter-spacing: .02em; }
-.row-head .name .area { margin-left: 8px; font-family: var(--font-body, inherit); font-size: 13px; letter-spacing: 0; color: var(--muted); white-space: nowrap; }
+/* 地區一律放場地名下面一行，每張卡一致（Ken 2026-11-05：長名加地區在手機變兩行） */
+.row-head .name .area { display: block; margin-top: 1px; font-family: var(--font-body, inherit); font-size: 13px; line-height: 1.3; letter-spacing: 0; color: var(--muted); }
 .tag { flex: none; font-size: 12px; font-weight: 700; padding: 1px 8px; border-radius: 999px; border: 1.5px solid var(--stroke); color: var(--muted); background: var(--paper); }
 .tag.hotel { color: var(--ai); border-color: var(--ai); } .tag.rest { color: var(--sage); border-color: var(--sage); }
 .chev { flex: none; font-size: 13px; font-weight: 700; color: var(--ai); white-space: nowrap; }
