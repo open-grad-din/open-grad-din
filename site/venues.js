@@ -26,10 +26,11 @@
         // 第一行場地名，第二行酒店／酒樓 pill 及地區（Ken 2026-11-05）。area 是短地區；沒有就用 where。
         '<span class="titles"><span class="name">' + esc(v.name) + '</span>' +
           '<span class="meta"><span class="tag ' + v.type + '">' + (v.grade ? esc(v.grade) : "") + TYPE[v.type] + '</span>' +
-          ((v.area || v.where) ? '<span class="area">' + esc(v.area || v.where) + '</span>' : '') + '</span></span>' +
-        // 不設相片彈出視窗，直接連去官網（Ken 2026-11-03）
-        (v.url ? '<a class="link site" href="' + esc(v.url) + '" target="_blank" rel="noopener" aria-label="' + esc(v.name) + ' 官方網站（新分頁）">官網 ↗</a>'
-               : '<span class="link none">官網待補</span>') +
+          ((v.area || v.where) ? '<span class="area">' + esc(v.area || v.where) + '</span>' : '') +
+          // 不設相片彈出視窗，直接連去官網（Ken 2026-11-03）；放在第二行右邊（Ken 2026-11-05）
+          (v.url ? '<a class="link site" href="' + esc(v.url) + '" target="_blank" rel="noopener" aria-label="' + esc(v.name) + ' 官方網站（新分頁）">官網 ↗</a>'
+                 : '<span class="link none">官網待補</span>') +
+        '</span></span>' +
       '</div>' +
       v.menus.map(menuRowHTML).join("") +
       '</article>';
