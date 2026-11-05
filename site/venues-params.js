@@ -40,15 +40,15 @@ window.OGD_VENUES = {
       menus: [{ name: "自助餐", F: 669, quote: "每位 $608 起，另加服務費" }],
       chips: ["任飲 3 小時", "即影即有相攤 2 小時"], photos: [] },
 
-    { type: "rest", name: "海月（煌府）", where: "中港城", seats: "可設 38–65 席", url: "https://palace-rest.com.hk/",
+    { type: "rest", name: "海月（煌府）", where: "中港城", area: "尖沙咀", seats: "可設 38–65 席", url: "https://palace-rest.com.hk/",
       menus: [{ name: "中式筵席", F: 332, Fmax: 724, quote: "每席 $3,988–$8,688（已含加一）" }], photos: [] },
-    { type: "rest", name: "囍薈", where: "尖沙咀北京道 1 號 11 樓", seats: "可設 25–35 席", url: "https://vhsupreme.com.hk/hei-tsim-sha-tsui/",
+    { type: "rest", name: "囍薈", where: "尖沙咀北京道 1 號 11 樓", area: "尖沙咀", seats: "可設 25–35 席", url: "https://vhsupreme.com.hk/hei-tsim-sha-tsui/",
       menus: [{ name: "中式筵席", F: 432, Fmax: 665, quote: "每席 $5,180–$7,980（已含加一）" }], photos: [] },
     { type: "rest", name: "彩福皇宴", where: "尖東", seats: "可設 16–60 席", url: "https://www.choifookent.com/%e5%b0%96%e6%9d%b1%e5%ba%97-%e5%bd%a9%e7%a6%8f%e7%9a%87%e5%ae%b4/#branch",
       menus: [{ name: "中式筵席", F: 415, Fmax: 665, quote: "每席 $4,980–$7,980（已含加一）" }], photos: [] },
-    { type: "rest", name: "沙田美心皇宮", where: "沙田大會堂", seats: "可設 16–54 席", url: "https://www.maximschinese.com.hk/zh/brand/1",
+    { type: "rest", name: "沙田美心皇宮", where: "沙田大會堂", area: "沙田", seats: "可設 16–54 席", url: "https://www.maximschinese.com.hk/zh/brand/1",
       menus: [{ name: "中式筵席", F: 407, Fmax: 573, quote: "每席 $4,880–$6,880（已含加一）" }], photos: [] },
-    { type: "rest", name: "中環美心皇宮", where: "中環大會堂", seats: "可設 27–50 席", url: "https://www.maximschinese.com.hk/zh/brand/1",
+    { type: "rest", name: "中環美心皇宮", where: "中環大會堂", area: "中環", seats: "可設 27–50 席", url: "https://www.maximschinese.com.hk/zh/brand/1",
       menus: [{ name: "中式筵席", F: 648, Fmax: 807, quote: "每席 $7,780–$9,680（已含加一）" }], photos: [] }
   ],
 
