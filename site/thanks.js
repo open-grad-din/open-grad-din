@@ -163,6 +163,7 @@
   function close() {
     clear();
     box.classList.remove("open");
+    document.documentElement.classList.remove("thanks-on");
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
 
@@ -174,6 +175,7 @@
     lastFocus = document.activeElement;
     go.href = url;
     box.classList.add("open");
+    document.documentElement.classList.add("thanks-on"); // 底部「報名」tab 變 active
     if (still) end(); else play();
   }
 

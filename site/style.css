@@ -229,6 +229,9 @@ details > ul, details > ol { margin: 0 16px 14px; padding-left: 1.4em; display: 
   padding: max(20px, env(safe-area-inset-top, 0px)) max(18px, env(safe-area-inset-right, 0px)) calc(var(--nav-h) + 24px + env(safe-area-inset-bottom, 0px)) max(18px, env(safe-area-inset-left, 0px));
   background: var(--paper); text-align: center; touch-action: none; overscroll-behavior: contain; }
 .thanks:focus { outline: none; }
+/* 播放期間：底部「報名」tab 顯示為目前所在，原本那一頁的 tab 變回灰色 */
+.thanks-on .tabbar a[aria-current="page"], .thanks-on .tabbar a[aria-current="page"] svg { color: var(--muted); font-weight: 400; }
+.thanks-on .tabbar a[data-signup], .thanks-on .tabbar a[data-signup] svg { color: var(--nudge); font-weight: 700; }
 .thanks.open { display: flex; animation: fade .4s ease both; }
 .thanks-skip { position: absolute; top: max(14px, env(safe-area-inset-top, 0px)); right: max(14px, env(safe-area-inset-right, 0px)); min-height: 44px; padding: 8px 16px;
   font: inherit; font-size: 15px; font-weight: 700; color: var(--muted); background: var(--surface); border: 2px solid var(--stroke); border-radius: 999px; cursor: pointer; }
