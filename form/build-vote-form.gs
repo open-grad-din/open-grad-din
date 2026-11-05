@@ -2,7 +2,7 @@
  * K3 畢業晚宴：第一階段投票 Google Form
  *
  * 2026-11-05 籌委會決定投票與交訂金分開：先投票（這張表格），投票結果公布後，才報名及交訂金（第二階段，另一張表格）。
- * 這張表格不收付款資料、不收出席人數、不寄任何電郵，所以沒有提交觸發器。
+ * 這張表格不收付款資料、不寄任何電郵，所以沒有提交觸發器。預計出席人數及電話照收（2026-11-05 Ken），方便籌委會跟場地預訂座位。
  *
  * 用法（由統籌在自己的 Google 帳戶做，只做一次）：
  *   1. 打開 https://script.google.com ，按 New project（不要貼在舊的報名表格 script 內）。
@@ -33,7 +33,7 @@
 var PROTOTYPE = true;
 var VERSION = "投票表格第 1 版 · 2026 年 11 月 5 日";
 var SPREADSHEET_ID = "";      // 留空：建立新試算表。填入：回應寫入該試算表的新分頁。
-var MAX_VENUES = 3;           // 場地最多揀幾個（2026-11-05 籌委會決定 3 個）
+var VENUE_PICKS = 3;          // 場地必須揀幾個（2026-11-05 籌委會決定每人投 3 個，Ken：必定要揀 3 個）
 
 var SITE = "https://open-grad-din.github.io/open-grad-din/";
 var PLANS_IMAGE = SITE + "form/plans.png";
@@ -64,12 +64,15 @@ var T = {
   attend: "你家預計會出席畢業晚宴嗎？",
   why: "有甚麼原因或意見想告訴籌委會嗎？",
   comment: "還有其他意見嗎？",
-  venue: "場地（最多揀 " + MAX_VENUES + " 個）",
+  venue: "場地（揀 " + VENUE_PICKS + " 個）",
   plan: "老師餐及雜費怎樣分擔？",
   use: "雜費想優先用在哪方面？（最多揀 2 項）",
   cls: "班別",
   no: "學號",
   name: "學生名字",
+  adults: "預計出席的大人",
+  kids: "預計出席的小朋友（包括畢業生）",
+  phone: "聯絡電話",
   agree: "我明白"
 };
 
@@ -83,7 +86,7 @@ function buildVoteForm() {
     "",
     "這次只投票，不用付款。投票結果公布後，才報名及交訂金。",
     "",
-    "場地：最多揀 " + MAX_VENUES + " 個你接受的場地，每個剔都一樣計，被最多家庭剔選的場地勝出。",
+    "場地：揀 " + VENUE_PICKS + " 個你接受的場地，每個剔都一樣計，被最多家庭剔選的場地勝出。",
     "分擔方案：三揀一，票數最多的勝出。",
     "如最高票數相同，則交由學校在最高票的選項中決定。",
     "",
@@ -124,11 +127,11 @@ function buildVoteForm() {
   var votePage = form.addPageBreakItem().setTitle("第 1 頁：投票").setHelpText("每位畢業生一票。");
 
   var venue = form.addCheckboxItem().setTitle(T.venue)
-    .setHelpText("剔你接受的場地，最少 1 個、最多 " + MAX_VENUES + " 個，每個剔都一樣計，被最多家庭剔選的場地勝出。" +
+    .setHelpText("剔 " + VENUE_PICKS + " 個你接受的場地，不分先後，每個剔都一樣計，被最多家庭剔選的場地勝出。" +
       "場地餐飲費每位約數，與網站「我家要付多少？」相同，已含加一，以場地書面確認為準。" +
       "同一場地有不同菜式的，每個菜式一個選項。選項次序每人不同。")
-    .setValidation(FormApp.createCheckboxValidation().requireSelectAtMost(MAX_VENUES)
-      .setHelpText("最多揀 " + MAX_VENUES + " 個").build())
+    .setValidation(FormApp.createCheckboxValidation().requireSelectExactly(VENUE_PICKS)
+      .setHelpText("請剛好揀 " + VENUE_PICKS + " 個").build())
     .setRequired(true);
   venue.setChoices(VENUES.map(function (v) { return venue.createChoice(v); }));
 
@@ -151,8 +154,8 @@ function buildVoteForm() {
     .setRequired(true);
 
   // ---- 第 2 頁：畢業生資料及確認 ----
-  form.addPageBreakItem().setTitle("第 2 頁：畢業生資料")
-    .setHelpText("用來確保每位畢業生只有一票。提交後不能自己修改。");
+  form.addPageBreakItem().setTitle("第 2 頁：你的資料")
+    .setHelpText("班別及學號用來確保每位畢業生只有一票。提交後不能自己修改。");
 
   form.addListItem().setTitle(T.cls).setChoiceValues(["K3A", "K3B", "K3C", "K3D"]).setRequired(true);
 
@@ -161,6 +164,18 @@ function buildVoteForm() {
     .setRequired(true);
 
   form.addTextItem().setTitle(T.name).setHelpText("可以寫英文名。").setRequired(true);
+
+  form.addListItem().setTitle(T.adults).setChoiceValues(["1", "2", "3", "4", "5", "6"]).setRequired(true);
+
+  form.addListItem().setTitle(T.kids)
+    .setHelpText("畢業生加兄弟姊妹等，佔座位、有餐的才計；不佔座位的嬰兒不計。\n" +
+      "只作預訂座位參考，不用付款；正式人數在投票結果公布後報名時填寫。")
+    .setChoiceValues(["1", "2", "3", "4", "5"]).setRequired(true);
+
+  form.addTextItem().setTitle(T.phone).setHelpText("只在籌委會要核實你的投票時使用。")
+    .setValidation(FormApp.createTextValidation().requireTextMatchesPattern("^[2-9]\\d{7}$")
+      .setHelpText("請填 8 位數字的香港電話").build())
+    .setRequired(true);
 
   form.addCheckboxItem().setTitle(T.agree)
     .setChoiceValues([
