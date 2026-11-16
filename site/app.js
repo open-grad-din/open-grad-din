@@ -7,7 +7,8 @@
   var config = window.OGD_CONFIG || {};
 
   // 流程的固定階段。資訊分頁的「現階段」必須是其中一項。
-  var STAGES = ["籌委會公布規則", "投票", "公布投票結果", "報名及交訂金", "收尾數", "晚宴"];
+  // 2026-11-16 Ken：「報名及交訂金」改名「交訂金」（報名已在投票時完成）；舊名仍接受。
+  var STAGES = ["籌委會公布規則", "投票", "公布投票結果", "交訂金", "收尾數", "晚宴"];
   // 進度條上顯示的短名（最多 5 個字）；資訊分頁的「現階段」仍用上面的全名。
   var STAGE_SHORT = ["公布規則", "投票", "公布結果", "交訂金", "收尾數", "晚宴"];
   var SUMMARY_COLUMNS = ["收款人", "已核實", "未核實", "最早未核實提交日期"];
@@ -174,8 +175,9 @@
     note.push("同一家庭交了多於一份，只計最新一份。");
     document.getElementById("res-note").textContent = note.join("");
     document.getElementById("res-section").hidden = false;
-    // 2026-11-16 Ken：公布結果階段不顯示「全級進度」（與結果重複）；交訂金階段起照舊顯示核實人數。
-    if (info["現階段"] === "公布投票結果") document.getElementById("prog-section").hidden = true;
+    // 2026-11-16 Ken：公布結果之後不再顯示「全級進度」（與結果重複；交訂金進度不在網站匯報，
+    // 家長以收款人的 WhatsApp 核實回覆作證明）。
+    document.getElementById("prog-section").hidden = true;
     var todoR = document.getElementById("todo-result"), todoV = document.getElementById("todo-vote");
     if (todoR && todoV) { todoR.hidden = false; todoV.hidden = true; }
   }
@@ -213,6 +215,7 @@
   }
 
   function renderNow(info, now) {
+    if (info["現階段"] === "報名及交訂金") info["現階段"] = "交訂金";
     var stage = info["現階段"] || "";
     var cur = STAGES.indexOf(stage);
     document.getElementById("stage").textContent = stage || "請留意正式通告";
