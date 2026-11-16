@@ -12,26 +12,28 @@
  *
  * 用法（統籌）：
  *   1. 在「K3 畢業晚宴回應」試算表：擴充功能 → Apps Script，新增檔案，貼上整個檔案。
- *   2. 填好下面「要填的設定」：截止時間、統籌聯絡方法、四位收款人的電話及名稱（從舊報名表格 Apps Script 的 PAYEES 抄過來）。
+ *   2. 填好下面「要填的設定」：截止時間、統籌聯絡方法、四位收款人的電話及名稱（從舊報名表格 Apps Script 的 DEP_PAYEES 抄過來）。
  *   3. 執行 previewEmails：只會建立「付款指示預覽」分頁，逐封列出收件人、金額及內容，不寄任何電郵。逐行核對。
  *   4. 執行 sendTestToMe：把第一封寄給你自己，用手機看一次。
  *   5. 確認無誤，執行 sendAll。每次最多寄 MAX_PER_RUN 封；隔一兩小時再執行 sendAll，會由未寄的繼續。
  *      先寄第一批後，問幾位家長有沒有收到、是否在垃圾郵件，才寄下一批。
  *   後備：如電郵寄不出或被封，「付款指示預覽」分頁已有每家的內容，可以由統籌或收款人逐家 WhatsApp。
  *
+ * 同一個 Apps Script 專案內可能已有舊報名表格的 script（PAYEES、money 等），所以這裏的名稱都加了 dep 字頭，不會互相影響。
+ *
  * 「點票」分頁的欄位（沒有標題行）：A 時間戳、B 電郵、C 出席、G 班別、H 學號、I 學生名、J 大人、K 小朋友。
  */
 
 // ---------- 要填的設定 ----------
-var DEADLINE = "〔截止日期〕";          // 例如 "12 月 1 日（星期二）晚上 10 時"
+var DEP_DEADLINE = "〔截止日期〕";          // 例如 "12 月 1 日（星期二）晚上 10 時"
 var COORDINATOR = "〔統籌聯絡方法〕";   // 例如 "統籌 WhatsApp 9xxx xxxx"（只在這裏填，不要寫入 GitHub）
 var REPLY_DAYS = 3;                     // 收款人收到截圖後幾日內回覆核實
-var DEPOSIT = 550;                      // 每位訂金（不退）
+var DEP_PER_HEAD = 550;                      // 每位訂金（不退）
 var INCLUDE_UNDECIDED = false;          // 「未決定」的家庭是否一併寄（待籌委會決定）
 var MAX_PER_RUN = 25;                   // 每次 sendAll 最多寄幾封。新開的 Gmail 一次大量寄出容易被當成垃圾郵件，分幾批、相隔一段時間再寄。
 
 // 每班一位收款人。acct = FPS／PayMe 電話；name = 轉帳確認畫面顯示的收款人名稱（遮蓋版）。
-var PAYEES = {
+var DEP_PAYEES = {
   K3A: { method: "FPS",   acct: "〔電話〕", name: "〔收款人名稱〕" },
   K3B: { method: "PayMe", acct: "〔電話〕", name: "〔收款人名稱〕" },
   K3C: { method: "PayMe", acct: "〔電話〕", name: "〔收款人名稱〕" },
@@ -39,20 +41,20 @@ var PAYEES = {
 };
 
 // 不自動寄、由統籌親手處理的班別＋學號（例如孖生兩份回應屬同一家庭，要合併成一封，避免人數計兩次）。
-var MANUAL = ["K3D 1", "K3D 2"];
+var DEP_MANUAL = ["K3D 1", "K3D 2"];
 
 // ---------- 以下不用改 ----------
 var SRC = "點票", LOG = "已寄付款指示", PREVIEW = "付款指示預覽";
 
-function money(n) { return "$" + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+function depMoney(n) { return "$" + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
 
-function checkSettings() {
-  var all = DEADLINE + COORDINATOR;
-  Object.keys(PAYEES).forEach(function (k) { all += PAYEES[k].acct + PAYEES[k].name; });
+function depCheckSettings() {
+  var all = DEP_DEADLINE + COORDINATOR;
+  Object.keys(DEP_PAYEES).forEach(function (k) { all += DEP_PAYEES[k].acct + DEP_PAYEES[k].name; });
   if (/〔|〕/.test(all)) throw new Error("請先填好「要填的設定」：截止時間、統籌聯絡方法及四位收款人的電話和名稱（仍有〔〕佔位字）。");
 }
 
-function families() {
+function depFamilies() {
   var rows = SpreadsheetApp.getActive().getSheetByName(SRC).getDataRange().getValues();
   var out = [];
   rows.forEach(function (r) {
@@ -64,15 +66,15 @@ function families() {
     };
     f.key = f.cls + " " + f.no;
     f.total = f.adults + f.kids;
-    f.amount = f.total * DEPOSIT;
-    if (!f.email || !PAYEES[f.cls] || !f.no || !f.total) throw new Error("「點票」有一行資料不完整：" + r.join(" | "));
+    f.amount = f.total * DEP_PER_HEAD;
+    if (!f.email || !DEP_PAYEES[f.cls] || !f.no || !f.total) throw new Error("「點票」有一行資料不完整：" + r.join(" | "));
     out.push(f);
   });
   return out;
 }
 
-function message(f) {
-  var p = PAYEES[f.cls];
+function depMessage(f) {
+  var p = DEP_PAYEES[f.cls];
   var note = f.cls + " " + f.no + " " + f.name;
   var subject = "K3 畢業晚宴：交訂金指示（" + f.key + " 號）";
   var body = [
@@ -83,12 +85,12 @@ function message(f) {
     "你在投票表格填了 " + f.key + " 號（" + f.name + "）會出席。現在請交訂金，名額才算確認。",
     "",
     "人數：大人 " + f.adults + " 位 + 小朋友 " + f.kids + " 位 = " + f.total + " 位",
-    "訂金：" + money(f.amount) + "（" + f.total + " 位 × " + money(DEPOSIT) + "）",
+    "訂金：" + depMoney(f.amount) + "（" + f.total + " 位 × " + depMoney(DEP_PER_HEAD) + "）",
     "",
     "轉帳到：" + p.method + " " + p.acct,
     "收款人名稱：" + p.name + "（轉帳前請核對；名稱不對，請不要轉帳，先聯絡統籌）",
     "轉帳備註：" + note,
-    "期限：" + DEADLINE,
+    "期限：" + DEP_DEADLINE,
     "",
     "轉帳後：請截圖，WhatsApp 給收款人 " + p.acct + "。截圖要看到金額、日期及轉帳備註。",
     "收款人會對照轉帳紀錄核實，並在 " + REPLY_DAYS + " 日內 WhatsApp 回覆你。請保留這個回覆作紀錄。",
@@ -107,7 +109,7 @@ function message(f) {
   return { subject: subject, body: body };
 }
 
-function sentKeys() {
+function depSentKeys() {
   var ss = SpreadsheetApp.getActive();
   var sh = ss.getSheetByName(LOG);
   if (!sh) {
@@ -121,36 +123,36 @@ function sentKeys() {
 
 // 只建立預覽分頁，不寄電郵。
 function previewEmails() {
-  checkSettings();
+  depCheckSettings();
   var ss = SpreadsheetApp.getActive();
   var sh = ss.getSheetByName(PREVIEW) || ss.insertSheet(PREVIEW);
   sh.clear();
   sh.appendRow(["班別學號", "電郵", "人數", "訂金", "處理", "標題", "內容"]);
-  var sent = sentKeys().keys;
-  families().forEach(function (f) {
-    var m = message(f);
-    var how = MANUAL.indexOf(f.key) >= 0 ? "統籌親手處理" : sent[f.key] ? "已寄" : "會寄";
+  var sent = depSentKeys().keys;
+  depFamilies().forEach(function (f) {
+    var m = depMessage(f);
+    var how = DEP_MANUAL.indexOf(f.key) >= 0 ? "統籌親手處理" : sent[f.key] ? "已寄" : "會寄";
     sh.appendRow([f.key, f.email, f.total, f.amount, how, m.subject, m.body]);
   });
 }
 
 // 把第一封寄給執行者自己，用來檢查格式。
 function sendTestToMe() {
-  checkSettings();
-  var f = families()[0];
-  var m = message(f);
+  depCheckSettings();
+  var f = depFamilies()[0];
+  var m = depMessage(f);
   MailApp.sendEmail({ to: Session.getEffectiveUser().getEmail(), subject: "【測試】" + m.subject, body: m.body, name: "K3 畢業晚宴籌委會" });
 }
 
 // 寄給所有未寄的家庭。可重複執行，已寄的會略過。
 function sendAll() {
-  checkSettings();
-  var log = sentKeys();
+  depCheckSettings();
+  var log = depSentKeys();
   var sentNow = 0;
-  families().forEach(function (f) {
-    if (MANUAL.indexOf(f.key) >= 0 || log.keys[f.key]) return;
+  depFamilies().forEach(function (f) {
+    if (DEP_MANUAL.indexOf(f.key) >= 0 || log.keys[f.key]) return;
     if (sentNow >= MAX_PER_RUN || MailApp.getRemainingDailyQuota() < 1) return;
-    var m = message(f);
+    var m = depMessage(f);
     MailApp.sendEmail({ to: f.email, subject: m.subject, body: m.body, name: "K3 畢業晚宴籌委會" });
     log.sheet.appendRow([new Date(), f.key, f.email, f.total, f.amount]);
     log.keys[f.key] = true;
