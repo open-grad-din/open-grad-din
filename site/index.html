@@ -76,6 +76,14 @@
     <p class="official">正式資訊以這個網站為準，轉述的內容如有出入，請以這裏所寫的為依據。</p>
   </section>
 
+  <!-- 2026-11-16 公布投票結果：票數全部讀試算表「公開資料」以「票數｜類別｜選項」開頭的行，網站不寫入任何票數。 -->
+  <section aria-labelledby="res-h" id="res-section" class="reveal" hidden>
+    <h2 class="sec-h" id="res-h">投票結果</h2>
+    <p class="lead" id="res-lead"></p>
+    <div id="res-groups"></div>
+    <p class="fine" id="res-note"></p>
+  </section>
+
   <section aria-labelledby="prog-h" id="prog-section" class="reveal" hidden>
     <h2 class="sec-h" id="prog-h">全級進度</h2>
     <p class="updated" id="updated" hidden></p>
@@ -102,6 +110,11 @@
     <h2 class="sec-h" id="more-h">想知多一點</h2>
     <details>
       <summary>現在我要做甚麼？</summary>
+      <div id="todo-result" hidden>
+      <p>投票已經完成，結果在上面「投票結果」。現在不用做任何事。</p>
+      <p>下一步是報名及交訂金，籌委會會另行通知日期。想先知道你家大約要付多少，可以用「計算機」揀勝出的場地。</p>
+      </div>
+      <div id="todo-vote">
       <p>之前大家已經投票，決定晚宴每位費用在 $<span class="bmin">900</span> 至 $<span class="bmax">1,100</span> 之間。最後按實際成本收費，每位不會超過 $<span class="bmax">1,100</span>。</p>
       <p>現在只需在截止前投票，不用付款：</p>
       <ol>
@@ -109,6 +122,7 @@
         <li>揀老師餐和雜費的分擔方式（三揀一）</li>
       </ol>
       <p>投票表格在底部「投票」；想先比較各場地你家要付多少，可以用「計算機」。投票結果公布後，才報名及交訂金，到時會另行通知。</p>
+      </div>
     </details>
     <details>
       <summary>怎樣投票？怎樣決定結果？</summary>

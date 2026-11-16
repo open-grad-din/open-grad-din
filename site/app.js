@@ -111,6 +111,72 @@
     });
   }
 
+  // 投票結果：資訊分頁內「票數｜類別｜選項」一行一個選項，內容是票數（統籌試算表公式計出）。
+  // 保留試算表的次序；「｜」亦接受半形「|」。
+  var RESULT_GROUPS = [
+    { key: "場地", title: "場地", pick: "每個家庭剔 3 個", winner: true },
+    { key: "分擔方案", title: "老師餐及雜費分擔方案", pick: "三揀一", winner: true },
+    { key: "雜費用途", title: "雜費想優先用在哪方面", pick: "最多揀 2 項；結果交負責的籌委參考", winner: false }
+  ];
+  function readResults(rows) {
+    var out = {};
+    rows.slice(1).forEach(function (r) {
+      var parts = (r[0] || "").split(/[｜|]/).map(function (x) { return x.trim(); });
+      if (parts.length !== 3 || parts[0] !== "票數" || !parts[2]) return;
+      var n = wholeNumber((r[1] || "").trim());
+      if (n === null) return;
+      (out[parts[1]] = out[parts[1]] || []).push({ name: parts[2], votes: n });
+    });
+    return out;
+  }
+
+  function renderResults(info, results) {
+    var groups = RESULT_GROUPS.filter(function (g) { return results[g.key] && results[g.key].length; });
+    if (!groups.length || STAGES.indexOf(info["現階段"] || "") < 2) return;
+    var attend = wholeNumber(info["會出席家庭"] || ""), maybe = wholeNumber(info["未決定家庭"] || ""), no = wholeNumber(info["不會出席家庭"] || "");
+    var voters = attend !== null ? attend + (maybe || 0) : null;
+    var lead = [];
+    if (voters !== null) lead.push("共 " + voters + " 個家庭投票（會出席 " + attend + (maybe ? "、未決定 " + maybe : "") + "）");
+    if (no) lead.push("另有 " + no + " 個家庭表示不會出席");
+    document.getElementById("res-lead").textContent = lead.length ? lead.join("；") + "。" : "";
+    var box = document.getElementById("res-groups");
+    groups.forEach(function (g) {
+      var items = results[g.key].slice().sort(function (a, b) { return b.votes - a.votes; });
+      var top = items[0].votes;
+      var tied = items.filter(function (x) { return x.votes === top; }).length > 1;
+      var wrap = el("div", undefined, "res-group");
+      var h = el("h3", g.title);
+      h.appendChild(el("small", g.pick));
+      wrap.appendChild(h);
+      var ol = el("ol", undefined, "res-list");
+      items.forEach(function (x, i) {
+        var win = g.winner && x.votes === top && top > 0;
+        var li = el("li", undefined, win ? "win" : "");
+        var row = el("span", undefined, "res-row");
+        row.appendChild(el("span", x.name, "res-name"));
+        if (win) row.appendChild(el("b", tied ? "平手" : "勝出", "res-badge"));
+        row.appendChild(el("span", x.votes + " 票", "res-n"));
+        li.appendChild(row);
+        var bar = el("i", undefined, "res-bar");
+        var base = voters || top || 1;
+        bar.style.setProperty("--w", Math.min(100, Math.round(x.votes / base * 100)) + "%");
+        li.appendChild(bar);
+        ol.appendChild(li);
+      });
+      wrap.appendChild(ol);
+      if (g.winner && tied) wrap.appendChild(el("p", "最高票平手，由學校在最高票的選項中決定。", "fine"));
+      box.appendChild(wrap);
+    });
+    var note = [];
+    if (voters) note.push("色條長度是投了這個選項的家庭佔全部投票家庭的比例。");
+    if (info["結果確認日期"]) note.push("籌委會已於 " + info["結果確認日期"] + " 確認以上結果。");
+    note.push("同一家庭交了多於一份，只計最新一份。");
+    document.getElementById("res-note").textContent = note.join("");
+    document.getElementById("res-section").hidden = false;
+    var todoR = document.getElementById("todo-result"), todoV = document.getElementById("todo-vote");
+    if (todoR && todoV) { todoR.hidden = false; todoV.hidden = true; }
+  }
+
   function renderHeader(info) {
     var parts = [];
     if (info["發出人"]) parts.push(info["發出人"] + " 發出");
@@ -291,10 +357,12 @@
     .then(function (res) {
       var now = new Date();
       var info = readInfo(res[0]);
+      var results = readResults(res[0]);
       var payees = readSummary(res[1]);
       renderHeader(info);
       renderNow(info, now);
       renderProgress(payees, info);
+      renderResults(info, results);
       document.getElementById("idx-section").hidden = false;
       status.textContent = "資料讀取時間：" + now.toLocaleString("zh-HK", { timeZone: "Asia/Hong_Kong" });
     })
@@ -306,7 +374,7 @@
     });
 
   // 給測試用。
-  window.OGD_TEST = { parseCsv: parseCsv, daysSince: daysSince, formatDeadline: formatDeadline, safeUrl: safeUrl };
+  window.OGD_TEST = { readResults: readResults, parseCsv: parseCsv, daysSince: daysSince, formatDeadline: formatDeadline, safeUrl: safeUrl };
 
   // 「想知多一點」的投票及訂金答案（2026-11-03 由費用頁搬來），數字及規則讀 fees-params.js，與費用頁同一來源。
   (function () {
