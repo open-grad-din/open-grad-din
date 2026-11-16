@@ -33,6 +33,7 @@ var INCLUDE_UNDECIDED = false;          // 「未決定」的家庭是否一併�
 var MAX_PER_RUN = 25;                   // 每次 sendAll 最多寄幾封。新開的 Gmail 一次大量寄出容易被當成垃圾郵件，分幾批、相隔一段時間再寄。
 
 // 每班一位收款人。acct = FPS／PayMe 電話；name = 轉帳確認畫面顯示的收款人名稱（遮蓋版）。
+// 舊報名表格的 script 在同一個專案並已填好的話，留着〔〕佔位字即可，會自動沿用（見 depUseOldPayees）。
 var DEP_PAYEES = {
   K3A: { method: "FPS",   acct: "〔電話〕", name: "〔收款人名稱〕" },
   K3B: { method: "PayMe", acct: "〔電話〕", name: "〔收款人名稱〕" },
@@ -48,7 +49,19 @@ var SRC = "點票", LOG = "已寄付款指示", PREVIEW = "付款指示預覽";
 
 function depMoney(n) { return "$" + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
 
+// 如同一個 Apps Script 專案內已有舊報名表格的 script，而它的 PAYEES 已填好真資料（A/B/C/D 四行），
+// 就直接沿用，不用再抄一次；DEP_PAYEES 填了的班別則以 DEP_PAYEES 為準。
+function depUseOldPayees() {
+  if (typeof PAYEES === "undefined") return;
+  Object.keys(DEP_PAYEES).forEach(function (cls) {
+    var mine = DEP_PAYEES[cls], old = PAYEES[cls.slice(-1)];
+    if (!/〔|〕/.test(mine.acct + mine.name) || !old || /〔|〕/.test(old.acct + old.name)) return;
+    DEP_PAYEES[cls] = { method: old.method, acct: old.acct, name: old.name };
+  });
+}
+
 function depCheckSettings() {
+  depUseOldPayees();
   var all = DEP_DEADLINE + COORDINATOR;
   Object.keys(DEP_PAYEES).forEach(function (k) { all += DEP_PAYEES[k].acct + DEP_PAYEES[k].name; });
   if (/〔|〕/.test(all)) throw new Error("請先填好「要填的設定」：截止時間、統籌聯絡方法及四位收款人的電話和名稱（仍有〔〕佔位字）。");
