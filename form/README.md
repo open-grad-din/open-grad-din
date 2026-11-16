@@ -12,3 +12,7 @@
 - 表格建立後如要改動，先改 script（經 Pull Request），再公開說明。
 - 場地選項及勝出規則必須與網站相同。`check-venues.js` 會在每次部署時對照 `build-vote-form.gs` 與 `site/venues-params.js` 及 `site/fees-params.js`，不一致就停止部署。
 - 方案人形圖截自網站「費用」頁，製作方法見 `tools/form-image/`。
+
+## 交訂金付款指示（2026-11-16）
+
+`send-deposit-emails.gs`：第二階段只交訂金，不用新表格。統籌在自己的帳戶執行，讀「點票」分頁，向每個會出席的家庭寄付款指示（人數 × $550、收款人、備註、期限），並在「已寄付款指示」分頁記錄，不會重複寄。先執行 `previewEmails` 核對，再 `sendTestToMe`，最後 `sendAll`。收款電話只在 Apps Script 內填，不寫入 GitHub。
