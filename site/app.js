@@ -136,7 +136,8 @@
     var attend = wholeNumber(info["會出席家庭"] || ""), maybe = wholeNumber(info["未決定家庭"] || ""), no = wholeNumber(info["不會出席家庭"] || "");
     var voters = attend !== null ? attend + (maybe || 0) : null;
     var lead = [];
-    if (voters !== null) lead.push("共 " + voters + " 個家庭投票（會出席 " + attend + (maybe ? "、未決定 " + maybe : "") + "）");
+    var grade = wholeNumber(info["全級人數"] || "");
+    if (voters !== null) lead.push((grade ? "全級 " + grade + " 位畢業生，" : "共 ") + voters + " 個家庭投票（會出席 " + attend + (maybe ? "、未決定 " + maybe : "") + "）");
     if (no) lead.push("另有 " + no + " 個家庭表示不會出席");
     document.getElementById("res-lead").textContent = lead.length ? lead.join("；") + "。" : "";
     var box = document.getElementById("res-groups");
@@ -173,6 +174,8 @@
     note.push("同一家庭交了多於一份，只計最新一份。");
     document.getElementById("res-note").textContent = note.join("");
     document.getElementById("res-section").hidden = false;
+    // 2026-11-16 Ken：公布結果階段不顯示「全級進度」（與結果重複）；交訂金階段起照舊顯示核實人數。
+    if (info["現階段"] === "公布投票結果") document.getElementById("prog-section").hidden = true;
     var todoR = document.getElementById("todo-result"), todoV = document.getElementById("todo-vote");
     if (todoR && todoV) { todoR.hidden = false; todoV.hidden = true; }
   }
