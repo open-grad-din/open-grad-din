@@ -15,7 +15,9 @@
  *   2. 填好下面「要填的設定」：截止時間、統籌聯絡方法、四位收款人的電話及名稱（從舊報名表格 Apps Script 的 PAYEES 抄過來）。
  *   3. 執行 previewEmails：只會建立「付款指示預覽」分頁，逐封列出收件人、金額及內容，不寄任何電郵。逐行核對。
  *   4. 執行 sendTestToMe：把第一封寄給你自己，用手機看一次。
- *   5. 確認無誤，執行 sendAll。Gmail 每日約可寄 100 封；不夠的話，明天再執行 sendAll，會由未寄的繼續。
+ *   5. 確認無誤，執行 sendAll。每次最多寄 MAX_PER_RUN 封；隔一兩小時再執行 sendAll，會由未寄的繼續。
+ *      先寄第一批後，問幾位家長有沒有收到、是否在垃圾郵件，才寄下一批。
+ *   後備：如電郵寄不出或被封，「付款指示預覽」分頁已有每家的內容，可以由統籌或收款人逐家 WhatsApp。
  *
  * 「點票」分頁的欄位（沒有標題行）：A 時間戳、B 電郵、C 出席、G 班別、H 學號、I 學生名、J 大人、K 小朋友。
  */
@@ -26,6 +28,7 @@ var COORDINATOR = "〔統籌聯絡方法〕";   // 例如 "統籌 WhatsApp 9xxx 
 var REPLY_DAYS = 3;                     // 收款人收到截圖後幾日內回覆核實
 var DEPOSIT = 550;                      // 每位訂金（不退）
 var INCLUDE_UNDECIDED = false;          // 「未決定」的家庭是否一併寄（待籌委會決定）
+var MAX_PER_RUN = 25;                   // 每次 sendAll 最多寄幾封。新開的 Gmail 一次大量寄出容易被當成垃圾郵件，分幾批、相隔一段時間再寄。
 
 // 每班一位收款人。acct = FPS／PayMe 電話；name = 轉帳確認畫面顯示的收款人名稱（遮蓋版）。
 var PAYEES = {
@@ -146,7 +149,7 @@ function sendAll() {
   var sentNow = 0;
   families().forEach(function (f) {
     if (MANUAL.indexOf(f.key) >= 0 || log.keys[f.key]) return;
-    if (MailApp.getRemainingDailyQuota() < 1) return;
+    if (sentNow >= MAX_PER_RUN || MailApp.getRemainingDailyQuota() < 1) return;
     var m = message(f);
     MailApp.sendEmail({ to: f.email, subject: m.subject, body: m.body, name: "K3 畢業晚宴籌委會" });
     log.sheet.appendRow([new Date(), f.key, f.email, f.total, f.amount]);
