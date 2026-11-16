@@ -83,6 +83,9 @@ h1 .ch { display: inline-block; }
 .sticker b { font-family: var(--font-display); font-size: 48px; line-height: 1; color: var(--shu); font-variant-numeric: tabular-nums; font-weight: 700; }
 .date { margin: 16px 0 0; font-size: 17px; letter-spacing: .06em; color: var(--muted); }
 .date b { color: var(--ink); font-weight: 700; }
+.venue { margin: 6px 0 0; display: flex; flex-direction: column; align-items: center; gap: 0; font-size: 15px; color: var(--muted); line-height: 1.5; }
+.venue b { color: var(--ink); font-size: 17px; font-weight: 700; letter-spacing: .04em; }
+.venue span:empty { display: none; }
 .by { font-size: 13px; color: var(--muted); margin: 6px 0 0; }
 
 /* ---- 現在要做甚麼 ---- */
@@ -182,7 +185,7 @@ footer .ver::before { content: ""; width: 8px; height: 8px; border-radius: 50%; 
 .intro .kids .scene, .intro .kids .kid, .intro .kids .tassel { animation-delay: calc(2.2s + var(--i, 0) * .35s); }
 .intro h1 .ch { animation: up .6s cubic-bezier(.2, .7, .2, 1) both; }
 .intro .sticker { animation: stamp .55s cubic-bezier(.2, 1.6, .4, 1) 1.6s both; }
-.intro .date, .intro .by, .intro .eyebrow { animation: fade .8s ease 1.8s both; }
+.intro .date, .intro .venue, .intro .by, .intro .eyebrow { animation: fade .8s ease 1.8s both; }
 .intro .now { animation: up .8s cubic-bezier(.2, .7, .2, 1) 2s both; }
 @keyframes draw { to { stroke-dashoffset: 0; } }
 @keyframes fade { from { opacity: 0; } }
