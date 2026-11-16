@@ -180,15 +180,6 @@
     if (todoR && todoV) { todoR.hidden = false; todoV.hidden = true; }
   }
 
-  function renderVenue(info) {
-    var zh = info["場地名稱"] || "";
-    if (!zh) return;
-    document.getElementById("venue-zh").textContent = zh;
-    document.getElementById("venue-en").textContent = info["場地英文名稱"] || "";
-    document.getElementById("venue-addr").textContent = info["場地地址"] || "";
-    document.getElementById("venue").hidden = false;
-  }
-
   function renderHeader(info) {
     var parts = [];
     if (info["發出人"]) parts.push(info["發出人"] + " 發出");
@@ -372,7 +363,6 @@
       var results = readResults(res[0]);
       var payees = readSummary(res[1]);
       renderHeader(info);
-      renderVenue(info);
       renderNow(info, now);
       renderProgress(payees, info);
       renderResults(info, results);
