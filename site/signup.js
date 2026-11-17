@@ -61,6 +61,9 @@
     .then(function (text) {
       var info = {};
       parseCsv(text).forEach(function (r) { if (r.length >= 2) info[r[0].replace(/[\s:：]+$/, "").trim()] = r[1].trim(); });
+      // 交訂金頁（deposit.js）要讀截止時間，同一份資料不再讀第二次。
+      window.OGD_INFO = info;
+      document.dispatchEvent(new CustomEvent("ogd-info", { detail: info }));
       // 2026-11-18：交訂金及之後，tab 改稱「報名」，打開「報名及加人」表格。
       var stage = info["現階段"] || "";
       var join = ["交訂金", "報名及交訂金", "收尾數", "晚宴"].indexOf(stage) >= 0;
