@@ -287,18 +287,20 @@ details > ul, details > ol { margin: 0 16px 14px; padding-left: 1.4em; display: 
 .res-list li.win .res-bar::before { background: var(--nudge); opacity: 1; }
 .res-group .fine { margin-top: 10px; }
 
-/* ---- 右上角選單（ui.js）：在「多謝老師」動畫層（z-index 15）之下 ---- */
-.menu-btn { position: fixed; top: max(10px, env(safe-area-inset-top, 0px)); right: max(10px, env(safe-area-inset-right, 0px)); z-index: 14;
+/* ---- 左上角選單（ui.js）：在「多謝老師」動畫層（z-index 15）之下 ---- */
+.menu-btn { position: fixed; top: max(10px, env(safe-area-inset-top, 0px)); left: max(10px, env(safe-area-inset-left, 0px)); z-index: 14;
   width: 44px; height: 44px; display: grid; place-items: center; padding: 0; color: var(--ink); cursor: pointer;
   background: color-mix(in srgb, var(--surface) 92%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
   border: 2px solid var(--stroke); border-radius: 14px; box-shadow: 2px 2px 0 var(--line); }
 .menu-btn svg { width: 22px; height: 22px; }
 .menu-btn:focus { outline: none; } .menu-btn:focus-visible { outline: 3px solid var(--nudge); outline-offset: 2px; }
 .menu-btn[aria-expanded="true"] { color: var(--nudge); border-color: var(--nudge); }
-.menu-panel { position: fixed; top: calc(max(10px, env(safe-area-inset-top, 0px)) + 52px); right: max(10px, env(safe-area-inset-right, 0px)); z-index: 14;
+.menu-panel { position: fixed; top: calc(max(10px, env(safe-area-inset-top, 0px)) + 52px); left: max(10px, env(safe-area-inset-left, 0px)); z-index: 14;
   width: min(260px, calc(100vw - 32px)); display: flex; flex-direction: column; padding: 6px; background: var(--surface);
   border: 2px solid var(--stroke); border-radius: var(--wobble2); box-shadow: 3px 3px 0 var(--line); animation: fade .2s ease both; }
 .menu-panel[hidden] { display: none; }
+/* 收費、計算機、交訂金頁的頁首靠左，讓開左上角選單掣 */
+.page-head .eyebrow { display: flex; align-items: center; min-height: 44px; padding-left: 56px; }
 .menu-panel a { display: block; padding: 10px 12px; min-height: 44px; border-radius: 12px; color: var(--ink); text-decoration: none; }
 .menu-panel a + a { border-top: 2px dashed var(--line); }
 .menu-panel b { display: block; font-size: 17px; }
@@ -318,3 +320,4 @@ details > ul, details > ol { margin: 0 16px 14px; padding-left: 1.4em; display: 
 .dep-steps p { margin: 0 0 6px; font-size: 15px; line-height: 1.7; }
 .dep-steps p:last-child { margin-bottom: 0; }
 .dep-steps .tip { color: var(--muted); font-size: 14px; }
+.sender { word-break: break-all; }
