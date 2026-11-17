@@ -1,4 +1,4 @@
-// 每頁底部導覽的「投票」tab（data-signup；第二階段報名時改回「報名」）。
+// 每頁底部導覽的「投票」tab（data-signup；交訂金階段起按「現階段」自動改稱「報名」）。
 // 報名表格連結不寫在程式碼內，而是從統籌的 Google Sheet 公開分頁（infoCsvUrl 的「報名表格連結」一行）讀取，
 // 所以連結一定是統籌那張表格。連結必須是 Google 表格的網址，否則不會打開。
 // 讀到連結前、報名未開始或讀取失敗時，按 tab 會在畫面底部顯示原因，不會打開任何網址。
@@ -61,13 +61,27 @@
     .then(function (text) {
       var info = {};
       parseCsv(text).forEach(function (r) { if (r.length >= 2) info[r[0].replace(/[\s:：]+$/, "").trim()] = r[1].trim(); });
+      // 2026-11-18：交訂金及之後，tab 改稱「報名」，打開「報名及加人」表格。
+      var stage = info["現階段"] || "";
+      var join = ["交訂金", "報名及交訂金", "收尾數", "晚宴"].indexOf(stage) >= 0;
+      if (join) {
+        window.OGD_SIGNUP_LABEL = "報名";
+        Array.prototype.forEach.call(tabs, function (a) {
+          var t = a.lastChild;
+          if (t && t.nodeType === 3) t.nodeValue = "報名";
+        });
+      }
       var url = info["報名表格連結"] || "";
       if (isGoogleForm(url)) {
         Array.prototype.forEach.call(tabs, function (a) {
           a.href = url; a.target = "_blank"; a.rel = "noopener"; a.dataset.ready = "1";
         });
       } else {
-        msg = "投票尚未開始。開始時，按這裏就會打開投票表格。";
+        // 2026-11-16：投票完結後（公布結果階段）連結清空，提示改為投票已完成。
+        msg = join ? "報名表格暫未開放，請留意籌委會通知。"
+          : info["現階段"] === "公布投票結果"
+          ? "投票已經完成，結果在首頁。報名及交訂金會另行通知。"
+          : "投票尚未開始。開始時，按這裏就會打開投票表格。";
       }
     })
     .catch(function () {

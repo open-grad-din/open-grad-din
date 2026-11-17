@@ -270,3 +270,19 @@ details > ul, details > ol { margin: 0 16px 14px; padding-left: 1.4em; display: 
 .thanks-sub { margin: 0 0 14px; color: var(--muted); font-size: 15px; }
 .thanks-go { align-self: stretch; }
 .thanks-again { margin-top: 6px; min-height: 44px; padding: 8px 16px; font: inherit; font-size: 15px; color: var(--ai); background: none; border: 0; text-decoration: underline; cursor: pointer; }
+
+/* ---- 首頁：投票結果（2026-11-16） ---- */
+.res-group { background: var(--surface); border: 1.5px solid var(--line); border-radius: var(--wobble); padding: 14px 16px 12px; margin: 0 0 14px; }
+.res-group h3 { margin: 0 0 10px; font-family: var(--font-display); font-size: 18px; line-height: 1.4; display: flex; flex-direction: column; }
+.res-group h3 small { font-family: var(--font-body); font-size: 13px; font-weight: 400; color: var(--muted); }
+.res-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
+.res-row { display: flex; align-items: baseline; gap: 8px; font-size: 15px; }
+.res-name { flex: 1; min-width: 0; }
+.res-n { font-variant-numeric: tabular-nums; color: var(--muted); white-space: nowrap; }
+.res-list li.win .res-name { font-weight: 700; }
+.res-list li.win .res-n { color: var(--ink); font-weight: 700; }
+.res-badge { font-size: 12px; color: #fff; background: var(--nudge); padding: 1px 8px; border-radius: 10px 12px 10px 12px; white-space: nowrap; }
+.res-bar { display: block; height: 7px; margin-top: 3px; border-radius: 4px; background: var(--line); position: relative; overflow: hidden; }
+.res-bar::before { content: ""; position: absolute; inset: 0 auto 0 0; width: var(--w, 0%); background: var(--ai); border-radius: 4px; opacity: .55; }
+.res-list li.win .res-bar::before { background: var(--nudge); opacity: 1; }
+.res-group .fine { margin-top: 10px; }

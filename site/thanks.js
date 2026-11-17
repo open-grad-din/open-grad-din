@@ -88,7 +88,8 @@
     box.setAttribute("role", "dialog");
     box.tabIndex = -1;
     box.setAttribute("aria-modal", "true");
-    box.setAttribute("aria-label", "投票之前：多謝老師，多謝學校");
+    var label = window.OGD_SIGNUP_LABEL || "投票";
+    box.setAttribute("aria-label", label + "之前：多謝老師，多謝學校");
     box.innerHTML =
       '<button type="button" class="thanks-skip">略過 ›</button>' +
       '<div class="thanks-stage">' +
@@ -103,7 +104,7 @@
           }).join("") + star(30, 40, 0) + star(290, 30, 1) + star(160, 4, 2) + "</svg>" +
         '<p class="thanks-h">多謝老師<br>多謝學校</p>' +
         '<p class="thanks-sub">K3 畢業晚宴 · 2027 年 7 月 2 日</p>' +
-        '<a class="btn thanks-go" target="_blank" rel="noopener">開始投票</a>' +
+        '<a class="btn thanks-go" target="_blank" rel="noopener">開始' + label + '</a>' +
         '<button type="button" class="thanks-again">重播</button>' +
       "</div>";
     document.body.appendChild(box);
