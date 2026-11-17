@@ -13,6 +13,7 @@
  * 用法（統籌）：
  *   1. 在「K3 畢業晚宴回應」試算表：擴充功能 → Apps Script，新增檔案，貼上整個檔案。
  *   2. 填好下面「要填的設定」：截止時間、統籌聯絡方法、四位收款人的電話及名稱（從舊報名表格 Apps Script 的 DEP_PAYEES 抄過來）。
+ *   2b. 執行 listSameEmail，看「同一電郵」分頁：同一家庭有兩位畢業生（孖生或不同班）的，加入 DEP_MERGE。
  *   3. 執行 previewEmails：只會建立「付款指示預覽」分頁，逐封列出收件人、金額及內容，不寄任何電郵。逐行核對。
  *   4. 執行 sendTestToMe：把第一封寄給你自己，用手機看一次。
  *   5. 確認無誤，執行 sendAll。每次最多寄 MAX_PER_RUN 封；隔一兩小時再執行 sendAll，會由未寄的繼續。
@@ -41,8 +42,16 @@ var DEP_PAYEES = {
   K3D: { method: "PayMe", acct: "〔電話〕", name: "〔收款人名稱〕" }
 };
 
-// 不自動寄、由統籌親手處理的班別＋學號（例如孖生兩份回應屬同一家庭，要合併成一封，避免人數計兩次）。
-var DEP_MANUAL = ["K3D 1", "K3D 2"];
+// 合併：同一家庭有兩位畢業生（孖生，或在不同班的兄弟姊妹），各自交了投票，每份都填了全家人數。
+// 投票照計兩票，但訂金只收一次。每組寫明包括哪幾個班別＋學號，以及全家實際出席人數（統籌向家長確認）。
+// 合併後只寄一封，付給第一個班別學號所屬班的收款人。執行 listSameEmail 可列出同一電郵有多份出席回應的，幫助找出要合併的家庭
+// （統籌代填的不同家庭也會列出，要逐個判斷，不要全部合併）。
+var DEP_MERGE = [
+  { keys: ["K3D 1", "K3D 2"], adults: 2, kids: 2 }   // 孖生，2026-11-17 Ken 確認全家 2 大 2 小
+];
+
+// 不自動寄、由統籌親手處理的班別＋學號。
+var DEP_MANUAL = [];
 
 // ---------- 以下不用改 ----------
 var SRC = "點票", LOG = "已寄付款指示", PREVIEW = "付款指示預覽";
@@ -81,9 +90,53 @@ function depFamilies() {
     f.total = f.adults + f.kids;
     f.amount = f.total * DEP_PER_HEAD;
     if (!f.email || !DEP_PAYEES[f.cls] || !f.no || !f.total) throw new Error("「點票」有一行資料不完整：" + r.join(" | "));
+    f.label = f.key + " 號（" + f.name + "）";
     out.push(f);
   });
-  return out;
+  return depApplyMerge(out);
+}
+
+function depApplyMerge(list) {
+  DEP_MERGE.forEach(function (g) {
+    var parts = g.keys.map(function (k) {
+      var hit = list.filter(function (f) { return f.key === k; })[0];
+      if (!hit) throw new Error("DEP_MERGE 的 " + k + " 在「點票」找不到會出席的回應，請檢查。");
+      return hit;
+    });
+    var first = parts[0];
+    var merged = {
+      email: first.email, cls: first.cls, no: first.no, name: first.name,
+      adults: g.adults, kids: g.kids, total: g.adults + g.kids,
+      key: g.keys.join("+"),
+      label: parts.map(function (f) { return f.key + " 號（" + f.name + "）"; }).join("及"),
+      merged: g.keys
+    };
+    merged.amount = merged.total * DEP_PER_HEAD;
+    var emails = {};
+    parts.forEach(function (f) { emails[f.email] = true; });
+    merged.email = Object.keys(emails).join(",");   // 不同電郵的話，兩個都寄
+    list = list.filter(function (f) { return g.keys.indexOf(f.key) < 0; });
+    list.push(merged);
+  });
+  return list;
+}
+
+// 列出同一電郵有多於一份出席回應的，寫入「同一電郵」分頁，幫助統籌判斷哪些是同一家庭要合併。
+function listSameEmail() {
+  var byEmail = {};
+  SpreadsheetApp.getActive().getSheetByName(SRC).getDataRange().getValues().forEach(function (r) {
+    var attend = String(r[2]).trim();
+    if (attend === "不會出席" || !attend) return;
+    var e = String(r[1]).trim();
+    (byEmail[e] = byEmail[e] || []).push([e, String(r[6]) + " " + String(r[7]), String(r[8]), Number(r[9]) || 0, Number(r[10]) || 0, attend]);
+  });
+  var ss = SpreadsheetApp.getActive();
+  var sh = ss.getSheetByName("同一電郵") || ss.insertSheet("同一電郵");
+  sh.clear();
+  sh.appendRow(["電郵", "班別學號", "學生名", "大人", "小朋友", "出席"]);
+  Object.keys(byEmail).forEach(function (e) {
+    if (byEmail[e].length > 1) byEmail[e].forEach(function (row) { sh.appendRow(row); });
+  });
 }
 
 function depMessage(f) {
@@ -95,7 +148,8 @@ function depMessage(f) {
     "",
     "多謝你參與投票。投票結果已在網站公布：https://open-grad-din.github.io/open-grad-din/",
     "",
-    "你在投票表格填了 " + f.key + " 號（" + f.name + "）會出席。現在請交訂金，名額才算確認。",
+    "你在投票表格填了 " + f.label + " 會出席。現在請交訂金，名額才算確認。",
+    f.merged ? "你家有 " + f.merged.length + " 位畢業生，訂金按全家實際人數只收一次，以下人數已和你確認。" : null,
     "",
     "人數：大人 " + f.adults + " 位 + 小朋友 " + f.kids + " 位 = " + f.total + " 位",
     "訂金：" + depMoney(f.amount) + "（" + f.total + " 位 × " + depMoney(DEP_PER_HEAD) + "）",
@@ -118,7 +172,7 @@ function depMessage(f) {
     "",
     "這封電郵由籌委會統籌的帳戶寄出，請保留作紀錄。",
     "K3 畢業晚宴籌委會"
-  ].join("\n");
+  ].filter(function (x) { return x !== null; }).join("\n");
   return { subject: subject, body: body };
 }
 
@@ -169,6 +223,7 @@ function sendAll() {
     MailApp.sendEmail({ to: f.email, subject: m.subject, body: m.body, name: "K3 畢業晚宴籌委會" });
     log.sheet.appendRow([new Date(), f.key, f.email, f.total, f.amount]);
     log.keys[f.key] = true;
+    (f.merged || []).forEach(function (k) { log.keys[k] = true; });
     sentNow++;
   });
   Logger.log("今次寄出 " + sentNow + " 封。今日餘額：" + MailApp.getRemainingDailyQuota() + "。");
