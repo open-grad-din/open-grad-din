@@ -108,34 +108,58 @@
 
   <section aria-labelledby="more-h" class="reveal more">
     <h2 class="sec-h" id="more-h">想知多一點</h2>
-    <details>
+    <!-- 2026-11-18：「想知多一點」按現階段顯示（data-show：vote＝投票前及投票中、result＝公布投票結果、deposit＝交訂金及之後；沒有 data-show 的一直顯示）。 -->
+    <details data-show="deposit">
       <summary>現在我要做甚麼？</summary>
-      <div id="todo-result" hidden>
+      <p>投票已經完成，結果在上面「投票結果」。現在是交訂金。</p>
+      <ol>
+        <li>籌委會已用電郵寄出「交訂金指示」，給投票時答「會出席」或「未決定」的家庭。電郵寫明你家人數、訂金金額、收款人及轉帳備註。</li>
+        <li>在截止前照電郵轉帳，轉帳前核對收款人名稱。</li>
+        <li>轉帳後截圖，WhatsApp 給收款人。收款人核實後會回覆你，請保留這個回覆作紀錄。</li>
+      </ol>
+      <p>沒有收到電郵？先看看垃圾郵件，再聯絡籌委會統籌。</p>
+    </details>
+    <details data-show="deposit">
+      <summary>想加人，或之前沒有報名，怎麼辦？</summary>
+      <p>按底部「報名」填表格。加人的話，填加人之後全家總共的人數。</p>
+      <p>提交後，籌委會確認名額才寄出付款指示，收到之前請不要轉帳。交訂金截止前提交的會直接安排；截止後提交的按提交時間先後處理，能否成功要視乎場地能否加位。</p>
+    </details>
+    <details data-show="deposit">
+      <summary>訂金可以退嗎？人數可以減嗎？</summary>
+      <p>訂金每位 $<span class="deposit">550</span>，不設退款；人數只可以加，不可以減。</p>
+      <p>晚宴最後按實際成本收費，每位不會超過 $<span class="bmax">1,100</span>。訂金以外的尾數，籌委會會另行通知。</p>
+    </details>
+    <details data-show="deposit">
+      <summary>收款人沒有回覆怎麼辦？</summary>
+      <p>收款人會在收到截圖後 3 日內回覆。3 日內沒有回覆，請聯絡籌委會統籌。</p>
+    </details>
+    <details data-show="result">
+      <summary>現在我要做甚麼？</summary>
       <p>投票已經完成，結果在上面「投票結果」。現在不用做任何事。</p>
-      <p>下一步是報名及交訂金，籌委會會另行通知日期。想先知道你家大約要付多少，可以用「計算機」揀勝出的場地。</p>
-      </div>
-      <div id="todo-vote">
+      <p>下一步是交訂金，籌委會會另行通知日期。想先知道你家大約要付多少，可以用「計算機」揀勝出的場地。</p>
+    </details>
+    <details data-show="vote">
+      <summary>現在我要做甚麼？</summary>
       <p>之前大家已經投票，決定晚宴每位費用在 $<span class="bmin">900</span> 至 $<span class="bmax">1,100</span> 之間。最後按實際成本收費，每位不會超過 $<span class="bmax">1,100</span>。</p>
       <p>現在只需在截止前投票，不用付款：</p>
       <ol>
         <li>揀場地：揀 3 個你接受的場地</li>
         <li>揀老師餐和雜費的分擔方式（三揀一）</li>
       </ol>
-      <p>投票表格在底部「投票」；想先比較各場地你家要付多少，可以用「計算機」。投票結果公布後，才報名及交訂金，到時會另行通知。</p>
-      </div>
+      <p>投票表格在底部「投票」；想先比較各場地你家要付多少，可以用「計算機」。投票結果公布後，才交訂金，到時會另行通知。</p>
     </details>
     <details>
       <summary>怎樣投票？怎樣決定結果？</summary>
-      <p>場地和分擔方案由預計出席的家庭投票決定，因為晚宴費用由出席的家庭分擔。每位畢業生一票；同一學號由不同帳戶投票，籌委會會聯絡該家庭核實，只計一份。</p>
+      <p>場地和分擔方案由預計出席的家庭投票決定，因為晚宴費用由出席的家庭分擔。每位畢業生一票；同一家庭交了多於一份，只計最新的一份。</p>
       <p><b>場地揀 3 個：</b>剔 3 個你接受的場地，不分先後，每個剔都一樣計。這樣即使大家心水不同，最多家庭接受的場地仍會勝出，票不會分散。</p>
       <p id="win-line"></p>
       <p id="tie-line"></p>
     </details>
-    <details>
+    <details data-show="vote">
       <summary>投票填錯了怎麼辦？</summary>
       <p>不用擔心，在截止前用同一個 Google 帳戶再填一份就可以，包括想改出席與否。同一帳戶填了多於一份，只計最新的一份。</p>
     </details>
-    <details>
+    <details data-show="vote">
       <summary>遲了投票怎麼辦？</summary>
       <p>截止後的投票不會計算，請在截止前投票。</p>
     </details>

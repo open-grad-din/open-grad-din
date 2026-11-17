@@ -26,11 +26,11 @@
  */
 
 // ---------- 要填的設定 ----------
-var DEP_DEADLINE = "〔截止日期〕";          // 例如 "12 月 1 日（星期二）晚上 10 時"
+var DEP_DEADLINE = "11 月 20 日（星期五）晚上 11 時 59 分";   // 2026-11-18 Ken：11/20 23:59:59          // 例如 "12 月 1 日（星期二）晚上 10 時"
 var COORDINATOR = "〔統籌聯絡方法〕";   // 例如 "統籌 WhatsApp 9xxx xxxx"（只在這裏填，不要寫入 GitHub）
 var REPLY_DAYS = 3;                     // 收款人收到截圖後幾日內回覆核實
 var DEP_PER_HEAD = 550;                      // 每位訂金（不退）
-var INCLUDE_UNDECIDED = false;          // 「未決定」的家庭是否一併寄（待籌委會決定）
+var INCLUDE_UNDECIDED = true;           // 2026-11-18 Ken：「未決定」的家庭也寄
 var MAX_PER_RUN = 25;                   // 每次 sendAll 最多寄幾封。新開的 Gmail 一次大量寄出容易被當成垃圾郵件，分幾批、相隔一段時間再寄。
 
 // 每班一位收款人。acct = FPS／PayMe 電話；name = 轉帳確認畫面顯示的收款人名稱（遮蓋版）。
@@ -84,7 +84,7 @@ function depFamilies() {
     if (attend !== "會出席" && !(INCLUDE_UNDECIDED && attend === "未決定")) return;
     var f = {
       email: String(r[1]).trim(), cls: String(r[6]).trim(), no: String(r[7]).trim(), name: String(r[8]).trim(),
-      adults: Number(r[9]) || 0, kids: Number(r[10]) || 0
+      adults: Number(r[9]) || 0, kids: Number(r[10]) || 0, undecided: attend === "未決定"
     };
     f.key = f.cls + " " + f.no;
     f.total = f.adults + f.kids;
@@ -148,7 +148,9 @@ function depMessage(f) {
     "",
     "多謝你參與投票。投票結果已在網站公布：https://open-grad-din.github.io/open-grad-din/",
     "",
-    "你在投票表格填了 " + f.label + " 會出席。現在請交訂金，名額才算確認。",
+    f.undecided
+      ? "你在投票表格填了 " + f.label + " 未決定是否出席。如決定出席，請在期限前交訂金，名額才算確認；期限前沒有交訂金，當作不出席。"
+      : "你在投票表格填了 " + f.label + " 會出席。現在請交訂金，名額才算確認。",
     f.merged ? "你家有 " + f.merged.length + " 位畢業生，訂金按全家實際人數只收一次，以下人數已和你確認。" : null,
     "",
     "人數：大人 " + f.adults + " 位 + 小朋友 " + f.kids + " 位 = " + f.total + " 位",

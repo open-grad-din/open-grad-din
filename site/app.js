@@ -178,8 +178,6 @@
     // 2026-11-16 Ken：公布結果之後不再顯示「全級進度」（與結果重複；交訂金進度不在網站匯報，
     // 家長以收款人的 WhatsApp 核實回覆作證明）。
     document.getElementById("prog-section").hidden = true;
-    var todoR = document.getElementById("todo-result"), todoV = document.getElementById("todo-vote");
-    if (todoR && todoV) { todoR.hidden = false; todoV.hidden = true; }
   }
 
   function renderHeader(info) {
@@ -260,6 +258,12 @@
       note.textContent = info["行動說明"];
       note.hidden = false;
     }
+
+    // 「想知多一點」按階段顯示：投票前及投票中＝vote；公布投票結果＝result；交訂金及之後＝deposit。未知階段當 vote。
+    var group = cur >= 3 ? "deposit" : cur === 2 ? "result" : "vote";
+    Array.prototype.forEach.call(document.querySelectorAll("[data-show]"), function (d) {
+      d.hidden = d.getAttribute("data-show") !== group;
+    });
 
     var steps = document.getElementById("steps");
     STAGES.forEach(function (s, i) {
