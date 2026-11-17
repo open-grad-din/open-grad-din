@@ -286,3 +286,35 @@ details > ul, details > ol { margin: 0 16px 14px; padding-left: 1.4em; display: 
 .res-bar::before { content: ""; position: absolute; inset: 0 auto 0 0; width: var(--w, 0%); background: var(--ai); border-radius: 4px; opacity: .55; }
 .res-list li.win .res-bar::before { background: var(--nudge); opacity: 1; }
 .res-group .fine { margin-top: 10px; }
+
+/* ---- 右上角選單（ui.js）：在「多謝老師」動畫層（z-index 15）之下 ---- */
+.menu-btn { position: fixed; top: max(10px, env(safe-area-inset-top, 0px)); right: max(10px, env(safe-area-inset-right, 0px)); z-index: 14;
+  width: 44px; height: 44px; display: grid; place-items: center; padding: 0; color: var(--ink); cursor: pointer;
+  background: color-mix(in srgb, var(--surface) 92%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  border: 2px solid var(--stroke); border-radius: 14px; box-shadow: 2px 2px 0 var(--line); }
+.menu-btn svg { width: 22px; height: 22px; }
+.menu-btn:focus { outline: none; } .menu-btn:focus-visible { outline: 3px solid var(--nudge); outline-offset: 2px; }
+.menu-btn[aria-expanded="true"] { color: var(--nudge); border-color: var(--nudge); }
+.menu-panel { position: fixed; top: calc(max(10px, env(safe-area-inset-top, 0px)) + 52px); right: max(10px, env(safe-area-inset-right, 0px)); z-index: 14;
+  width: min(260px, calc(100vw - 32px)); display: flex; flex-direction: column; padding: 6px; background: var(--surface);
+  border: 2px solid var(--stroke); border-radius: var(--wobble2); box-shadow: 3px 3px 0 var(--line); animation: fade .2s ease both; }
+.menu-panel[hidden] { display: none; }
+.menu-panel a { display: block; padding: 10px 12px; min-height: 44px; border-radius: 12px; color: var(--ink); text-decoration: none; }
+.menu-panel a + a { border-top: 2px dashed var(--line); }
+.menu-panel b { display: block; font-size: 17px; }
+.menu-panel small { display: block; font-size: 13px; color: var(--muted); }
+.menu-panel a[aria-current="page"] b { color: var(--nudge); }
+
+/* ---- 交訂金頁：第一步、第二步…… ---- */
+.dep-dl { margin: 6px 0 0; font-size: 16px; font-weight: 700; color: var(--ink); }
+.dep-dl[hidden] { display: none; }
+.dep-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; counter-reset: dep; }
+.dep-steps > li { position: relative; background: var(--surface); border: 2px solid var(--stroke); border-radius: var(--wobble2); padding: 16px 16px 14px 70px; box-shadow: 3px 3px 0 var(--line); }
+.dep-steps > li::before { counter-increment: dep; content: counter(dep); position: absolute; left: 16px; top: 16px; width: 38px; height: 38px; display: grid; place-items: center;
+  font-family: var(--font-display); font-weight: 700; font-size: 20px; color: var(--surface); background: var(--nudge); border-radius: 48% 52% 50% 50% / 52% 48% 52% 48%; }
+.dep-steps > li:not(:last-child)::after { content: ""; position: absolute; left: 34px; top: 58px; bottom: -16px; border-left: 2px dashed var(--line); }
+.dep-steps .step-no { display: block; font-size: 13px; font-weight: 700; color: var(--nudge); letter-spacing: .06em; }
+.dep-steps h3 { margin: 2px 0 6px; font-family: var(--font-display); font-size: 20px; line-height: 1.35; }
+.dep-steps p { margin: 0 0 6px; font-size: 15px; line-height: 1.7; }
+.dep-steps p:last-child { margin-bottom: 0; }
+.dep-steps .tip { color: var(--muted); font-size: 14px; }

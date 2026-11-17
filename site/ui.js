@@ -33,7 +33,47 @@
     requestAnimationFrame(step);
   }
 
+  // 右上角選單（2026-11-18 Ken）：投票完成後較少用的「費用」「計算機」收在這裏，底部只留 首頁／交訂金／報名。
+  var MENU = [
+    { href: "fees.html", label: "費用", note: "每位上限、錢用在哪、三個分擔方案" },
+    { href: "venues.html", label: "計算機", note: "我家要付多少？" }
+  ];
+  function menu() {
+    var page = location.pathname.split("/").pop();
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "menu-btn";
+    btn.setAttribute("aria-label", "更多頁面");
+    btn.setAttribute("aria-expanded", "false");
+    btn.setAttribute("aria-controls", "menu-panel");
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>';
+    var panel = document.createElement("nav");
+    panel.id = "menu-panel";
+    panel.className = "menu-panel";
+    panel.setAttribute("aria-label", "更多頁面");
+    panel.hidden = true;
+    MENU.forEach(function (m) {
+      var a = document.createElement("a");
+      a.href = m.href;
+      if (page === m.href) a.setAttribute("aria-current", "page");
+      var b = document.createElement("b"); b.textContent = m.label;
+      var s = document.createElement("small"); s.textContent = m.note;
+      a.appendChild(b); a.appendChild(s);
+      panel.appendChild(a);
+    });
+    function set(open) {
+      panel.hidden = !open;
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+    }
+    btn.addEventListener("click", function (e) { e.stopPropagation(); set(panel.hidden); });
+    document.addEventListener("click", function (e) { if (!panel.hidden && !panel.contains(e.target)) set(false); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !panel.hidden) { set(false); btn.focus(); } });
+    document.body.appendChild(btn);
+    document.body.appendChild(panel);
+  }
+
   window.OGD_UI = { whenSeen: whenSeen, reveal: reveal, countUp: countUp, still: still };
-  if (document.readyState !== "loading") reveal();
-  else document.addEventListener("DOMContentLoaded", function () { reveal(); });
+  function ready() { reveal(); menu(); }
+  if (document.readyState !== "loading") ready();
+  else document.addEventListener("DOMContentLoaded", ready);
 })();
