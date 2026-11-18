@@ -13,7 +13,7 @@
  * 用法（統籌）：
  *   1. 在「K3 畢業晚宴回應」試算表：擴充功能 → Apps Script，新增檔案，貼上整個檔案。
  *   2. 填好下面「要填的設定」：截止時間、統籌聯絡方法、四位收款人的電話及名稱（從舊報名表格 Apps Script 的 DEP_PAYEES 抄過來）。
- *   2a. 家長事後更正人數的，加入 DEP_FIX。
+ *   2a. 家長事後更正人數的，加入 DEP_FIX；投票時填錯學號的，加入 DEP_RENUMBER。
  *   2b. 執行 listSameEmail，看「同一電郵」分頁：同一家庭有兩位畢業生（孖生或不同班）的，加入 DEP_MERGE。
  *   3. 執行 previewEmails：只會建立「付款指示預覽」分頁，逐封列出收件人、金額及內容，不寄任何電郵。逐行核對。
  *   4. 執行 sendTestToMe：把第一封寄給你自己，用手機看一次。
@@ -57,6 +57,13 @@ var DEP_MERGE = [
 var DEP_FIX = {
 };
 
+// 改學號：家長投票時填錯學號（例如兩份回應都填了 K3A 28），按電郵改為正確的班別學號。
+// 電郵只在 Apps Script 內填，不要寫入 GitHub。例子：
+//   { email: "xxx@gmail.com", from: "K3A 28", to: "K3A 29" },
+// 「點票」內同一個班別學號出現兩次，script 會停下並列出，要先在這裏改好才可以寄。
+var DEP_RENUMBER = [
+];
+
 // 不自動寄、由統籌親手處理的班別＋學號。
 var DEP_MANUAL = [];
 
@@ -98,6 +105,11 @@ function depFamilies() {
       adults: Number(r[9]) || 0, kids: Number(r[10]) || 0, undecided: attend === "未決定"
     };
     f.key = f.cls + " " + f.no;
+    DEP_RENUMBER.forEach(function (x) {
+      if (x.email.toLowerCase() !== f.email.toLowerCase() || x.from !== f.key) return;
+      var to = String(x.to).trim().split(/\s+/);
+      f.cls = to[0]; f.no = to[1]; f.key = f.cls + " " + f.no; f.renumbered = x.from;
+    });
     var fix = DEP_FIX[f.key];
     if (fix) { f.adults = fix.adults; f.kids = fix.kids; f.fixed = true; }
     f.total = f.adults + f.kids;
@@ -109,6 +121,17 @@ function depFamilies() {
   Object.keys(DEP_FIX).forEach(function (k) {
     if (!out.some(function (f) { return f.key === k; })) throw new Error("DEP_FIX 的 " + k + " 在「點票」找不到會出席或未決定的回應，請檢查班別學號。");
   });
+  DEP_RENUMBER.forEach(function (x) {
+    if (!/^K3[A-D] \d+$/.test(x.to)) throw new Error("DEP_RENUMBER 的 to 格式不對：要寫成 \"K3A 29\"。");
+    if (!out.some(function (f) { return f.renumbered === x.from && f.key === x.to; })) throw new Error("DEP_RENUMBER：在「點票」找不到電郵 " + x.email + " 而班別學號是 " + x.from + " 的回應，請檢查。");
+  });
+  // 同一個班別學號出現兩次的話，寄出記錄會把第二家當作已寄而略過，所以必須先處理。
+  var seen = {}, dup = [];
+  out.forEach(function (f) {
+    if (seen[f.key]) dup.push(f.key + "：" + seen[f.key] + " 及 " + f.email);
+    else seen[f.key] = f.email;
+  });
+  if (dup.length) throw new Error("「點票」內同一個班別學號有兩份回應，未處理前不會寄出：" + dup.join("；") + "。填錯學號的，加入 DEP_RENUMBER；同一家庭的，加入 DEP_MERGE。");
   // 按班別、再按學號（數字）排列；預覽分頁及寄出次序都跟這個次序。
   return depApplyMerge(out).sort(function (a, b) {
     return a.cls < b.cls ? -1 : a.cls > b.cls ? 1 : Number(a.no) - Number(b.no);
