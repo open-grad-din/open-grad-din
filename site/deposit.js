@@ -1,4 +1,4 @@
-// 交訂金頁：只讀「公開資料」的截止時間（由 signup.js 讀入），以及 fees-params.js 的訂金及上限。不讀寫任何家庭資料。
+// 交訂金頁：只讀「公開資料」的截止時間及「統籌聯絡」（由 signup.js 讀入），以及 fees-params.js 的訂金及上限。不讀寫任何家庭資料。
 (function () {
   "use strict";
   var P = window.OGD_FEES || {};
@@ -19,6 +19,8 @@
     return out;
   }
   function show(info) {
+    var c = (info["統籌聯絡"] || "").trim();
+    if (c) Array.prototype.forEach.call(document.querySelectorAll(".coord"), function (s) { s.textContent = c; });
     var stage = info["現階段"] || "";
     var l = (stage === "交訂金" || stage === "報名及交訂金") ? label(info["截止時間"]) : null;
     if (!l) return;
