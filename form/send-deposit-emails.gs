@@ -13,6 +13,7 @@
  * 用法（統籌）：
  *   1. 在「K3 畢業晚宴回應」試算表：擴充功能 → Apps Script，新增檔案，貼上整個檔案。
  *   2. 填好下面「要填的設定」：截止時間、統籌聯絡方法、四位收款人的電話及名稱（從舊報名表格 Apps Script 的 DEP_PAYEES 抄過來）。
+ *   2a. 家長事後更正人數的，加入 DEP_FIX。
  *   2b. 執行 listSameEmail，看「同一電郵」分頁：同一家庭有兩位畢業生（孖生或不同班）的，加入 DEP_MERGE。
  *   3. 執行 previewEmails：只會建立「付款指示預覽」分頁，逐封列出收件人、金額及內容，不寄任何電郵。逐行核對。
  *   4. 執行 sendTestToMe：把第一封寄給你自己，用手機看一次。
@@ -50,6 +51,12 @@ var DEP_MERGE = [
   { keys: ["K3D 1", "K3D 2"], adults: 2, kids: 2 }   // 孖生，2026-11-17 Ken 確認全家 2 大 2 小
 ];
 
+// 調整人數：家長事後向統籌更正人數的，在這裏寫「班別 學號」及更正後的全家人數，不用改試算表或表格回應。
+// 付款指示會按這裏的人數計訂金，電郵亦會註明人數已按家長與統籌確認的更新。例子：
+//   "K3A 5": { adults: 1, kids: 1 },
+var DEP_FIX = {
+};
+
 // 不自動寄、由統籌親手處理的班別＋學號。
 var DEP_MANUAL = [];
 
@@ -71,6 +78,10 @@ function depUseOldPayees() {
 
 function depCheckSettings() {
   depUseOldPayees();
+  Object.keys(DEP_FIX).forEach(function (k) {
+    var x = DEP_FIX[k];
+    if (!/^K3[A-D] \d+$/.test(k) || !(x.adults >= 1) || !(x.kids >= 1)) throw new Error("DEP_FIX 的 " + k + " 格式不對：要寫成 \"K3A 5\": { adults: 1, kids: 1 }，大人及小朋友最少 1 位。");
+  });
   var all = DEP_DEADLINE + COORDINATOR;
   Object.keys(DEP_PAYEES).forEach(function (k) { all += DEP_PAYEES[k].acct + DEP_PAYEES[k].name; });
   if (/〔|〕/.test(all)) throw new Error("請先填好「要填的設定」：截止時間、統籌聯絡方法及四位收款人的電話和名稱（仍有〔〕佔位字）。");
@@ -87,13 +98,21 @@ function depFamilies() {
       adults: Number(r[9]) || 0, kids: Number(r[10]) || 0, undecided: attend === "未決定"
     };
     f.key = f.cls + " " + f.no;
+    var fix = DEP_FIX[f.key];
+    if (fix) { f.adults = fix.adults; f.kids = fix.kids; f.fixed = true; }
     f.total = f.adults + f.kids;
     f.amount = f.total * DEP_PER_HEAD;
     if (!f.email || !DEP_PAYEES[f.cls] || !f.no || !f.total) throw new Error("「點票」有一行資料不完整：" + r.join(" | "));
     f.label = f.key + " 號（" + f.name + "）";
     out.push(f);
   });
-  return depApplyMerge(out);
+  Object.keys(DEP_FIX).forEach(function (k) {
+    if (!out.some(function (f) { return f.key === k; })) throw new Error("DEP_FIX 的 " + k + " 在「點票」找不到會出席或未決定的回應，請檢查班別學號。");
+  });
+  // 按班別、再按學號（數字）排列；預覽分頁及寄出次序都跟這個次序。
+  return depApplyMerge(out).sort(function (a, b) {
+    return a.cls < b.cls ? -1 : a.cls > b.cls ? 1 : Number(a.no) - Number(b.no);
+  });
 }
 
 function depApplyMerge(list) {
@@ -152,6 +171,7 @@ function depMessage(f) {
       ? "你在投票表格填了 " + f.label + " 未決定是否出席。如決定出席，請在期限前交訂金，名額才算確認；期限前沒有交訂金，當作不出席。"
       : "你在投票表格填了 " + f.label + " 會出席。現在請交訂金，名額才算確認。",
     f.merged ? "你家有 " + f.merged.length + " 位畢業生，訂金按全家實際人數只收一次，以下人數已和你確認。" : null,
+    f.fixed ? "以下人數已按你向統籌更正的人數更新。" : null,
     "",
     "人數：大人 " + f.adults + " 位 + 小朋友 " + f.kids + " 位 = " + f.total + " 位",
     "訂金：" + depMoney(f.amount) + "（" + f.total + " 位 × " + depMoney(DEP_PER_HEAD) + "）",
@@ -201,6 +221,7 @@ function previewEmails() {
   depFamilies().forEach(function (f) {
     var m = depMessage(f);
     var how = DEP_MANUAL.indexOf(f.key) >= 0 ? "統籌親手處理" : sent[f.key] ? "已寄" : "會寄";
+    if (f.fixed) how += "（人數已調整）";
     sh.appendRow([f.key, f.email, f.total, f.amount, how, m.subject, m.body]);
   });
 }
