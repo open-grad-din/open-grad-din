@@ -363,12 +363,15 @@
   // 2026-11-02 統籌決定首頁不顯示示範提示（Ken 轉達）。isDemo 仍控制報名 tab 的「原型表格」提示。
 
   var status = document.getElementById("status");
-  Promise.all([load(config.infoCsvUrl), load(config.summaryCsvUrl)])
+  // 2026-11-18：公布結果後首頁不再顯示全級進度，收款人分頁改作籌委會內部用（可改標題或停止發佈）。
+  // 所以收款人分頁讀不到或格式不同時，當作沒有資料，不影響首頁其他內容。
+  var summary = load(config.summaryCsvUrl).then(readSummary).catch(function () { return []; });
+  Promise.all([load(config.infoCsvUrl), summary])
     .then(function (res) {
       var now = new Date();
       var info = readInfo(res[0]);
       var results = readResults(res[0]);
-      var payees = readSummary(res[1]);
+      var payees = res[1];
       renderHeader(info);
       renderNow(info, now);
       renderProgress(payees, info);
