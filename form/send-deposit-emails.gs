@@ -109,7 +109,10 @@ function depFamilies() {
   Object.keys(DEP_FIX).forEach(function (k) {
     if (!out.some(function (f) { return f.key === k; })) throw new Error("DEP_FIX 的 " + k + " 在「點票」找不到會出席或未決定的回應，請檢查班別學號。");
   });
-  return depApplyMerge(out);
+  // 按班別、再按學號（數字）排列；預覽分頁及寄出次序都跟這個次序。
+  return depApplyMerge(out).sort(function (a, b) {
+    return a.cls < b.cls ? -1 : a.cls > b.cls ? 1 : Number(a.no) - Number(b.no);
+  });
 }
 
 function depApplyMerge(list) {
