@@ -6,7 +6,7 @@
  * （班別學號、學生名、大人、小朋友、應收訂金、轉帳備註），不含電郵、電話。
  * 收款人核實後剔「已核實」並填日期；統籌可以隨時打開四份表看進度。
  *
- * 人數及金額與付款指示電郵同一來源（send-deposit-emails.gs 的 depFamilies，已計 DEP_FIX 調整及 DEP_MERGE 合併），
+ * 人數及金額與付款指示電郵同一來源（send-deposit-emails.gs 的 depFamilies，已計「調整」分頁及 DEP_MERGE 合併），
  * 所以收款人看到的應收金額，一定與家長收到的電郵相同。
  *
  * 必須放在與 send-deposit-emails.gs 同一個 Apps Script 專案，由統籌在籌委會帳戶執行。開發者不可執行。
@@ -15,7 +15,7 @@
  *   1. 在同一個 Apps Script 專案按 ＋ → Script，新增檔案（例如叫 payee-lists），貼上整個檔案，儲存。
  *   2. 執行 makePayeeLists。試算表會多一個「收款人核對表」分頁，列出四份核對表的連結。
  *   3. 逐份打開，按 Share，只分享給該班收款人的 Google 帳戶（Editor）。不要用「知道連結的人」。
- *   4. 之後有人加人或新報名、或改了 DEP_FIX，再執行 makePayeeLists：
+ *   4. 之後有人加人或新報名、或「調整」分頁改了人數，再執行 makePayeeLists：
  *      新的家庭會加在最後；已有的家庭如人數或金額改了，會更新人數、金額並在「備註」寫明；收款人剔過的「已核實」不會被清走。
  *   5. 執行 payeeProgress，「收款人核對表」分頁會更新每班已核實／未核實的家庭數及金額。
  */
@@ -58,7 +58,7 @@ function makePayeeLists() {
     sh.getDataRange().getValues().slice(1).forEach(function (r, i) { have[r[0]] = i + 2; });
     fams.filter(function (f) { return f.cls === cls; }).forEach(function (f) {
       var note = f.cls + " " + f.no + " " + f.name;
-      var why = [f.undecided ? "投票時未決定" : "", f.merged ? "合併：" + f.merged.join("、") : "", f.fixed ? "人數已調整" : ""]
+      var why = [f.undecided ? "投票時未決定" : "", f.merged ? "合併：" + f.merged.join("、") : "", f.fixed ? "人數已調整" + (f.fixReason ? "：" + f.fixReason : "") : ""]
         .filter(String).join("；");
       var row = have[f.key];
       if (!row) {
